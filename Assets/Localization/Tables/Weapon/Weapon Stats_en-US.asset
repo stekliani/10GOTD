@@ -34,6 +34,12 @@ MonoBehaviour:
       Healing Multiplier: {3}'
     m_Metadata:
       m_Items: []
+  - m_Id: 1489549836107776
+    m_Localized: '{0}
+
+      Level: {1}'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

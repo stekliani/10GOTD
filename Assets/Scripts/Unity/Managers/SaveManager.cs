@@ -141,47 +141,80 @@ public static class SaveManager
         LoadFromDisk();
         foreach (var mono in GameObject.FindObjectsOfType<MonoBehaviour>(true))
         {
-            if (mono is ISaveable saveable)
-            {
-                if (!_data.TryGetValue(saveable.SaveKey, out string json))
-                {
-                    // No save data for this key - call RestoreState with null to apply defaults
-                    try
-                    {
-                        saveable.RestoreState(null);
-                    }
-                    catch (System.Exception e)
-                    {
-                        Debug.LogWarning($"Failed to restore default state for '{saveable.SaveKey}': {e.Message}.");
-                    }
-                    continue;
-                }
+            if (mono is not ISaveable saveable)
+                continue;
 
+            if (!_data.TryGetValue(saveable.SaveKey, out string json))
+            {
+                // No save data for this key - call RestoreState with null to apply defaults
                 try
                 {
-                    // Try to deserialize using the generic SaveWrapper approach
-                    // We need to extract the actual type from the JSON
-                    var wrapper = JsonUtility.FromJson<SaveWrapper<object>>(json);
-                    if (wrapper == null || wrapper.value == null)
-                    {
-                        Debug.LogWarning($"Save data for '{saveable.SaveKey}' is null. Using default values.");
-                        saveable.RestoreState(null);
-                        continue;
-                    }
-
-                    saveable.RestoreState(wrapper.value);
+                    saveable.RestoreState(null);
                 }
                 catch (System.Exception e)
                 {
-                    Debug.LogWarning($"Failed to restore state for '{saveable.SaveKey}': {e.Message}. Using default values.");
-                    try
-                    {
-                        saveable.RestoreState(null);
-                    }
-                    catch (System.Exception e2)
-                    {
-                        Debug.LogWarning($"Failed to restore default state for '{saveable.SaveKey}': {e2.Message}.");
-                    }
+                    Debug.LogWarning($"Failed to restore default state for '{saveable.SaveKey}': {e.Message}.");
+                }
+                continue;
+            }
+
+            try
+            {
+                // Find the concrete ISaveable<T> so we know the correct state type to deserialize
+                var saveableType = mono.GetType();
+                var genericInterface = Array.Find(
+                    saveableType.GetInterfaces(),
+                    i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(ISaveable<>));
+
+                if (genericInterface == null)
+                {
+                    Debug.LogWarning($"Saveable '{saveable.SaveKey}' does not implement ISaveable<T> correctly. Using default values.");
+                    saveable.RestoreState(null);
+                    continue;
+                }
+
+                var stateType = genericInterface.GetGenericArguments()[0];
+
+                // Build SaveWrapper<stateType> dynamically so JsonUtility can deserialize the correct type
+                var wrapperType = typeof(SaveWrapper<>).MakeGenericType(stateType);
+
+                var wrapper = JsonUtility.FromJson(json, wrapperType);
+                if (wrapper == null)
+                {
+                    Debug.LogWarning($"Save data for '{saveable.SaveKey}' is null. Using default values.");
+                    saveable.RestoreState(null);
+                    continue;
+                }
+
+                // Extract the 'value' field from the wrapper
+                var valueField = wrapperType.GetField("value");
+                if (valueField == null)
+                {
+                    Debug.LogWarning($"Save wrapper for '{saveable.SaveKey}' has no 'value' field. Using default values.");
+                    saveable.RestoreState(null);
+                    continue;
+                }
+
+                var state = valueField.GetValue(wrapper);
+                if (state == null)
+                {
+                    Debug.LogWarning($"Save data for '{saveable.SaveKey}' is null. Using default values.");
+                    saveable.RestoreState(null);
+                    continue;
+                }
+
+                saveable.RestoreState(state);
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogWarning($"Failed to restore state for '{saveable.SaveKey}': {e.Message}. Using default values.");
+                try
+                {
+                    saveable.RestoreState(null);
+                }
+                catch (System.Exception e2)
+                {
+                    Debug.LogWarning($"Failed to restore default state for '{saveable.SaveKey}': {e2.Message}.");
                 }
             }
         }

@@ -32,6 +32,10 @@ MonoBehaviour:
       {1}'
     m_Metadata:
       m_Items: []
+  - m_Id: 2093121279836160
+    m_Localized: Level
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

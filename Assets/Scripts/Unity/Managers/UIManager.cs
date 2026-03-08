@@ -129,13 +129,13 @@ public class UIManager : MonoBehaviour, IInputObserver
             GameObject go = Instantiate(Template, Background.transform);
 
             var templateImage = go.GetComponentInChildren<Image>();
-            var templateText = go.GetComponentInChildren<Text>();
             var localizer = go.GetComponentInChildren<LocalizeStringEvent>();
             var cached = stat;
 
             go.SetActive(true);
             templateImage.sprite = stat.statSprite;
-            L.PlayerStatLocalizer(localizer, cached);
+            // Use final in‑game value (includes runtime modifiers) for display
+            L.PlayerStatLocalizer(localizer, _playerStats, cached);
         }
     }
 
@@ -153,20 +153,19 @@ public class UIManager : MonoBehaviour, IInputObserver
 
         foreach (Weapon option in options)
         {
-            GameObject go      = Instantiate(weaponUpgradeTemplate, actualLevelUpScreen.transform);
-            Weapon     captured = option;
+            GameObject go = Instantiate(weaponUpgradeTemplate, actualLevelUpScreen.transform);
+            Weapon captured = option;
 
-            var templateHelperImage = go.GetComponent<TemplateHelper>().image;
-            var templateHelperText = go.GetComponent<TemplateHelper>().text;
-            var templateHelperButton = go.GetComponent<TemplateHelper>().button;
-  
-            templateHelperImage.sprite = option.GetWeaponData().weaponSprite;
+            var helper = go.GetComponent<TemplateHelper>();
+            var data = option.GetWeaponData();
 
-            templateHelperText.text =
-                $"{option.GetWeaponData().weaponName}\nLevel: {option.GetWeaponData().WeaponLevel}";
+            string localizedWeaponName = L.GetLocalizedWeaponName(data.weaponName);
+            string localizedLevel = L.Get("In Game UI", "UI.level");
 
-            templateHelperButton.onClick.AddListener(
-                () => UpgradeWeaponAndCloseWindow(captured));
+            helper.image.sprite = data.weaponSprite;
+            helper.text.text = $"{localizedWeaponName}\n{localizedLevel}: {data.WeaponLevel}";
+
+            helper.button.onClick.AddListener(() => UpgradeWeaponAndCloseWindow(captured));
         }
     }
 
@@ -267,7 +266,8 @@ public class UIManager : MonoBehaviour, IInputObserver
             var localizer = stat.GetComponentInChildren<LocalizeStringEvent>();
             var buttonTextLocalizer = statButton.GetComponentInChildren<LocalizeStringEvent>();
 
-            L.PlayerStatLocalizer(localizer, cached);
+            // Show the current final value (base + runtime upgrades + data)
+            L.PlayerStatLocalizer(localizer, _playerStats, cached);
 
             statImage.sprite = cached.statSprite;
             statButton.interactable = cached.canUpgrade(_playerInventory.GetCoinAmount(), cached.currentUpgradeLevel, cached.maxUpgradeLevel);

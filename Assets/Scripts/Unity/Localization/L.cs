@@ -26,7 +26,29 @@ public static class L
 
         localizer.StringReference.Arguments = new object[]
         {
-        cached.statValue
+            cached.statValue
+        };
+
+        localizer.RefreshString();
+    }
+
+    /// <summary>
+    /// Localizes a player stat using the *final* in‑game value
+    /// (base + runtime modifiers + data), so UI reflects upgrades.
+    /// </summary>
+    public static void PlayerStatLocalizer(
+        LocalizeStringEvent localizer,
+        PlayerStats         stats,
+        PlayerStatEntry     cached)
+    {
+        localizer.StringReference.TableReference      = "Player Stats";
+        localizer.StringReference.TableEntryReference = cached.statNameKey;
+
+        float finalValue = stats.GetFinalStatValue(cached);
+
+        localizer.StringReference.Arguments = new object[]
+        {
+            finalValue
         };
 
         localizer.RefreshString();
@@ -69,6 +91,22 @@ public static class L
             new object[] { weaponName, data.GetUpgradeCost() };
 
         buttonLocalizer.RefreshString();
+    }
+
+    public static void WeaponUpgradeCardLocalizer(
+    LocalizeStringEvent localizer,
+    Weapon weapon,
+    string localizedWeaponName)
+    {
+        var data = weapon.GetWeaponData();
+        localizer.StringReference.TableReference = "In Game UI";
+        localizer.StringReference.TableEntryReference = "UI.weaponUpgradeCard";
+        localizer.StringReference.Arguments = new object[]
+        {
+        localizedWeaponName,
+        data.WeaponLevel
+        };
+        localizer.RefreshString();
     }
 
     public static string GetLocalizedWeaponName(string key)

@@ -27,6 +27,10 @@ MonoBehaviour:
     m_Key: UI.upgradeWeapon
     m_Metadata:
       m_Items: []
+  - m_Id: 2093121279836160
+    m_Key: UI.level
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

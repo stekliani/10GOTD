@@ -23,6 +23,10 @@ MonoBehaviour:
     m_Key: Weapon.healingInfo
     m_Metadata:
       m_Items: []
+  - m_Id: 1489549836107776
+    m_Key: Weapon.weapomUpgradeCard
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

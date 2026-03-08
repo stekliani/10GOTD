@@ -28,6 +28,10 @@ MonoBehaviour:
       \u10DB\u10D0\u10DB\u10E0\u10D0\u10D5\u10DA\u10D8: {3}"
     m_Metadata:
       m_Items: []
+  - m_Id: 1489549836107776
+    m_Localized: "{0}\r\n\u10D3\u10DD\u10DC\u10D4: {1}\r"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
