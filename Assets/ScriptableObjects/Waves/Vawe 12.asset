@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b9e84d84edaaed42bf093dcb83efa8f, type: 3}
+  m_Name: Vawe 12
+  m_EditorClassIdentifier: 
+  variants:
+  - prefab: {fileID: 6537159097618868839, guid: 35c904250bf566f499a12a118ca80099, type: 3}
+    spawnCount: 20
+    spawnInterval: 2
+  - prefab: {fileID: 6537159097618868839, guid: c454af9722ec5ba4b97cf037dd37beaa, type: 3}
+    spawnCount: 40
+    spawnInterval: 1
+  - prefab: {fileID: 6537159097618868839, guid: b2d71f92a8147a74880fb40a729e28f3, type: 3}
+    spawnCount: 10
+    spawnInterval: 3

@@ -1,0 +1,278 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3c7b40c56b1ad543b8d6ad901138288, type: 3}
+  m_Name: UpgradesInMenu
+  m_EditorClassIdentifier: 
+  maxHealth:
+    statNameKey: Stat.maxHealth
+    statSprite: {fileID: 1617093258, guid: a59f0179a09be4347b780cabfb5d2cb2, type: 3}
+    statValue: 100
+    maxUpgradeLevel: 10
+    currentUpgradeLevel: 10
+    upgradeCostPerLevel: 30
+    runtimeUpgradeModifier:
+      maxHealth: 0
+      mana: 0
+      manaRegen: 0
+      damageBoost: 0
+      xpBonus: 0
+      recovery: 0
+      cooldownReduction: 0
+      armor: 0
+      piercing: 0
+      amount: 0
+      projectileSpeed: 0
+      cameraSize: 0
+      area: 0
+    baseStatUpgradeValue: 10
+  mana:
+    statNameKey: Stat.maxMana
+    statSprite: {fileID: -1302359000, guid: ca085431ce8f99c40961a48c59b4bf29, type: 3}
+    statValue: 10
+    maxUpgradeLevel: 10
+    currentUpgradeLevel: 0
+    upgradeCostPerLevel: 30
+    runtimeUpgradeModifier:
+      maxHealth: 0
+      mana: 0
+      manaRegen: 0
+      damageBoost: 0
+      xpBonus: 0
+      recovery: 0
+      cooldownReduction: 0
+      armor: 0
+      piercing: 0
+      amount: 0
+      projectileSpeed: 0
+      cameraSize: 0
+      area: 0
+    baseStatUpgradeValue: 10
+  manaRegen:
+    statNameKey: Stat.manaRegen
+    statSprite: {fileID: 118129311, guid: 148accd5769e2684eb51272e290ee804, type: 3}
+    statValue: 1
+    maxUpgradeLevel: 10
+    currentUpgradeLevel: 1
+    upgradeCostPerLevel: 30
+    runtimeUpgradeModifier:
+      maxHealth: 0
+      mana: 0
+      manaRegen: 0
+      damageBoost: 0
+      xpBonus: 0
+      recovery: 0
+      cooldownReduction: 0
+      armor: 0
+      piercing: 0
+      amount: 0
+      projectileSpeed: 0
+      cameraSize: 0
+      area: 0
+    baseStatUpgradeValue: 1
+  damageBoost:
+    statNameKey: Stat.damageBoost
+    statSprite: {fileID: 1489639884, guid: a59f0179a09be4347b780cabfb5d2cb2, type: 3}
+    statValue: 1
+    maxUpgradeLevel: 10
+    currentUpgradeLevel: 1
+    upgradeCostPerLevel: 30
+    runtimeUpgradeModifier:
+      maxHealth: 0
+      mana: 0
+      manaRegen: 0
+      damageBoost: 0
+      xpBonus: 0
+      recovery: 0
+      cooldownReduction: 0
+      armor: 0
+      piercing: 0
+      amount: 0
+      projectileSpeed: 0
+      cameraSize: 0
+      area: 0
+    baseStatUpgradeValue: 1
+  xpBonus:
+    statNameKey: Stat.bonusXP
+    statSprite: {fileID: 1935279812, guid: ca085431ce8f99c40961a48c59b4bf29, type: 3}
+    statValue: 0
+    maxUpgradeLevel: 10
+    currentUpgradeLevel: 0
+    upgradeCostPerLevel: 30
+    runtimeUpgradeModifier:
+      maxHealth: 0
+      mana: 0
+      manaRegen: 0
+      damageBoost: 0
+      xpBonus: 0
+      recovery: 0
+      cooldownReduction: 0
+      armor: 0
+      piercing: 0
+      amount: 0
+      projectileSpeed: 0
+      cameraSize: 0
+      area: 0
+    baseStatUpgradeValue: 1
+  recovery:
+    statNameKey: Stat.recovery
+    statSprite: {fileID: -737037294, guid: a59f0179a09be4347b780cabfb5d2cb2, type: 3}
+    statValue: 0
+    maxUpgradeLevel: 10
+    currentUpgradeLevel: 0
+    upgradeCostPerLevel: 30
+    runtimeUpgradeModifier:
+      maxHealth: 0
+      mana: 0
+      manaRegen: 0
+      damageBoost: 0
+      xpBonus: 0
+      recovery: 0
+      cooldownReduction: 0
+      armor: 0
+      piercing: 0
+      amount: 0
+      projectileSpeed: 0
+      cameraSize: 0
+      area: 0
+    baseStatUpgradeValue: 1
+  cooldownReduction:
+    statNameKey: Stat.cooldownReduction
+    statSprite: {fileID: -1848626697, guid: a59f0179a09be4347b780cabfb5d2cb2, type: 3}
+    statValue: 0
+    maxUpgradeLevel: 10
+    currentUpgradeLevel: 0
+    upgradeCostPerLevel: 30
+    runtimeUpgradeModifier:
+      maxHealth: 0
+      mana: 0
+      manaRegen: 0
+      damageBoost: 0
+      xpBonus: 0
+      recovery: 0
+      cooldownReduction: 0
+      armor: 0
+      piercing: 0
+      amount: 0
+      projectileSpeed: 0
+      cameraSize: 0
+      area: 0
+    baseStatUpgradeValue: 1
+  armor:
+    statNameKey: Stat.armor
+    statSprite: {fileID: 336132199, guid: a59f0179a09be4347b780cabfb5d2cb2, type: 3}
+    statValue: 0
+    maxUpgradeLevel: 10
+    currentUpgradeLevel: 0
+    upgradeCostPerLevel: 30
+    runtimeUpgradeModifier:
+      maxHealth: 0
+      mana: 0
+      manaRegen: 0
+      damageBoost: 0
+      xpBonus: 0
+      recovery: 0
+      cooldownReduction: 0
+      armor: 0
+      piercing: 0
+      amount: 0
+      projectileSpeed: 0
+      cameraSize: 0
+      area: 0
+    baseStatUpgradeValue: 1
+  piercing:
+    statNameKey: Stat.piercing
+    statSprite: {fileID: 1924733139, guid: b4e96c98bc867274d9205681db22412d, type: 3}
+    statValue: 0
+    maxUpgradeLevel: 10
+    currentUpgradeLevel: 0
+    upgradeCostPerLevel: 30
+    runtimeUpgradeModifier:
+      maxHealth: 0
+      mana: 0
+      manaRegen: 0
+      damageBoost: 0
+      xpBonus: 0
+      recovery: 0
+      cooldownReduction: 0
+      armor: 0
+      piercing: 0
+      amount: 0
+      projectileSpeed: 0
+      cameraSize: 0
+      area: 0
+    baseStatUpgradeValue: 1
+  amount:
+    statNameKey: Stat.amount
+    statSprite: {fileID: 1945473557, guid: b4e96c98bc867274d9205681db22412d, type: 3}
+    statValue: 0
+    maxUpgradeLevel: 10
+    currentUpgradeLevel: 0
+    upgradeCostPerLevel: 30
+    runtimeUpgradeModifier:
+      maxHealth: 0
+      mana: 0
+      manaRegen: 0
+      damageBoost: 0
+      xpBonus: 0
+      recovery: 0
+      cooldownReduction: 0
+      armor: 0
+      piercing: 0
+      amount: 0
+      projectileSpeed: 0
+      cameraSize: 0
+      area: 0
+    baseStatUpgradeValue: 1
+  projectileSpeed:
+    statNameKey: Stat.projectileSpeed
+    statSprite: {fileID: 137309302, guid: a59f0179a09be4347b780cabfb5d2cb2, type: 3}
+    statValue: 0
+    maxUpgradeLevel: 10
+    currentUpgradeLevel: 0
+    upgradeCostPerLevel: 30
+    runtimeUpgradeModifier:
+      maxHealth: 0
+      mana: 0
+      manaRegen: 0
+      damageBoost: 0
+      xpBonus: 0
+      recovery: 0
+      cooldownReduction: 0
+      armor: 0
+      piercing: 0
+      amount: 0
+      projectileSpeed: 0
+      cameraSize: 0
+      area: 0
+    baseStatUpgradeValue: 1
+  area:
+    statNameKey: Stat.area
+    statSprite: {fileID: 1614002145, guid: 6dea47db7b7680a4a85fc5743abf3fd5, type: 3}
+    statValue: 0
+    maxUpgradeLevel: 10
+    currentUpgradeLevel: 0
+    upgradeCostPerLevel: 30
+    runtimeUpgradeModifier:
+      maxHealth: 0
+      mana: 0
+      manaRegen: 0
+      damageBoost: 0
+      xpBonus: 0
+      recovery: 0
+      cooldownReduction: 0
+      armor: 0
+      piercing: 0
+      amount: 0
+      projectileSpeed: 0
+      cameraSize: 0
+      area: 0
+    baseStatUpgradeValue: 1

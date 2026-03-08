@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Menu UI_ka
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: ka
+  m_SharedData: {fileID: 11400000, guid: dbb2d14f51f6b7740813aec5d7eb0801, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 94012915712
+    m_Localized: "\u10D7\u10D0\u10DB\u10D0\u10E8\u10D8\u10E1 \u10D3\u10D0\u10EC\u10E7\u10D4\u10D1\u10D0"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51251986432
+    m_Localized: "\u10DE\u10D0\u10E0\u10D0\u10DB\u10D4\u10E2\u10E0\u10D4\u10D1\u10D8"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 175634071552
+    m_Localized: "\u10D7\u10D0\u10DB\u10D0\u10E8\u10D8\u10D3\u10D0\u10DC \u10D2\u10D0\u10E1\u10D5\u10DA\u10D0"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34414194802688
+    m_Localized: "\u10D2\u10D0\u10EB\u10DA\u10D8\u10D4\u10E0\u10D4\u10D1\u10D4\u10D1\u10D8"
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

@@ -1,0 +1,579 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2928227345956477038
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7228670454988127617}
+  - component: {fileID: 8810468667851404508}
+  - component: {fileID: 5718939432806281278}
+  - component: {fileID: 5209770440514045021}
+  - component: {fileID: 663499146888137404}
+  - component: {fileID: 4718697033053851885}
+  - component: {fileID: 5300525328511882004}
+  m_Layer: 6
+  m_Name: Tower
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7228670454988127617
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2928227345956477038}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7188111096904602218}
+  - {fileID: 6102647710939846201}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &8810468667851404508
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2928227345956477038}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!70 &5718939432806281278
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2928227345956477038}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.023195684, y: -0.38533807}
+  m_Size: {x: 0.917523, y: 1.6911359}
+  m_Direction: 0
+--- !u!114 &5209770440514045021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2928227345956477038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0bad764664457942b518958c583ca37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 0}
+  maxHealth:
+    statName: Health
+    statSprite: {fileID: 1617093258, guid: a59f0179a09be4347b780cabfb5d2cb2, type: 3}
+    statValue: 1000
+    maxUpgradeLevel: 0
+    currentUpgradeLevel: 0
+    upgradeCostPerLevel: 10
+    runtimeUpgradeModifier:
+      maxHealth: 10
+      mana: 0
+      manaRegen: 0
+      damageBoost: 0
+      xpBonus: 0
+      recovery: 0
+      cooldownReduction: 0
+      armor: 0
+      piercing: 0
+      amount: 0
+      projectileSpeed: 0
+      cameraSize: 0
+      area: 0
+    baseStatUpgradeValue: 10
+  mana:
+    statName: Mana
+    statSprite: {fileID: -1302359000, guid: ca085431ce8f99c40961a48c59b4bf29, type: 3}
+    statValue: 100
+    maxUpgradeLevel: 0
+    currentUpgradeLevel: 0
+    upgradeCostPerLevel: 15
+    runtimeUpgradeModifier:
+      maxHealth: 0
+      mana: 10
+      manaRegen: 0
+      damageBoost: 0
+      xpBonus: 0
+      recovery: 0
+      cooldownReduction: 0
+      armor: 0
+      piercing: 0
+      amount: 0
+      projectileSpeed: 0
+      cameraSize: 0
+      area: 0
+    baseStatUpgradeValue: 10
+  manaRegen:
+    statName: ManaRegen
+    statSprite: {fileID: 118129311, guid: 148accd5769e2684eb51272e290ee804, type: 3}
+    statValue: 1
+    maxUpgradeLevel: 0
+    currentUpgradeLevel: 0
+    upgradeCostPerLevel: 10
+    runtimeUpgradeModifier:
+      maxHealth: 0
+      mana: 0
+      manaRegen: 1
+      damageBoost: 0
+      xpBonus: 0
+      recovery: 0
+      cooldownReduction: 0
+      armor: 0
+      piercing: 0
+      amount: 0
+      projectileSpeed: 0
+      cameraSize: 0
+      area: 0
+    baseStatUpgradeValue: 10
+  damageBoost:
+    statName: Damage Boost %
+    statSprite: {fileID: 1489639884, guid: a59f0179a09be4347b780cabfb5d2cb2, type: 3}
+    statValue: 0
+    maxUpgradeLevel: 0
+    currentUpgradeLevel: 0
+    upgradeCostPerLevel: 10
+    runtimeUpgradeModifier:
+      maxHealth: 0
+      mana: 0
+      manaRegen: 0
+      damageBoost: 1
+      xpBonus: 0
+      recovery: 0
+      cooldownReduction: 0
+      armor: 0
+      piercing: 0
+      amount: 0
+      projectileSpeed: 0
+      cameraSize: 0
+      area: 0
+    baseStatUpgradeValue: 10
+  xpBonus:
+    statName: Xp Bonus %
+    statSprite: {fileID: 1935279812, guid: ca085431ce8f99c40961a48c59b4bf29, type: 3}
+    statValue: 0
+    maxUpgradeLevel: 0
+    currentUpgradeLevel: 0
+    upgradeCostPerLevel: 10
+    runtimeUpgradeModifier:
+      maxHealth: 0
+      mana: 0
+      manaRegen: 0
+      damageBoost: 0
+      xpBonus: 1
+      recovery: 0
+      cooldownReduction: 0
+      armor: 0
+      piercing: 0
+      amount: 0
+      projectileSpeed: 0
+      cameraSize: 0
+      area: 0
+    baseStatUpgradeValue: 10
+  recovery:
+    statName: Health Regen
+    statSprite: {fileID: -737037294, guid: a59f0179a09be4347b780cabfb5d2cb2, type: 3}
+    statValue: 1
+    maxUpgradeLevel: 0
+    currentUpgradeLevel: 0
+    upgradeCostPerLevel: 10
+    runtimeUpgradeModifier:
+      maxHealth: 0
+      mana: 0
+      manaRegen: 0
+      damageBoost: 0
+      xpBonus: 0
+      recovery: 1
+      cooldownReduction: 0
+      armor: 0
+      piercing: 0
+      amount: 0
+      projectileSpeed: 0
+      cameraSize: 0
+      area: 0
+    baseStatUpgradeValue: 10
+  cooldownReduction:
+    statName: Cooldown Reduction %
+    statSprite: {fileID: -1848626697, guid: a59f0179a09be4347b780cabfb5d2cb2, type: 3}
+    statValue: 0
+    maxUpgradeLevel: 0
+    currentUpgradeLevel: 0
+    upgradeCostPerLevel: 10
+    runtimeUpgradeModifier:
+      maxHealth: 0
+      mana: 0
+      manaRegen: 0
+      damageBoost: 0
+      xpBonus: 0
+      recovery: 0
+      cooldownReduction: 1
+      armor: 0
+      piercing: 0
+      amount: 0
+      projectileSpeed: 0
+      cameraSize: 0
+      area: 0
+    baseStatUpgradeValue: 10
+  armor:
+    statName: Armor(caps at90%)
+    statSprite: {fileID: 336132199, guid: a59f0179a09be4347b780cabfb5d2cb2, type: 3}
+    statValue: 0
+    maxUpgradeLevel: 0
+    currentUpgradeLevel: 0
+    upgradeCostPerLevel: 10
+    runtimeUpgradeModifier:
+      maxHealth: 0
+      mana: 0
+      manaRegen: 0
+      damageBoost: 0
+      xpBonus: 0
+      recovery: 0
+      cooldownReduction: 0
+      armor: 1
+      piercing: 0
+      amount: 0
+      projectileSpeed: 0
+      cameraSize: 0
+      area: 0
+    baseStatUpgradeValue: 10
+  piercing:
+    statName: Piercing
+    statSprite: {fileID: 1924733139, guid: b4e96c98bc867274d9205681db22412d, type: 3}
+    statValue: 0
+    maxUpgradeLevel: 0
+    currentUpgradeLevel: 0
+    upgradeCostPerLevel: 10
+    runtimeUpgradeModifier:
+      maxHealth: 0
+      mana: 0
+      manaRegen: 0
+      damageBoost: 0
+      xpBonus: 0
+      recovery: 0
+      cooldownReduction: 0
+      armor: 0
+      piercing: 1
+      amount: 0
+      projectileSpeed: 0
+      cameraSize: 0
+      area: 0
+    baseStatUpgradeValue: 10
+  amount:
+    statName: Amount
+    statSprite: {fileID: 1945473557, guid: b4e96c98bc867274d9205681db22412d, type: 3}
+    statValue: 0
+    maxUpgradeLevel: 0
+    currentUpgradeLevel: 0
+    upgradeCostPerLevel: 10
+    runtimeUpgradeModifier:
+      maxHealth: 0
+      mana: 0
+      manaRegen: 0
+      damageBoost: 0
+      xpBonus: 0
+      recovery: 0
+      cooldownReduction: 0
+      armor: 0
+      piercing: 0
+      amount: 1
+      projectileSpeed: 0
+      cameraSize: 0
+      area: 0
+    baseStatUpgradeValue: 10
+  projectileSpeed:
+    statName: Projectile Speed
+    statSprite: {fileID: 137309302, guid: a59f0179a09be4347b780cabfb5d2cb2, type: 3}
+    statValue: 0
+    maxUpgradeLevel: 0
+    currentUpgradeLevel: 0
+    upgradeCostPerLevel: 10
+    runtimeUpgradeModifier:
+      maxHealth: 0
+      mana: 0
+      manaRegen: 0
+      damageBoost: 0
+      xpBonus: 0
+      recovery: 0
+      cooldownReduction: 0
+      armor: 0
+      piercing: 0
+      amount: 0
+      projectileSpeed: 1
+      cameraSize: 0
+      area: 0
+    baseStatUpgradeValue: 10
+  area:
+    statName: Area
+    statSprite: {fileID: 1614002145, guid: 6dea47db7b7680a4a85fc5743abf3fd5, type: 3}
+    statValue: 5
+    maxUpgradeLevel: 5
+    currentUpgradeLevel: 0
+    upgradeCostPerLevel: 10
+    runtimeUpgradeModifier:
+      maxHealth: 0
+      mana: 0
+      manaRegen: 0
+      damageBoost: 0
+      xpBonus: 0
+      recovery: 0
+      cooldownReduction: 0
+      armor: 0
+      piercing: 0
+      amount: 0
+      projectileSpeed: 0
+      cameraSize: 0
+      area: 1
+    baseStatUpgradeValue: 10
+--- !u!114 &663499146888137404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2928227345956477038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73a3e330f432a1448a6b067285b3f87c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingCoins: 1000000
+--- !u!114 &4718697033053851885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2928227345956477038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ca99c56ebd2c514eaff442ed5a6cf16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerStats: {fileID: 5209770440514045021}
+  startingXpToNextLevel: 100
+  xpGrowthMultiplier: 1.25
+  levelUpBonus:
+    maxHealth: 5
+    mana: 0
+    manaRegen: 0
+    damageBoost: 10
+    xpBonus: 0
+    recovery: 0
+    cooldownReduction: 0
+    armor: 0
+    piercing: 0
+    amount: 0
+    projectileSpeed: 0
+    cameraSize: 0
+    area: 0
+--- !u!114 &5300525328511882004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2928227345956477038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52847ab507ab0e2429a5f9cd0c8b8690, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingWeapon: {fileID: 1048359935372989697, guid: bad8cffd177fd7a4691362cabc7103ba, type: 3}
+  extraWeaponsArray:
+  - {fileID: 833659653886737183, guid: 1223c13edc02e1d4293e8c9307821138, type: 3}
+  - {fileID: 4300360822000371641, guid: 616bc8ea1161df8438f927e0c2f5553d, type: 3}
+  - {fileID: 2618015977056558339, guid: f6507a4ccb137de4192f4f199c63e907, type: 3}
+  upgradeManager: {fileID: 0}
+  healingFountainSpawnPoint: {fileID: 0}
+  circleSegments: 64
+--- !u!1 &5146827781843549709
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6102647710939846201}
+  m_Layer: 6
+  m_Name: HealingEffectPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6102647710939846201
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5146827781843549709}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.44, y: 0.972, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7228670454988127617}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5826227793884844929
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7188111096904602218}
+  - component: {fileID: 6813324561461658972}
+  - component: {fileID: 8652124511417958796}
+  m_Layer: 6
+  m_Name: Tower
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7188111096904602218
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5826227793884844929}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2.3, y: 2.3, z: 2.3}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 7228670454988127617}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &6813324561461658972
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5826227793884844929}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 100
+  m_Sprite: {fileID: -829469047, guid: 8a32d9b94075a0f4e88c41941982a75e, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!95 &8652124511417958796
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5826227793884844929}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 08fd7bf78a1d0a1448632efefdf71dd7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

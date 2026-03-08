@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56a67904ecd397541a3dddecedd147ed, type: 3}
+  m_Name: StartinWeaponRuntimeUpgradeData
+  m_EditorClassIdentifier: 
+  WeaponLevel: 0
+  UpgradeLevel: 1
+  Damage: 5
+  Speed: 0
+  Interval: 0
+  Area: 0
+  SlowAmount: 0
+  Lifetime: 0
+  Health: 0
+  Armor: 0

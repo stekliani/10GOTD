@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Weapon Name_ka
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: ka
+  m_SharedData: {fileID: 11400000, guid: 1111b3ba97ee3c641a47bf01897c2df6, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 7140491264
+    m_Localized: "\u10D8\u10E1\u10D0\u10E0\u10D8"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 370430132224
+    m_Localized: "\u10E0\u10D0\u10D9\u10D4\u10E2\u10D0"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 781807468544
+    m_Localized: "\u10E1\u10D0\u10DB\u10D9\u10E3\u10E0\u10DC\u10D0\u10DA\u10DD \u10E8\u10D0\u10D3\u10E0\u10D4\u10D5\u10D0\u10DC\u10D8"
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []
