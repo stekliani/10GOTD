@@ -1,50 +1,48 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectilePoolManager : MonoBehaviour
+public class RangedEnemyProjectilePoolManager : MonoBehaviour
 {
     [System.Serializable]
     private class Pool
     {
-        public Projectile prefab;
+        public RangedEnemyProjectile prefab;
         public int initialSize = 32;
-
-        [HideInInspector] public Queue<Projectile> objects;
+        [HideInInspector] public Queue<RangedEnemyProjectile> objects;
     }
 
     [SerializeField] private List<Pool> pools = new();
 
-    private Dictionary<Projectile, Pool> lookup;
+    private Dictionary<RangedEnemyProjectile, Pool> lookup;
 
-    public static ProjectilePoolManager Instance { get; private set; }
+    public static RangedEnemyProjectilePoolManager Instance { get; private set; }
 
     private void Awake()
     {
         Instance = this;
-
-        lookup = new Dictionary<Projectile, Pool>();
+        lookup = new Dictionary<RangedEnemyProjectile, Pool>();
 
         foreach (var pool in pools)
         {
-            pool.objects = new Queue<Projectile>();
+            pool.objects = new Queue<RangedEnemyProjectile>();
 
             for (int i = 0; i < pool.initialSize; i++)
-                Create(pool);  
+                Create(pool);
 
             lookup.Add(pool.prefab, pool);
         }
     }
 
-    private Projectile Create(Pool pool)
+    private RangedEnemyProjectile Create(Pool pool)
     {
-        Projectile p = Instantiate(pool.prefab, transform);
+        RangedEnemyProjectile p = Instantiate(pool.prefab, transform);
         p.gameObject.SetActive(false);
         p.SetPoolManager(this, pool.prefab);
         pool.objects.Enqueue(p);
         return p;
     }
 
-    public Projectile Get(Projectile prefab)
+    public RangedEnemyProjectile Get(RangedEnemyProjectile prefab, EnemyStats enemy)
     {
         if (!lookup.TryGetValue(prefab, out var pool))
         {
@@ -55,15 +53,16 @@ public class ProjectilePoolManager : MonoBehaviour
         if (pool.objects.Count == 0)
             Create(pool);
 
-        Projectile p = pool.objects.Dequeue();
+        RangedEnemyProjectile p = pool.objects.Dequeue();
+        p.gameObject.transform.position = enemy.transform.position;
         p.gameObject.SetActive(true);
         return p;
     }
 
-    public void Return(Projectile projectile, Projectile prefab, Transform weaponTransform)
+    public void Return(RangedEnemyProjectile projectile, RangedEnemyProjectile prefab)
     {
         projectile.gameObject.SetActive(false);
         lookup[prefab].objects.Enqueue(projectile);
-        prefab.transform.position = weaponTransform.position;
+        prefab.transform.position = transform.position;
     }
 }

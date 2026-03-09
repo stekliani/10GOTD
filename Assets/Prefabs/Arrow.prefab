@@ -191,13 +191,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 3849395473064311660}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c725abba3bfb24c46a70387692b5a12b, type: 3}
+  m_Script: {fileID: 11500000, guid: 75dbbbc52f6c6484fb5ebabc2f035f76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   spiralStrength: 2
   spiralDuration: 0.6
   randomSpiralDirection: 1
-  hitSFX: 1
+  hitSFX: 0
 --- !u!114 &1824712826260543467
 MonoBehaviour:
   m_ObjectHideFlags: 0

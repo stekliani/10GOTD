@@ -84,7 +84,10 @@ public class EnemyStats : MonoBehaviour, IDamageable
 
     private void FireProjectile()
     {
-        Instantiate(rangedEnemyProjectilePrefab, transform.position, Quaternion.identity);
+        RangedEnemyProjectile proj = RangedEnemyProjectilePoolManager.Instance.Get(rangedEnemyProjectilePrefab, this);
+
+        proj.AcquireTarget(_playerInventory.gameObject);
+        proj.gameObject.SetActive(true);
     }
     public void TakeDamage(float damage)
     {
