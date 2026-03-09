@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b063ebfa05668d4e859b8e5d0e95332, type: 3}
   m_Name: StartingWeapon
   m_EditorClassIdentifier: 
-  weaponSprite: {fileID: 21300000, guid: 2a14af397cddbd747b324a133d70e466, type: 3}
+  weaponSprite: {fileID: 21300000, guid: a7eb0cda32f5c6c459f499881cb7680c, type: 3}
   weaponName: WeaponName.bow
   baseWeaponLevel: 1
   baseWeaponUpgradeCost: 20
