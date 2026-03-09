@@ -97,7 +97,7 @@ Animator:
   m_GameObject: {fileID: 3787511901843531596}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: 0e392e77570e2254fb2df69941bb9744, type: 2}
+  m_Controller: {fileID: 22100000, guid: eb2dd160b16dfd145b4e04e88dc0fbad, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -254,14 +254,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6d4e70ef460db74089293cad83bc484, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  speed: 1
   rb: {fileID: 1674101589024243732}
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 512
-  checkRadius: 2
-  castRadius: 0.3
-  rayCount: 8
+  avoidanceRadius: 1.5
+  avoidanceStrength: 1.5
 --- !u!114 &4748218824652439937
 MonoBehaviour:
   m_ObjectHideFlags: 0

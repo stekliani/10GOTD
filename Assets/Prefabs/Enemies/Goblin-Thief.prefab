@@ -75,14 +75,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6d4e70ef460db74089293cad83bc484, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  speed: 1
   rb: {fileID: 1063301307502578286}
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 512
-  checkRadius: 2
-  castRadius: 0.3
-  rayCount: 8
+  avoidanceRadius: 1.5
+  avoidanceStrength: 1.5
 --- !u!114 &3747927807676045743
 MonoBehaviour:
   m_ObjectHideFlags: 0

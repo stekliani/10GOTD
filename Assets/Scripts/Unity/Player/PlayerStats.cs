@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStats : Subject, IPlayerMutator, IDamageable, IHealable
+public class PlayerStats : Subject, IPlayerMutator, IDamageable, IHealable, IEnemyTarget
 {
     public static event EventHandler OnHeal;
 

@@ -24,6 +24,11 @@ public interface IDamageable
     void TakeDamage(float damage);
 }
 
+public interface IEnemyTarget
+{
+    void TakeDamage(float damage);
+}
+
 // ── HEALABLE ─────────────────────────────────────────────────────────────────
 public interface IHealable
 {

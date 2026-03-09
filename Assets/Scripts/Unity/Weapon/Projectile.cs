@@ -160,46 +160,17 @@ public class Projectile : AnimationSubject
     private void Despawn()
     {
         _rb.velocity = Vector2.zero;
-        if (_manager == null)
+
+        if (_manager == null || _originalPrefab == null || _parent == null)
         {
-            NullType = nullType.noManager;
-        }else if(_originalPrefab == null)
-        {
-            NullType = nullType.noOriginalPrefab;
-        }
-        else if(_parent == null)
-        {
-            NullType = nullType.noParent;
-        }
-            switch (NullType)
-            {
-                case nullType.noManager:
-                    Debug.LogError("No manager found");
-                    break;
-                case nullType.noParent:
-                    Debug.LogError("No parent found");
-                    break;
-                case nullType.noOriginalPrefab:
-                    Debug.LogError("No prefab found"); break;
-            }
-        // Extra safety: only return to pool if we have valid references
-        if (_manager != null && _originalPrefab != null && _parent != null)
-        {
-            _manager.Return(this, _originalPrefab, _parent.transform);
-        }
-        else
-        {
+            if (_manager == null) Debug.LogError("No manager found");
+            else if (_originalPrefab == null) Debug.LogError("No prefab found");
+            else Debug.LogError("No parent found");
+
             gameObject.SetActive(false);
+            return;
         }
-    }
 
-    enum nullType
-    {
-        none,
-        noManager,
-        noOriginalPrefab,
-        noParent
+        _manager.Return(this, _originalPrefab, _parent.transform);
     }
-
-    nullType NullType = nullType.none;
 }

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5429680993304463185}
   - component: {fileID: 8455327542052992119}
   m_Layer: 7
-  m_Name: Enemy
+  m_Name: FlyingDemon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -254,14 +254,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6d4e70ef460db74089293cad83bc484, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  speed: 1
   rb: {fileID: 1674101589024243732}
+  isRanged: 1
+  attackRange: 5
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 512
-  checkRadius: 2
-  castRadius: 0.3
-  rayCount: 8
+  avoidanceRadius: 1.5
+  avoidanceStrength: 1.5
 --- !u!114 &446015292510548199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,6 +279,8 @@ MonoBehaviour:
   damagePerSecond: 5
   xpReward: 30
   coinReward: 30
+  rangedEnemyProjectilePrefab: {fileID: 4950783884131358472, guid: 26a89a89eb88620439387b43727aa92b, type: 3}
+  attackInterval: 2
 --- !u!114 &208480711580934407
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -6,6 +6,11 @@ public class EnemyMovement : MonoBehaviour, ISlowable
     [SerializeField] private float speed = 3f;
     [SerializeField] private Rigidbody2D rb;
 
+    [Header("Ranged Enemy things")]
+    [Tooltip("Do not touch if this enemy is not ranged!")]
+    [SerializeField] private bool isRanged = false;
+    [SerializeField] private float attackRange;
+
     [Header("Obstacle Avoidance")]
     [SerializeField] private LayerMask obstacleLayer;
     [SerializeField] private float avoidanceRadius = 1.5f;
@@ -15,6 +20,7 @@ public class EnemyMovement : MonoBehaviour, ISlowable
     private PlayerStats _player;
     private Vector2 _lastMoveDir;
     private EnemyAnimationController _enemyAnimationController;
+    private bool _isWithinAttackRange;
 
     private void Awake()
     {
@@ -65,7 +71,34 @@ public class EnemyMovement : MonoBehaviour, ISlowable
         if (moveDir != Vector2.zero)
             _lastMoveDir = moveDir;
 
-        rb.MovePosition(rb.position + moveDir * speed * Time.fixedDeltaTime);
+
+        if (isRanged)
+        {
+            float distanceToPlayer = Vector2.Distance(transform.position, _player.transform.position);
+
+            if (distanceToPlayer <= attackRange)
+            {
+                // Within attack range — stop moving
+                moveDir = Vector2.zero;
+                _isWithinAttackRange = true;
+            }
+            else
+            {
+                // Outside attack range — move toward player
+                rb.MovePosition(rb.position + moveDir * speed * Time.fixedDeltaTime);
+                _isWithinAttackRange = false;
+            }
+        }
+        else
+        {
+            rb.MovePosition(rb.position + moveDir * speed * Time.fixedDeltaTime);
+        }
+    }
+
+
+    public bool CheckIfRangedEnemyCanAttack()
+    {
+        return _isWithinAttackRange;
     }
 
     // ---------------- VISUALS ----------------

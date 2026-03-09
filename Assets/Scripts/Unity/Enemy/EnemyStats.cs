@@ -10,6 +10,13 @@ public class EnemyStats : MonoBehaviour, IDamageable
     [SerializeField] private float xpReward;
     [SerializeField] private int coinReward;
 
+    [Header("Ranged Enemy Things")]
+    [Tooltip("Leave Empty if this enemy is not ranged")]
+    [SerializeField] private RangedEnemyProjectile rangedEnemyProjectilePrefab;
+    [SerializeField] private float attackInterval;
+    private float _currentAttackInterval;
+
+
     private float _currentHealth;
     private PlayerLevels _playerLevels;
     private PlayerInventory _playerInventory;
@@ -58,6 +65,27 @@ public class EnemyStats : MonoBehaviour, IDamageable
         AliveEnemiesCount--;
     }
 
+    private void Awake()
+    {
+        _currentAttackInterval = attackInterval;
+    }
+
+    private void Update()
+    {
+        _currentAttackInterval -= Time.deltaTime;
+        if (_enemyMovement.CheckIfRangedEnemyCanAttack() && _currentAttackInterval <= 0)
+        {
+            FireProjectile();
+            _currentAttackInterval = attackInterval;
+        }
+    }
+
+    #region Damaging self or target
+
+    private void FireProjectile()
+    {
+        Instantiate(rangedEnemyProjectilePrefab, transform.position, Quaternion.identity);
+    }
     public void TakeDamage(float damage)
     {
         if (damage <= 0) return;
@@ -73,7 +101,7 @@ public class EnemyStats : MonoBehaviour, IDamageable
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent(out IDamageable player))
+        if (collision.TryGetComponent(out IEnemyTarget player))
         {
             _contactCount++;
             _enemyAnimationController.ChangeAnimation(EnemyAnimations.atacking);
@@ -82,7 +110,7 @@ public class EnemyStats : MonoBehaviour, IDamageable
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.TryGetComponent(out IDamageable player))
+        if (collision.TryGetComponent(out IEnemyTarget player))
         {
             _contactCount--;
 
@@ -96,7 +124,7 @@ public class EnemyStats : MonoBehaviour, IDamageable
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.TryGetComponent(out IDamageable player))
+        if (collision.TryGetComponent(out IEnemyTarget player))
         {
             player.TakeDamage(damagePerSecond * Time.deltaTime);
         }
@@ -111,6 +139,8 @@ public class EnemyStats : MonoBehaviour, IDamageable
         _enemyAnimationController.ChangeAnimation(EnemyAnimations.dying);
         ReturnToPool(GetDeathAnimationTime());
     }
+
+    #endregion
     private async void ReturnToPool(float deathAnimationTime)
     {
         try

@@ -38,7 +38,7 @@ public class UIGlowPulse : MonoBehaviour
         float alpha = Mathf.PingPong(Time.time * pulseSpeed, maxAlpha - minAlpha) + minAlpha;
 
         // Update color based on time
-        colorTimer += Time.deltaTime * colorChangeSpeed;
+        colorTimer += Time.unscaledDeltaTime * colorChangeSpeed;
 
         if (colorTimer >= 1f)
         {
