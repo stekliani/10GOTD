@@ -22,6 +22,10 @@ public class ChangeScene : MonoBehaviour
         SceneManager.LoadScene(sceneName);
     }
 
+    public void StartGame()
+    {
+        SceneLoader.Load("Level-1");
+    }
     public void ToggleUpgradesWindow()
     {
         if (upgradeWindow.activeSelf)

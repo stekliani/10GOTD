@@ -23,9 +23,6 @@ public class RangedEnemyProjectile : MonoBehaviour, IPoolable
     public void AcquireTarget(GameObject target)
     {
         _moveDir = ((Vector2)target.transform.position - rb.position).normalized;
-        Debug.Log("movedir" + _moveDir);
-        Debug.Log("Player" + target.transform.position);
-        Debug.Log("rb" + rb.position);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
