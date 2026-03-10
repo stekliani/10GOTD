@@ -188,8 +188,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4981618331382458405}
   - component: {fileID: 1674101589024243732}
-  - component: {fileID: 4603715124076457999}
   - component: {fileID: 446015292510548199}
+  - component: {fileID: 4603715124076457999}
   - component: {fileID: 208480711580934407}
   - component: {fileID: -2858898853920552378}
   m_Layer: 7
@@ -242,6 +242,24 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &446015292510548199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6537159097618868839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dbe7f7c364b30a4595e3ebd280a2239, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 150
+  damagePerSecond: 5
+  xpReward: 30
+  coinReward: 30
+  rangedEnemyProjectilePrefab: {fileID: 4950783884131358472, guid: 26a89a89eb88620439387b43727aa92b, type: 3}
+  attackInterval: 2
 --- !u!114 &4603715124076457999
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -263,24 +281,6 @@ MonoBehaviour:
     m_Bits: 512
   avoidanceRadius: 1.5
   avoidanceStrength: 1.5
---- !u!114 &446015292510548199
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6537159097618868839}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8dbe7f7c364b30a4595e3ebd280a2239, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 150
-  damagePerSecond: 5
-  xpReward: 30
-  coinReward: 30
-  rangedEnemyProjectilePrefab: {fileID: 4950783884131358472, guid: 26a89a89eb88620439387b43727aa92b, type: 3}
-  attackInterval: 2
 --- !u!114 &208480711580934407
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 573586312042018046}
   - component: {fileID: 2334417428401757386}
   - component: {fileID: 4013507860297841871}
-  - component: {fileID: 3925776153718550302}
   - component: {fileID: 4950783884131358472}
+  - component: {fileID: 3925776153718550302}
   m_Layer: 0
   m_Name: RangedEnemyProjectile
   m_TagString: Untagged
@@ -130,20 +130,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.4611565, y: 0.20379454}
   m_EdgeRadius: 0
---- !u!114 &3925776153718550302
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3362736888703093495}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45697d3f08a96b34f8b182ca3caa963f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  smoothRotation: 1
-  rotationSpeed: 720
 --- !u!114 &4950783884131358472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,6 +145,20 @@ MonoBehaviour:
   speed: 2
   damage: 10
   rb: {fileID: 2334417428401757386}
+--- !u!114 &3925776153718550302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3362736888703093495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45697d3f08a96b34f8b182ca3caa963f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smoothRotation: 1
+  rotationSpeed: 720
 --- !u!1 &7262318584064596378
 GameObject:
   m_ObjectHideFlags: 0

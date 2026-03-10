@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5642872857949646365}
   - component: {fileID: 947066083078684884}
-  - component: {fileID: 9045699350294763431}
   - component: {fileID: 2026940909297232173}
+  - component: {fileID: 9045699350294763431}
   - component: {fileID: 3805571044908979105}
   - component: {fileID: 6034147063950208037}
   m_Layer: 8
@@ -64,25 +64,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &9045699350294763431
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3095838512758745655}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6d4e70ef460db74089293cad83bc484, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 1
-  rb: {fileID: 947066083078684884}
-  obstacleLayer:
-    serializedVersion: 2
-    m_Bits: 512
-  avoidanceRadius: 1.5
-  avoidanceStrength: 1.5
 --- !u!114 &2026940909297232173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99,6 +80,29 @@ MonoBehaviour:
   damagePerSecond: 5
   xpReward: 100
   coinReward: 0
+  rangedEnemyProjectilePrefab: {fileID: 0}
+  attackInterval: 0
+--- !u!114 &9045699350294763431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3095838512758745655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6d4e70ef460db74089293cad83bc484, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 1
+  rb: {fileID: 947066083078684884}
+  isRanged: 0
+  attackRange: 0
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  avoidanceRadius: 1.5
+  avoidanceStrength: 1.5
 --- !u!114 &3805571044908979105
 MonoBehaviour:
   m_ObjectHideFlags: 0

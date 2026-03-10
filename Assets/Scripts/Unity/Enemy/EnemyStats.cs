@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class EnemyStats : MonoBehaviour, IDamageable
+public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
 {
     [SerializeField] private float maxHealth = 20f;
     [SerializeField] private float damagePerSecond = 5f;
@@ -14,45 +14,49 @@ public class EnemyStats : MonoBehaviour, IDamageable
     [Tooltip("Leave Empty if this enemy is not ranged")]
     [SerializeField] private RangedEnemyProjectile rangedEnemyProjectilePrefab;
     [SerializeField] private float attackInterval;
+
     private float _currentAttackInterval;
-
-
     private float _currentHealth;
     private PlayerLevels _playerLevels;
     private PlayerInventory _playerInventory;
     private EnemyMovement _enemyMovement;
     private EnemyAnimationController _enemyAnimationController;
-    private EnemyPoolManager _manager;
-    private EnemyStats _originalPrefab;
-    private int _contactCount; // supports multiple colliders safely
+    private MainPoolManager _poolManager;
+    private int _contactCount;
     private CancellationTokenSource _cts;
     private Collider2D[] _colliders;
-    private bool isAlive = false;
+    private bool _isAlive = false;
 
+    public MonoBehaviour PrefabKey { get; private set; }
     public static readonly List<EnemyStats> ActiveEnemies = new();
     public static int AliveEnemiesCount;
+
+    public void Init(MainPoolManager manager, MonoBehaviour prefabKey)
+    {
+        _poolManager = manager;
+        PrefabKey = prefabKey;
+    }
+
+    private void Awake()
+    {
+        _enemyAnimationController = GetComponent<EnemyAnimationController>();
+        _enemyMovement = GetComponent<EnemyMovement>();
+        _playerInventory = FindObjectOfType<PlayerInventory>();
+    }
+
     private void OnEnable()
     {
-        EnableColliders();
-        isAlive = true;
-
         _cts = new CancellationTokenSource();
+        _isAlive = true;
 
-        // CACHE FIRST
-        _enemyAnimationController ??= GetComponent<EnemyAnimationController>();
-        _enemyMovement ??= GetComponent<EnemyMovement>();
-
+        EnableColliders();
         EnsureReferences();
-
-        ActiveEnemies.Add(this);
-
         ResetState();
 
         _currentHealth = maxHealth;
+        _currentAttackInterval = attackInterval;
 
-        _playerLevels ??= FindObjectOfType<PlayerLevels>();
-        _playerInventory ??= FindObjectOfType<PlayerInventory>();
-
+        ActiveEnemies.Add(this);
         AliveEnemiesCount++;
     }
 
@@ -60,18 +64,19 @@ public class EnemyStats : MonoBehaviour, IDamageable
     {
         _cts?.Cancel();
         _cts?.Dispose();
+        _cts = null;
+
         ActiveEnemies.Remove(this);
-
         AliveEnemiesCount--;
-    }
-
-    private void Awake()
-    {
-        _currentAttackInterval = attackInterval;
     }
 
     private void Update()
     {
+        if (!_isAlive) return;
+
+        // only tick for ranged enemies
+        if (rangedEnemyProjectilePrefab == null) return;
+
         _currentAttackInterval -= Time.deltaTime;
         if (_enemyMovement.CheckIfRangedEnemyCanAttack() && _currentAttackInterval <= 0)
         {
@@ -80,18 +85,20 @@ public class EnemyStats : MonoBehaviour, IDamageable
         }
     }
 
-    #region Damaging self or target
-
     private void FireProjectile()
     {
-        RangedEnemyProjectile proj = RangedEnemyProjectilePoolManager.Instance.Get(rangedEnemyProjectilePrefab, this);
+        var go = MainPoolManager.Instance.Get(rangedEnemyProjectilePrefab);
+        if (go == null) return;
 
-        proj.AcquireTarget(_playerInventory.gameObject);
+        var proj = go.GetComponent<RangedEnemyProjectile>();
+        proj.transform.position = transform.position;
         proj.gameObject.SetActive(true);
+        proj.AcquireTarget(_playerInventory.gameObject);
     }
+
     public void TakeDamage(float damage)
     {
-        if (damage <= 0) return;
+        if (!_isAlive || damage <= 0) return;
 
         _currentHealth -= damage;
 
@@ -116,7 +123,6 @@ public class EnemyStats : MonoBehaviour, IDamageable
         if (collision.TryGetComponent(out IEnemyTarget player))
         {
             _contactCount--;
-
             if (_contactCount <= 0)
             {
                 _contactCount = 0;
@@ -135,97 +141,60 @@ public class EnemyStats : MonoBehaviour, IDamageable
 
     private void Die()
     {
+        _isAlive = false;
         DisableColliders();
-        isAlive = false;
+
         _playerLevels?.AddXp(xpReward);
         _playerInventory?.AddCoins(coinReward);
         _enemyAnimationController.ChangeAnimation(EnemyAnimations.dying);
+
         ReturnToPool(GetDeathAnimationTime());
     }
 
-    #endregion
     private async void ReturnToPool(float deathAnimationTime)
     {
         try
         {
-            await Task.Delay(
-                (int)(deathAnimationTime * 1000),
-                _cts.Token);
-
-            if (_manager != null)
-                _manager.Return(this, _originalPrefab);
+            await Task.Delay((int)(deathAnimationTime * 1000), _cts.Token);
+            _poolManager?.Return(this);
         }
-        catch (TaskCanceledException)
-        {
-            // object disabled or reused — ignore
-        }
+        catch (TaskCanceledException) { }
     }
 
     private void ResetState()
     {
         _currentHealth = maxHealth;
         _contactCount = 0;
-
-        _enemyAnimationController.ChangeAnimation(EnemyAnimations.walking);
-
-        // optional but recommended
         StopAllCoroutines();
+        _enemyAnimationController.ChangeAnimation(EnemyAnimations.walking);
     }
 
     private void EnsureReferences()
     {
-        if (_playerLevels == null)
-            _playerLevels = FindObjectOfType<PlayerLevels>();
-
-        if (_playerInventory == null)
-            _playerInventory = FindObjectOfType<PlayerInventory>();
-
-        if (_enemyMovement == null)
-            _enemyMovement = GetComponent<EnemyMovement>();
-    }
-
-    public void SetPoolManager(EnemyPoolManager manager, EnemyStats originalPrefab)
-    {
-        _manager = manager;
-        _originalPrefab = originalPrefab;
+        _playerLevels ??= FindObjectOfType<PlayerLevels>();
+        _playerInventory ??= FindObjectOfType<PlayerInventory>();
     }
 
     private float GetDeathAnimationTime()
-    {
-        float deathAnimationTime = _enemyAnimationController.GetCurrentAnimationDuration();
-
-        return deathAnimationTime;
-    }
+        => _enemyAnimationController.GetCurrentAnimationDuration();
 
     private void EnableColliders()
     {
-        _colliders = GetComponentsInChildren<Collider2D>();
-
-        foreach(Collider2D collider in _colliders)
-        {
-            collider.enabled = true;
-        }
+        _colliders ??= GetComponentsInChildren<Collider2D>();
+        foreach (var col in _colliders) col.enabled = true;
     }
 
     private void DisableColliders()
     {
-        _colliders = GetComponentsInChildren<Collider2D>();
-
-        foreach(Collider2D collider in _colliders)
-        {
-            collider.enabled = false;
-        }
+        _colliders ??= GetComponentsInChildren<Collider2D>();
+        foreach (var col in _colliders) col.enabled = false;
     }
 
-    public bool CheckIfAlive()
-    {
-        return isAlive;
-    }
+    public bool CheckIfAlive() => _isAlive;
+
     public static class AwaitExtensions
     {
         public static Task WaitForSeconds(float seconds)
-        {
-            return Task.Delay((int)(seconds * 1000));
-        }
+            => Task.Delay((int)(seconds * 1000));
     }
 }

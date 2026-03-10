@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class Projectile : AnimationSubject
+public class Projectile : AnimationSubject,IPoolable
 {
     [Header("Spiral Homing")]
     [SerializeField] private float spiralStrength = 2f;
@@ -25,19 +25,14 @@ public class Projectile : AnimationSubject
     private Rigidbody2D _rb;
     private ProjectileWeapon _parent;
 
-    private ProjectilePoolManager _manager;
-    private Projectile _originalPrefab;
+
+    private MainPoolManager _pool;
+    public MonoBehaviour PrefabKey { get; private set; }
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _hasRotateVisual = TryGetComponent(out RotateVisual rotate);
-    }
-
-    public void SetPoolManager(ProjectilePoolManager manager, Projectile originalPrefab)
-    {
-        _manager = manager;
-        _originalPrefab = originalPrefab;
     }
 
     public void Initialize(
@@ -160,17 +155,12 @@ public class Projectile : AnimationSubject
     private void Despawn()
     {
         _rb.velocity = Vector2.zero;
+        _pool.Return(this);
+    }
 
-        if (_manager == null || _originalPrefab == null || _parent == null)
-        {
-            if (_manager == null) Debug.LogError("No manager found");
-            else if (_originalPrefab == null) Debug.LogError("No prefab found");
-            else Debug.LogError("No parent found");
-
-            gameObject.SetActive(false);
-            return;
-        }
-
-        _manager.Return(this, _originalPrefab, _parent.transform);
+    public void Init(MainPoolManager manager, MonoBehaviour prefabKey)
+    {
+        _pool = manager;
+        PrefabKey = prefabKey;
     }
 }

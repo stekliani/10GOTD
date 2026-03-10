@@ -141,13 +141,14 @@ public class SpawnManager : MonoBehaviour
 
     private void SpawnOnEdge(EnemyStats prefab)
     {
-        Vector2 dir      = UnityEngine.Random.insideUnitCircle.normalized;
+        Vector2 dir = UnityEngine.Random.insideUnitCircle.normalized;
         Vector3 spawnPos = _playerTransform.position + (Vector3)(dir * spawnRadius);
-        
-        EnemyStats enemy = EnemyPoolManager.Instance.Get(prefab);
+
+        GameObject go = MainPoolManager.Instance.Get(prefab);
+        EnemyStats enemy = go.GetComponent<EnemyStats>();
 
         enemy.transform.position = spawnPos;
         enemy.transform.rotation = Quaternion.identity;
-
+        enemy.gameObject.SetActive(true);
     }
 }

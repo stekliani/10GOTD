@@ -1,20 +1,18 @@
 using UnityEngine;
 
-public class RangedEnemyProjectile : MonoBehaviour
+public class RangedEnemyProjectile : MonoBehaviour, IPoolable
 {
     [SerializeField] private float speed;
     [SerializeField] private float damage;
     [SerializeField] private Rigidbody2D rb;
-    private RangedEnemyProjectilePoolManager _manager;
-    RangedEnemyProjectile _originalPrefab;
 
-    private Vector2 _moveDir; // fixed at spawn
+    private Vector2 _moveDir;
+    private MainPoolManager _pool;
+    public MonoBehaviour PrefabKey { get; private set; }
 
-    private void Start()
+    private void OnEnable()
     {
-        PlayerStats player = FindObjectOfType<PlayerStats>();
-        if (player == null) { Destroy(gameObject); return; }
-
+        if (rb != null) rb.velocity = Vector2.zero;
     }
 
     private void FixedUpdate()
@@ -22,15 +20,12 @@ public class RangedEnemyProjectile : MonoBehaviour
         rb.velocity = _moveDir * speed;
     }
 
-    public void SetPoolManager(RangedEnemyProjectilePoolManager manager, RangedEnemyProjectile originalPrefab)
-    {
-        _manager = manager;
-        _originalPrefab = originalPrefab;
-    }
-
     public void AcquireTarget(GameObject target)
     {
         _moveDir = ((Vector2)target.transform.position - rb.position).normalized;
+        Debug.Log("movedir" + _moveDir);
+        Debug.Log("Player" + target.transform.position);
+        Debug.Log("rb" + rb.position);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -38,7 +33,13 @@ public class RangedEnemyProjectile : MonoBehaviour
         if (collision.TryGetComponent(out IEnemyTarget target))
         {
             target.TakeDamage(damage);
-            _manager.Return(this,_originalPrefab);
+            _pool.Return(this);
         }
+    }
+
+    public void Init(MainPoolManager manager, MonoBehaviour prefabKey)
+    {
+        _pool = manager;
+        PrefabKey = prefabKey;
     }
 }

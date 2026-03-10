@@ -89,7 +89,8 @@ public class ProjectileWeapon : Weapon
         Vector2 direction =
             (target.transform.position - transform.position).normalized;
 
-        Projectile proj = ProjectilePoolManager.Instance.Get(projectilePrefab);
+        var go = MainPoolManager.Instance.Get(projectilePrefab);
+        Projectile proj = go.GetComponent<Projectile>();
         proj.transform.position = transform.position;
         proj.transform.rotation = Quaternion.identity;
 

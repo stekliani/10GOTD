@@ -93,5 +93,3 @@ public interface ISaveable<T> : ISaveable
     new T CaptureState();
     void RestoreState(T state);
 }
-
-

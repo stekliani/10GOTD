@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 475696046495784183}
   - component: {fileID: 1063301307502578286}
-  - component: {fileID: 338492871790813948}
   - component: {fileID: 3747927807676045743}
+  - component: {fileID: 338492871790813948}
   - component: {fileID: 4971871758957586788}
   m_Layer: 8
   m_Name: Goblin-Thief
@@ -63,25 +63,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &338492871790813948
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3508822811234333307}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6d4e70ef460db74089293cad83bc484, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 1
-  rb: {fileID: 1063301307502578286}
-  obstacleLayer:
-    serializedVersion: 2
-    m_Bits: 512
-  avoidanceRadius: 1.5
-  avoidanceStrength: 1.5
 --- !u!114 &3747927807676045743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98,6 +79,29 @@ MonoBehaviour:
   damagePerSecond: 5
   xpReward: 100
   coinReward: 0
+  rangedEnemyProjectilePrefab: {fileID: 0}
+  attackInterval: 0
+--- !u!114 &338492871790813948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3508822811234333307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6d4e70ef460db74089293cad83bc484, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 1
+  rb: {fileID: 1063301307502578286}
+  isRanged: 0
+  attackRange: 0
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  avoidanceRadius: 1.5
+  avoidanceStrength: 1.5
 --- !u!114 &4971871758957586788
 MonoBehaviour:
   m_ObjectHideFlags: 0
