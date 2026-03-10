@@ -13,12 +13,25 @@ public class MainPoolManager : MonoBehaviour
 
     [SerializeField] private List<Pool> pools = new();
     private Dictionary<MonoBehaviour, Pool> lookup = new();
-
+    private List<IPoolable> _activeObjectsList = new();
     public static MainPoolManager Instance { get; private set; }
-
+    [HideInInspector] public bool isInitialized = false;
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
         Instance = this;
+        DontDestroyOnLoad(gameObject);
+        isInitialized = false;
+        InitializePools();
+    }
+
+    public void InitializePools()
+    {
+        lookup.Clear();
         foreach (var pool in pools)
         {
             pool.objects = new Queue<IPoolable>();
@@ -26,6 +39,7 @@ public class MainPoolManager : MonoBehaviour
                 CreateOne(pool);
             lookup[pool.prefab] = pool;
         }
+        isInitialized = true;
     }
 
     private IPoolable CreateOne(Pool pool)
@@ -50,6 +64,8 @@ public class MainPoolManager : MonoBehaviour
             CreateOne(pool);
 
         var poolable = pool.objects.Dequeue();
+        _activeObjectsList.Add(poolable);
+
         return poolable.gameObject;
     }
 
@@ -57,7 +73,20 @@ public class MainPoolManager : MonoBehaviour
     {
         poolable.gameObject.SetActive(false);
         poolable.gameObject.transform.SetParent(transform);
+
+        _activeObjectsList.Remove(poolable);
+
         lookup[poolable.PrefabKey].objects.Enqueue(poolable);
+    }
+
+    public void ReturnAllActiveObjects()
+    {
+        for (int i = _activeObjectsList.Count - 1; i >= 0; i--)
+        {
+            Return(_activeObjectsList[i]);
+        }
+
+        _activeObjectsList.Clear();
     }
 }
 

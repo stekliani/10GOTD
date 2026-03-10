@@ -8,7 +8,7 @@ public class LoadingScreen : MonoBehaviour
 {
     [SerializeField] private Slider progressBar;
     [SerializeField] private TMP_Text progressText;
-    private string _defaultSceneName = "Menu";
+    private string _sceneToLoad = SceneLoader.Scene.Menu.ToString();
     private void Start()
     {
         StartCoroutine(LoadScene());
@@ -18,9 +18,9 @@ public class LoadingScreen : MonoBehaviour
     {
         if (SceneLoader.SceneToLoad != "")
         {
-            _defaultSceneName = SceneLoader.SceneToLoad;
+            _sceneToLoad = SceneLoader.SceneToLoad;
         }
-        AsyncOperation operation = SceneManager.LoadSceneAsync(_defaultSceneName);
+        AsyncOperation operation = SceneManager.LoadSceneAsync(_sceneToLoad);
         operation.allowSceneActivation = false;
 
         while (!operation.isDone)
@@ -30,13 +30,13 @@ public class LoadingScreen : MonoBehaviour
             progressBar.value = progress;
             progressText.text = Mathf.RoundToInt(progress * 100f) + "%";
 
-            if (operation.progress >= 0.9f)
+            if (operation.progress >= 0.9f && MainPoolManager.Instance.isInitialized)
             {
                 // loading finished
                 progressBar.value = 1f;
                 progressText.text = "Press Space Bar To Continue...";
 
-                if (Input.GetKeyDown(KeyCode.Space))
+                if (Input.anyKeyDown)
                 {
                     operation.allowSceneActivation = true;
                 }

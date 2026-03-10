@@ -7,8 +7,8 @@ public class ChangeScene : MonoBehaviour
     [SerializeField] private GameObject upgradeWindow;
     [SerializeField] private BaseStatsUpgradeManager baseStatsUpgradeManager;
 
-    private string mainMenuSceneName = "Menu";
-    private string level1SceneName = "Level-1";
+    private string mainMenuSceneName = SceneLoader.Scene.Menu.ToString();
+    private string level1SceneName = SceneLoader.Scene.Level1.ToString();
     private void Start() 
     {
         _player = GetComponent<PlayerStats>(); 
@@ -19,12 +19,12 @@ public class ChangeScene : MonoBehaviour
         _player?.ClearAllStatusEffects();
         _player?.ClearAllBuffs();
         _player?.ResetRuntimeModifiers();
-        SceneManager.LoadScene(sceneName);
+        SceneLoader.Load(sceneName);
     }
 
     public void StartGame()
     {
-        SceneLoader.Load("Level-1");
+        SceneLoader.Load(level1SceneName);
     }
     public void ToggleUpgradesWindow()
     {
@@ -41,14 +41,9 @@ public class ChangeScene : MonoBehaviour
 
     public void ToMainMenu()
     {
-        SceneChange(mainMenuSceneName);
+        MainPoolManager.Instance.ReturnAllActiveObjects();
+        SceneLoader.Load(mainMenuSceneName);
     }
-
-    public void ToLevel1()
-    {
-        SceneChange(level1SceneName);
-    }
-
     public void Quit()
     {
         Application.Quit();
