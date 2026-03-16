@@ -124,6 +124,8 @@ public class AudioManager : MonoBehaviour, ISoundsObserver
     {
         switch (action)
         {
+            case SoundActions.none:
+                return;
             case SoundActions.playArrowLaunch:
                 PlayArrowLaunch();
                 break;

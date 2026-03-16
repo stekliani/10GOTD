@@ -15,6 +15,21 @@ public class BaseStatsUpgradeManager :
 
     public string SaveKey => "BaseStatsUpgradeData";
 
+    public static BaseStatsUpgradeManager Instance {  get; private set; }
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
+    }
+
     private void Start()
     {
         // Reset to defaults first (in case LoadAll doesn't find save data)
@@ -83,7 +98,7 @@ public class BaseStatsUpgradeManager :
         }
     }
 
-    public void SaveUpgradeS()
+    public void SaveUpgrades()
     {
         SaveManager.SaveAll();
         upgradePanel.gameObject.SetActive(false);
@@ -201,6 +216,11 @@ public class BaseStatsUpgradeManager :
             ResetUpgrades();
             diamonds = 0;
         }
+    }
+
+    public void AddDiamonds(int value)
+    {
+        diamonds += value;
     }
 
     [Serializable]

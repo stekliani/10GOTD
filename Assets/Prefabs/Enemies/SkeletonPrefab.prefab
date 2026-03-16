@@ -76,7 +76,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dbe7f7c364b30a4595e3ebd280a2239, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 20
+  maxHealth: 220
   damagePerSecond: 5
   xpReward: 100
   coinReward: 0
@@ -103,7 +103,6 @@ MonoBehaviour:
     m_Bits: 512
   avoidanceRadius: 1.5
   avoidanceStrength: 1.5
-  visualsRoot: {fileID: 8655495342932685119}
 --- !u!114 &3805571044908979105
 MonoBehaviour:
   m_ObjectHideFlags: 0

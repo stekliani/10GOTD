@@ -7,7 +7,6 @@ public class SpawnManager : MonoBehaviour
 {
     private int[] _bossWaveIndices = { 9, 19, 29 };
     private bool _isEventFired = false;
-    //static variables/events
     private class EnemyVariantRuntime
     {
         public EnemyStats prefab;
@@ -19,6 +18,8 @@ public class SpawnManager : MonoBehaviour
     private class WaveRuntime
     {
         public bool                      isActive;
+        public bool                      isComplete;
+        public int                       diamondsReward;
         public List<EnemyVariantRuntime> variants = new();
     }
 
@@ -52,7 +53,7 @@ public class SpawnManager : MonoBehaviour
         _waves.Clear();
         foreach (WaveDataSO so in wavesArray)
         {
-            WaveRuntime runtime = new() { isActive = false };
+            WaveRuntime runtime = new() { isActive = false, isComplete = false, diamondsReward = 0 };
             foreach (EnemySpawnConfig cfg in so.variants)
             {
                 runtime.variants.Add(new EnemyVariantRuntime
@@ -62,6 +63,7 @@ public class SpawnManager : MonoBehaviour
                     interval  = cfg.spawnInterval,
                     timer     = 0f
                 });
+                runtime.diamondsReward += cfg.diamonds;
             }
             _waves.Add(runtime);
         }
@@ -134,9 +136,47 @@ public class SpawnManager : MonoBehaviour
                 }
             }
 
-            if (AllEnemiesFinishedInWave(wave) && wave == _waves[_highestActiveIndex])
-                ActivateNextWave();
+            if (AllEnemiesFinishedInWave(wave))
+            {
+                if (!wave.isComplete)
+                {
+                    wave.isComplete = true;
+                }
+
+                if (wave == _waves[_highestActiveIndex])
+                    ActivateNextWave();
+            }
         }
+    }
+
+    /// <summary>
+    /// Returns number of waves that have completed spawning all enemies.
+    /// </summary>
+    public int GetCompletedWavesCount()
+    {
+        int count = 0;
+        foreach (WaveRuntime wave in _waves)
+        {
+            if (wave.isComplete) count++;
+        }
+        return count;
+    }
+
+    /// <summary>
+    /// Returns the total diamond reward for all completed waves
+    /// at the moment this function is called.
+    /// </summary>
+    public int GetCompletedWavesDiamondReward()
+    {
+        int sum = 0;
+        foreach (WaveRuntime wave in _waves)
+        {
+            if (wave.isComplete)
+            {
+                sum += wave.diamondsReward;
+            }
+        }
+        return sum;
     }
 
     private void SpawnOnEdge(EnemyStats prefab)

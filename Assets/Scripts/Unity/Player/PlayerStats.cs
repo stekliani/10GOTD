@@ -183,6 +183,7 @@ public class PlayerStats : Subject, IPlayerMutator, IDamageable, IHealable, IEne
     private void Die()
     {
         Time.timeScale = 0f;
+        GameManager.Instance.HandleGameOver();
         Debug.Log("You Lose!");
     }
 }

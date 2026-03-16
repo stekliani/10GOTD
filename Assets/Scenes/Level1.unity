@@ -9470,6 +9470,14 @@ MonoBehaviour:
   wavesArray:
   - {fileID: 11400000, guid: ffdc073d454c7d043b96c30823bf617a, type: 2}
   - {fileID: 11400000, guid: b1393a0930bd61145ad3cbaddf401202, type: 2}
+  - {fileID: 11400000, guid: 59c8c44ffb5ad8c4aae4aa78f699a7dd, type: 2}
+  - {fileID: 11400000, guid: 247c4fb59018dcb42b8670ed10c3192e, type: 2}
+  - {fileID: 11400000, guid: 98ddcfa9d359f974bafcb004a8945a4c, type: 2}
+  - {fileID: 11400000, guid: f7fb2d8113995b749aa9a8070af63253, type: 2}
+  - {fileID: 11400000, guid: 2cd90ec34e1ce3b4492510800c92777a, type: 2}
+  - {fileID: 11400000, guid: 443e8f52f3036c9479a18a16516151f4, type: 2}
+  - {fileID: 11400000, guid: 15d5d5f60138c004582eead38c1e2895, type: 2}
+  - {fileID: 11400000, guid: 5ecb913c6ad47af43a69ad9aac6d2305, type: 2}
 --- !u!224 &2537430212757185913
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9800,7 +9808,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 663499146888137404, guid: 8bc21d4791161c94b8fe5fde3cb7e675, type: 3}
       propertyPath: startingCoins
-      value: 100000
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2928227345956477038, guid: 8bc21d4791161c94b8fe5fde3cb7e675, type: 3}
       propertyPath: m_Name
@@ -9836,7 +9844,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5209770440514045021, guid: 8bc21d4791161c94b8fe5fde3cb7e675, type: 3}
       propertyPath: maxHealth.statValue
-      value: 1000000
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 5209770440514045021, guid: 8bc21d4791161c94b8fe5fde3cb7e675, type: 3}
       propertyPath: xpBonus.statNameKey

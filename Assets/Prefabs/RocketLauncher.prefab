@@ -48,5 +48,5 @@ MonoBehaviour:
   levelUpUpgradeData: {fileID: 11400000, guid: 2c9dc2c7563d3644298fb5736644c542, type: 2}
   runtimeUpgradeData: {fileID: 11400000, guid: f3ebbd87500f0f1439e3eb532446147f, type: 2}
   projectilePrefab: {fileID: 5855002173434834126, guid: 2bc401065832cce49b87f013a83d3fb0, type: 3}
-  fireSFX: 2
+  fireSFX: 3
   isHomingProjectile: 1

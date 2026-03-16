@@ -7,6 +7,8 @@ public class EnemySpawnConfig
     public EnemyStats prefab;
     public int        spawnCount;
     public float      spawnInterval;
+    [Header("Wave Reward")]
+    public int diamonds;
 }
 
 [CreateAssetMenu(menuName = "WaveData")]

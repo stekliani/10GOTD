@@ -3,6 +3,7 @@ using System;
 
 public enum SoundActions
 {
+    none,
     playArrowLaunch,
     playArrowHit,
     playRocketLaunch,

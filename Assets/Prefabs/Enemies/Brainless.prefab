@@ -254,7 +254,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dbe7f7c364b30a4595e3ebd280a2239, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 200
   damagePerSecond: 1.5
   xpReward: 10
   coinReward: 20
