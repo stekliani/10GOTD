@@ -259,7 +259,7 @@ MonoBehaviour:
   xpReward: 30
   coinReward: 30
   rangedEnemyProjectilePrefab: {fileID: 4950783884131358472, guid: 26a89a89eb88620439387b43727aa92b, type: 3}
-  attackInterval: 2
+  attackInterval: 3.5
 --- !u!114 &4603715124076457999
 MonoBehaviour:
   m_ObjectHideFlags: 0

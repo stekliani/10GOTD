@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   variants:
   - prefab: {fileID: 7123390078605260798, guid: 35c904250bf566f499a12a118ca80099, type: 3}
-    spawnCount: 20
+    spawnCount: 30
     spawnInterval: 0.9
+    diamonds: 0

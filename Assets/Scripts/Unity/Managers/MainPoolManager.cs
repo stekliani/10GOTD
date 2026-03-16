@@ -71,12 +71,25 @@ public class MainPoolManager : MonoBehaviour
 
     public void Return(IPoolable poolable)
     {
-        poolable.gameObject.SetActive(false);
-        poolable.gameObject.transform.SetParent(transform);
+        if (poolable == null) return;
+
+        // IPoolable is an interface; if the underlying Unity object was destroyed,
+        // Unity's custom null checks won't run unless we cast back to MonoBehaviour.
+        var mb = poolable as MonoBehaviour;
+        if (!mb) return; // destroyed or invalid
+
+        var go = mb.gameObject;
+        if (!go) return; // extra safety
+
+        go.SetActive(false);
+        go.transform.SetParent(transform);
 
         _activeObjectsList.Remove(poolable);
 
-        lookup[poolable.PrefabKey].objects.Enqueue(poolable);
+        var key = poolable.PrefabKey;
+        if (key == null) return;
+        if (!lookup.TryGetValue(key, out var pool)) return;
+        pool.objects.Enqueue(poolable);
     }
 
     public void ReturnAllActiveObjects()

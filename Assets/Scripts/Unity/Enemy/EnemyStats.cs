@@ -157,6 +157,10 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
         {
             await Task.Delay((int)(deathAnimationTime * 1000), _cts.Token);
 
+            // If we were destroyed/disabled (scene change, cleanup, etc.) after the delay started,
+            // don't attempt to access/pool this component.
+            if (!this || !_isAlive || _poolManager == null) return;
+
             // Reset pose BEFORE disabling, otherwise pooled skeletal rigs can respawn in the final death pose.
             _enemyAnimationController?.ResetToDefaults();
             _poolManager?.Return(this);

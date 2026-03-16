@@ -961,8 +961,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 758617068986793916, guid: fba23634a2f083c4ebd1e53013cd8659, type: 3}
+      propertyPath: pools.Array.size
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 758617068986793916, guid: fba23634a2f083c4ebd1e53013cd8659, type: 3}
+      propertyPath: pools.Array.data[11].prefab
+      value: 
+      objectReference: {fileID: 5032803961342074220, guid: 1543d5e7ba121a04fa82c68f679c8f93, type: 3}
+    - target: {fileID: 758617068986793916, guid: fba23634a2f083c4ebd1e53013cd8659, type: 3}
       propertyPath: pools.Array.data[0].initialSize
       value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 758617068986793916, guid: fba23634a2f083c4ebd1e53013cd8659, type: 3}
+      propertyPath: pools.Array.data[11].initialSize
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7267352480876784121, guid: fba23634a2f083c4ebd1e53013cd8659, type: 3}
       propertyPath: m_Name
