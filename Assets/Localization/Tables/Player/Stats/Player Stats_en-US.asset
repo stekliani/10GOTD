@@ -39,7 +39,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 1272385847296
-    m_Localized: Damage Boost {0}
+    m_Localized: Damage Boost {0}%
     m_Metadata:
       m_Items: []
   - m_Id: 1503613632512
@@ -51,7 +51,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 2044175532032
-    m_Localized: Bonus Experience {0}
+    m_Localized: Bonus Experience {0}%
     m_Metadata:
       m_Items: []
   - m_Id: 2355598409728

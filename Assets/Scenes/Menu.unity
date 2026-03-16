@@ -2552,7 +2552,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 383830858}
         m_TargetAssemblyTypeName: BaseStatsUpgradeManager, GameAssembly
-        m_MethodName: SaveUpgradeS
+        m_MethodName: SaveUpgrades
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

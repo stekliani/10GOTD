@@ -111,7 +111,7 @@ public class SpawnManager : MonoBehaviour
         if (nextIndex >= _waves.Count) return;
         if (_bossWaveIndices.Contains(nextIndex)) return;
 
-        // just activate next wave — current wave keeps spawning untouched
+        // just activate next wave current wave keeps spawning untouched
         _highestActiveIndex++;
         _waves[_highestActiveIndex].isActive = true;
     }

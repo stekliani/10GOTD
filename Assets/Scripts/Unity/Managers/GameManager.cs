@@ -44,9 +44,10 @@ public class GameManager : MonoBehaviour
     {
 
         int diamondsRewardAmount = 0;
-        diamondsRewardAmount = (int)_timer + GetDiamondsRewardFromWaves();
+        diamondsRewardAmount = ((int)_timer / 60) + GetDiamondsRewardFromWaves();
         BaseStatsUpgradeManager.Instance.AddDiamonds(diamondsRewardAmount);
 
+        SaveManager.SaveAll();
         Debug.Log("Added" + diamondsRewardAmount + "Diamonds");
     }
 

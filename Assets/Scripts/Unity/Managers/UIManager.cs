@@ -41,7 +41,7 @@ public class UIManager : MonoBehaviour, IInputObserver
     private PlayerLevels    _playerLevels;
 
     TemplateHelper templateHelper;
-    private void Start()
+    private void Awake()
     {
         if (inputManager   == null) inputManager   = FindObjectOfType<InputManager>();
         if (upgradeManager == null) upgradeManager = FindObjectOfType<UpgradeManager>();
@@ -49,7 +49,9 @@ public class UIManager : MonoBehaviour, IInputObserver
         _playerStats     = FindObjectOfType<PlayerStats>();
         _playerInventory = FindObjectOfType<PlayerInventory>();
         _playerLevels    = FindObjectOfType<PlayerLevels>();
-
+    }
+    private void Start()
+    {
         UpdateRuntimeUpgradesWindow();
     }
 
@@ -62,8 +64,13 @@ public class UIManager : MonoBehaviour, IInputObserver
 
     private void OnEnable()
     {
+        if (inputManager   == null) inputManager   = FindObjectOfType<InputManager>();
+        if (upgradeManager == null) upgradeManager = FindObjectOfType<UpgradeManager>();
+        if (_playerInventory == null) _playerInventory = FindObjectOfType<PlayerInventory>();
+
         inputManager?.AddObserver(this);
         upgradeManager?.AddObserver(this);
+        _playerInventory?.AddObserver(this);
         Weapon.OnWeaponSpawned          += RegisterWeapon;
         PlayerLevels.OnLevelUpRequested += OpenLevelUpScreen;
     }
@@ -72,6 +79,7 @@ public class UIManager : MonoBehaviour, IInputObserver
     {
         inputManager?.RemoveObserver(this);
         upgradeManager?.RemoveObserver(this);
+        _playerInventory?.RemoveObserver(this);
         Weapon.OnWeaponSpawned          -= RegisterWeapon;
         PlayerLevels.OnLevelUpRequested -= OpenLevelUpScreen;
     }
@@ -238,7 +246,7 @@ public class UIManager : MonoBehaviour, IInputObserver
             // --- LOCALIZE WEAPON TEXT ---
             string localizedWeaponName = L.GetLocalizedWeaponName(data.weaponName);
 
-            L.WeaponLocalizer(weaponTextLocalizer, weapon, weaponEntryKey, localizedWeaponName);
+            L.WeaponLocalizer(weaponTextLocalizer, weapon,_playerStats, weaponEntryKey, localizedWeaponName);
 
             // --- Button state ---
             weaponUpgradeButton.interactable =
@@ -276,7 +284,10 @@ public class UIManager : MonoBehaviour, IInputObserver
                 upgradeManager.UpgradePlayerStat(cached, statButton);
             });
 
-            if (statButton.interactable || cached.currentUpgradeLevel < cached.maxUpgradeLevel && cached.maxUpgradeLevel != 0)
+            bool hasMaxLevel = cached.maxUpgradeLevel > 0;
+            bool isMaxed = hasMaxLevel && cached.currentUpgradeLevel >= cached.maxUpgradeLevel;
+
+            if (!isMaxed)
             {
                 L.ButtonLocalizer(buttonTextLocalizer, "UI.upgradeCost");
 

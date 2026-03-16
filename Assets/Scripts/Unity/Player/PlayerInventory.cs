@@ -1,23 +1,28 @@
 using System;
 using UnityEngine;
 
-public class PlayerInventory : MonoBehaviour
+public class PlayerInventory : Subject
 {
     [SerializeField] private int startingCoins;
     private int _coins;
 
     public string SaveKey => "PlayerInventory";
 
-    private void Awake() => _coins = startingCoins;
+    private void Awake()
+    {
+        _coins = startingCoins;
+    }
 
     public void AddCoins(int amount)
     {
         _coins += amount;
+        NotifyObservers(InputActions.UpgradeRuntimeStats);
     }
 
     public void RemoveCoins(int amount)
     {
         _coins -= amount;
+        NotifyObservers(InputActions.UpgradeRuntimeStats);
         if (_coins < 0) { Debug.LogError("Coins went negative!"); _coins = 0; }
     }
 

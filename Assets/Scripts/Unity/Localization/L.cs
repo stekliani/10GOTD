@@ -64,9 +64,11 @@ public static class L
     public static void WeaponLocalizer(
     LocalizeStringEvent localizer,
     Weapon weapon,
+    PlayerStats player,
     string entryKey,
     string weaponName)
     {
+        float damageMultiplier = 1f + player.DamageBoost / 100f;
         var data = weapon.GetWeaponData();
 
         localizer.StringReference.TableReference = "Weapon Stats";
@@ -76,7 +78,7 @@ public static class L
         {
         weaponName,
         data.WeaponLevel,
-        data.Damage,
+        data.Damage * damageMultiplier,
         data.HealingMultiplier
         };
 
