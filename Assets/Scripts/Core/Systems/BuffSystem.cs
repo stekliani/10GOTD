@@ -98,7 +98,7 @@ public class BuffSystem
             total.piercing          += buff.Modifier.piercing          * buff.Stacks;
             total.amount            += buff.Modifier.amount            * buff.Stacks;
             total.projectileSpeed   += buff.Modifier.projectileSpeed   * buff.Stacks;
-            total.cameraSize        += buff.Modifier.cameraSize        * buff.Stacks;
+            total.area              += buff.Modifier.area              * buff.Stacks;
         }
 
         CachedTotal = total;

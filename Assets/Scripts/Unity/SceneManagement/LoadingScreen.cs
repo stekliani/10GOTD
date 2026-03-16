@@ -34,7 +34,7 @@ public class LoadingScreen : MonoBehaviour
             {
                 // loading finished
                 progressBar.value = 1f;
-                progressText.text = "Press Space Bar To Continue...";
+                progressText.text = "Press Anywhere to continue...";
 
                 if (Input.anyKeyDown)
                 {

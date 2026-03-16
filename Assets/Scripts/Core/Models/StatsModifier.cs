@@ -14,7 +14,6 @@ public struct StatsModifier
     public float piercing;
     public int amount;
     public float projectileSpeed;
-    public float cameraSize;
     public float area;
 
     public static StatsModifier Zero => new StatsModifier();
@@ -34,7 +33,6 @@ public struct StatsModifier
             piercing          = a.piercing          + b.piercing,
             amount            = a.amount            + b.amount,
             projectileSpeed   = a.projectileSpeed   + b.projectileSpeed,
-            cameraSize        = a.cameraSize        + b.cameraSize,
             area              = a.area              + b.area
         };
     }

@@ -27,14 +27,15 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private WaveDataSO[] wavesArray;
 
     private Transform         _playerTransform;
+    private PlayerStats _playerStats;
     private List<WaveRuntime> _waves = new();
     private int               _highestActiveIndex;
 
 
     private void Start()
     {
-        PlayerStats p = FindObjectOfType<PlayerStats>();
-        if (p != null) _playerTransform = p.transform;
+        _playerStats = FindObjectOfType<PlayerStats>();
+        if (_playerStats != null) _playerTransform = _playerStats.transform;
 
 
 
@@ -182,7 +183,7 @@ public class SpawnManager : MonoBehaviour
     private void SpawnOnEdge(EnemyStats prefab)
     {
         Vector2 dir = UnityEngine.Random.insideUnitCircle.normalized;
-        Vector3 spawnPos = _playerTransform.position + (Vector3)(dir * spawnRadius);
+        Vector3 spawnPos = _playerTransform.position + (Vector3)(dir * GetSpawnRadius());
 
         GameObject go = MainPoolManager.Instance.Get(prefab);
         EnemyStats enemy = go.GetComponent<EnemyStats>();
@@ -190,5 +191,11 @@ public class SpawnManager : MonoBehaviour
         enemy.transform.position = spawnPos;
         enemy.transform.rotation = Quaternion.identity;
         enemy.gameObject.SetActive(true);
+    }
+
+    private float GetSpawnRadius()
+    {
+        spawnRadius = _playerStats.Area + 0.5f;
+        return spawnRadius;
     }
 }

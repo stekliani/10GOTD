@@ -7,13 +7,13 @@ public class CameraController : MonoBehaviour
 
     [Header("Clamp")]
     [SerializeField] private float minSize = 5f;
-    [SerializeField] private float maxSize = 10f;
+    [SerializeField] private float maxSize = 30f;
 
     private void Update() => ApplySize();
 
     private void ApplySize()
     {
-        _camera.orthographicSize = Mathf.Clamp(_playerStats.Area, minSize, maxSize);
+        _camera.orthographicSize = _playerStats.Area;
     }
 
     public void IncreaseCameraSize(StatsModifier modifier)
