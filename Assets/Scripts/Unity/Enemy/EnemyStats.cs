@@ -156,6 +156,9 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
         try
         {
             await Task.Delay((int)(deathAnimationTime * 1000), _cts.Token);
+
+            // Reset pose BEFORE disabling, otherwise pooled skeletal rigs can respawn in the final death pose.
+            _enemyAnimationController?.ResetToDefaults();
             _poolManager?.Return(this);
         }
         catch (TaskCanceledException) { }
@@ -166,6 +169,7 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
         _currentHealth = maxHealth;
         _contactCount = 0;
         StopAllCoroutines();
+        _enemyAnimationController?.ResetToDefaults();
         _enemyAnimationController.ChangeAnimation(EnemyAnimations.walking);
     }
 

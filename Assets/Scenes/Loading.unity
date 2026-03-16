@@ -962,7 +962,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 758617068986793916, guid: fba23634a2f083c4ebd1e53013cd8659, type: 3}
       propertyPath: pools.Array.data[0].initialSize
-      value: 20000
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 7267352480876784121, guid: fba23634a2f083c4ebd1e53013cd8659, type: 3}
       propertyPath: m_Name

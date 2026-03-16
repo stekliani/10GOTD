@@ -103,6 +103,7 @@ MonoBehaviour:
     m_Bits: 512
   avoidanceRadius: 1.5
   avoidanceStrength: 1.5
+  visualsRoot: {fileID: 8655495342932685119}
 --- !u!114 &3805571044908979105
 MonoBehaviour:
   m_ObjectHideFlags: 0

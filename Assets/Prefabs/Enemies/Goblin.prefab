@@ -77,7 +77,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 20
-  damagePerSecond: 5
+  damagePerSecond: 3
   xpReward: 0
   coinReward: 0
   rangedEnemyProjectilePrefab: {fileID: 0}

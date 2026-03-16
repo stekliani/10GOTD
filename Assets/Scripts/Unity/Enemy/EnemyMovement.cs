@@ -20,12 +20,14 @@ public class EnemyMovement : MonoBehaviour, ISlowable
     private PlayerStats _player;
     private Vector2 _lastMoveDir;
     private EnemyAnimationController _enemyAnimationController;
+    private EnemyStats _enemyStats;
     private bool _isWithinAttackRange;
 
     private void Awake()
     {
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         _enemyAnimationController = GetComponent<EnemyAnimationController>();
+        _enemyStats = GetComponent<EnemyStats>();
     }
 
     private void Start()
@@ -65,7 +67,7 @@ public class EnemyMovement : MonoBehaviour, ISlowable
         // Combine steering forces
         Vector2 moveDir = (toPlayer + avoidance * avoidanceStrength).normalized;
 
-        if (_enemyAnimationController.GetCurrentAnimation() == EnemyAnimations.dying)
+        if (!_enemyStats.CheckIfAlive())
             moveDir = Vector2.zero;
 
         if (moveDir != Vector2.zero)
@@ -78,13 +80,13 @@ public class EnemyMovement : MonoBehaviour, ISlowable
 
             if (distanceToPlayer <= attackRange)
             {
-                // Within attack range — stop moving
+                // Within attack range ï¿½ stop moving
                 moveDir = Vector2.zero;
                 _isWithinAttackRange = true;
             }
             else
             {
-                // Outside attack range — move toward player
+                // Outside attack range ï¿½ move toward player
                 rb.MovePosition(rb.position + moveDir * speed * Time.fixedDeltaTime);
                 _isWithinAttackRange = false;
             }

@@ -13,12 +13,9 @@ MonoBehaviour:
   m_Name: Vawe 7
   m_EditorClassIdentifier: 
   variants:
-  - prefab: {fileID: 6537159097618868839, guid: 35c904250bf566f499a12a118ca80099, type: 3}
-    spawnCount: 20
-    spawnInterval: 2
-  - prefab: {fileID: 6537159097618868839, guid: c454af9722ec5ba4b97cf037dd37beaa, type: 3}
-    spawnCount: 40
-    spawnInterval: 1
-  - prefab: {fileID: 6537159097618868839, guid: b2d71f92a8147a74880fb40a729e28f3, type: 3}
-    spawnCount: 10
-    spawnInterval: 3
+  - prefab: {fileID: 7123390078605260798, guid: 35c904250bf566f499a12a118ca80099, type: 3}
+    spawnCount: 30
+    spawnInterval: 0.8
+  - prefab: {fileID: 5032803961342074220, guid: c454af9722ec5ba4b97cf037dd37beaa, type: 3}
+    spawnCount: 15
+    spawnInterval: 0.8

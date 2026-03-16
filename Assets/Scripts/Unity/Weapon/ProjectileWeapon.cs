@@ -90,6 +90,7 @@ public class ProjectileWeapon : Weapon
             (target.transform.position - transform.position).normalized;
 
         var go = MainPoolManager.Instance.Get(projectilePrefab);
+        go.SetActive(true);
         Projectile proj = go.GetComponent<Projectile>();
         proj.transform.position = transform.position;
         proj.transform.rotation = Quaternion.identity;
