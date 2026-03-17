@@ -13,7 +13,7 @@ public class CameraController : MonoBehaviour
 
     private void ApplySize()
     {
-        float area = _playerStats.Area;
+        float area = _playerStats.Area * 2f;
         float min = minSize;
         float max = maxSize;
         float clamped = Mathf.Clamp(area, min, max);

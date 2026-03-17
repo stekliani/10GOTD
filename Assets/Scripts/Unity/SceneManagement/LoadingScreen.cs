@@ -34,7 +34,7 @@ public class LoadingScreen : MonoBehaviour
             {
                 // loading finished
                 progressBar.value = 1f;
-                progressText.text = "Press Anywhere to continue...";
+                progressText.text = L.Get("Loading", progressText.name);
 
                 if (Input.anyKeyDown)
                 {

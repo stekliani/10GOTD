@@ -1,6 +1,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Localization.Components;
 using UnityEngine.UI;
 public class BaseStatsUpgradeManager :
@@ -11,11 +12,25 @@ public class BaseStatsUpgradeManager :
     [SerializeField] private GameObject MainMenuUpgradeTemplate;
     [SerializeField] private PlayerDataSO playerDataSO;
     [SerializeField] private GameObject upgradePanel;
+    [SerializeField] private TextMeshProUGUI diamondsText;
+    [SerializeField] private TextMeshProUGUI applyButtonText;
+    [SerializeField] private TextMeshProUGUI closeButtonText;
     [SerializeField] private int diamonds;
 
+    private LocalizeStringEvent diamondsLocalizeEvent;
+    private UnityAction<string> setDiamondsTextAction;
+    private LocalizeStringEvent applyButtonLocalizeEvent;
+    private UnityAction<string> setApplyButtonTextAction;
+    private LocalizeStringEvent closeButtonLocalizeEvent;
+    private UnityAction<string> setCloseButtonTextAction;
     public string SaveKey => "BaseStatsUpgradeData";
 
     public static BaseStatsUpgradeManager Instance {  get; private set; }
+
+    private void OnEnable()
+    {
+        PopulateUpgradesMenu();
+    }
 
     private void Awake()
     {
@@ -58,7 +73,6 @@ public class BaseStatsUpgradeManager :
         {
             var stat = Instantiate(MainMenuUpgradeTemplate, contentGameobject.transform);
             var cached = statEntry;
-
             var statImage = stat.GetComponentInChildren<Image>();
             var statButton = stat.GetComponentInChildren<Button>();
             var statButtonText = statButton.GetComponentInChildren<TextMeshProUGUI>();
@@ -96,15 +110,21 @@ public class BaseStatsUpgradeManager :
                     buttonTextLocalizer.StringReference.GetLocalizedString();
             }
         }
+
+        RefreshDiamondsLocalizedText();
+        RefreshApplyButtonLocalizedText();
     }
 
     public void SaveUpgrades()
     {
         SaveManager.SaveAll();
-        upgradePanel.gameObject.SetActive(false);
     }
 
 
+    public void CloseUpgradesWindow()
+    {
+        upgradePanel.SetActive(false);
+    }
     private void ResetUpgrades()
     {
         PlayerStatEntry[] stats = GetEntityStats();
@@ -130,7 +150,6 @@ public class BaseStatsUpgradeManager :
         playerDataSO.piercing,
         playerDataSO.amount,
         playerDataSO.projectileSpeed,
-        playerDataSO.area
     };
         return stats;
     }
@@ -222,6 +241,63 @@ public class BaseStatsUpgradeManager :
     {
         diamonds += value;
     }
+
+    public int GetDiamondsAmount()
+    {
+        return diamonds;
+    }
+
+    private void RefreshDiamondsLocalizedText()
+    {
+        if (diamondsText == null)
+            return;
+
+        diamondsLocalizeEvent ??= diamondsText.GetComponent<LocalizeStringEvent>();
+        if (diamondsLocalizeEvent == null)
+            return;
+
+        // In the scene, the LocalizeStringEvent may not have its UpdateString UnityEvent wired.
+        // Wire it at runtime so RefreshString actually pushes into the TMP text.
+        setDiamondsTextAction ??= (value) => diamondsText.text = value;
+        diamondsLocalizeEvent.OnUpdateString.RemoveListener(setDiamondsTextAction);
+        diamondsLocalizeEvent.OnUpdateString.AddListener(setDiamondsTextAction);
+
+        L.MainMenuDiamondsLocalizer(diamondsLocalizeEvent, this);
+    }
+
+    private void RefreshApplyButtonLocalizedText()
+    {
+        if (applyButtonText == null) return;
+
+        applyButtonLocalizeEvent ??= applyButtonText.GetComponent<LocalizeStringEvent>();
+        if(applyButtonLocalizeEvent == null) return;
+
+
+        // In the scene, the LocalizeStringEvent may not have its UpdateString UnityEvent wired.
+        // Wire it at runtime so RefreshString actually pushes into the TMP text.
+        setApplyButtonTextAction ??= (value) => applyButtonText.text = value;
+        applyButtonLocalizeEvent.OnUpdateString.RemoveListener(setApplyButtonTextAction);
+        applyButtonLocalizeEvent.OnUpdateString.AddListener(setApplyButtonTextAction);
+
+        L.MainMenuUpgradesButtonsLocalizer(applyButtonLocalizeEvent, "Menu.Upgrades.apply");
+    }
+    private void RefreshCloseButtonLocalizedText()
+    {
+        if (closeButtonText == null) return;
+
+        closeButtonLocalizeEvent ??= closeButtonText.GetComponent<LocalizeStringEvent>();
+        if (closeButtonLocalizeEvent == null) return;
+
+
+        // In the scene, the LocalizeStringEvent may not have its UpdateString UnityEvent wired.
+        // Wire it at runtime so RefreshString actually pushes into the TMP text.
+        setCloseButtonTextAction ??= (value) => applyButtonText.text = value;
+        closeButtonLocalizeEvent.OnUpdateString.RemoveListener(setCloseButtonTextAction);
+        closeButtonLocalizeEvent.OnUpdateString.AddListener(setCloseButtonTextAction);
+
+        L.MainMenuUpgradesButtonsLocalizer(applyButtonLocalizeEvent, "Menu.Upgrades.close");
+    }
+
 
     [Serializable]
     public class BaseStatsUpgradeSaveData

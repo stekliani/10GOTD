@@ -31,6 +31,30 @@ MonoBehaviour:
     m_Key: Menu.upgrades
     m_Metadata:
       m_Items: []
+  - m_Id: 5104539117764608
+    m_Key: Menu.Upgrades.diamondsAmount
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5173600874872832
+    m_Key: Menu.Upgrades.apply
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5179214128693248
+    m_Key: Menu.Upgrades.close
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5217700286251008
+    m_Key: Menu.Settings.backgroundMusic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5217973150892032
+    m_Key: Menu.Settings.sfxMusic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5218341746327552
+    m_Key: Menu.Settings.uiMusic
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

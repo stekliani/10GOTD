@@ -5,6 +5,7 @@ public class ChangeScene : MonoBehaviour
 {
     private PlayerStats _player;
     [SerializeField] private GameObject upgradeWindow;
+    [SerializeField] private GameObject settingsWindow;
     [SerializeField] private BaseStatsUpgradeManager baseStatsUpgradeManager;
 
     private string mainMenuSceneName = SceneLoader.Scene.Menu.ToString();
@@ -36,6 +37,18 @@ public class ChangeScene : MonoBehaviour
         {
             upgradeWindow?.SetActive(true);
             baseStatsUpgradeManager.PopulateUpgradesMenu();
+        }
+    }
+
+    public void ToggleSettingsWindow()
+    {
+        if(settingsWindow.activeSelf)
+        {
+            settingsWindow?.SetActive(false);
+        }
+        else
+        {
+            settingsWindow?.SetActive(true);
         }
     }
 

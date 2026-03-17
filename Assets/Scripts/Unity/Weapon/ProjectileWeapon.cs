@@ -4,7 +4,7 @@ using UnityEngine;
 public class ProjectileWeapon : Weapon
 {
     [SerializeField] private Projectile projectilePrefab;
-    [SerializeField] private float      firingRange => player.Area / 2f;
+    [SerializeField] private float      firingRange => player.Area;
 
     [Header("Weapon SFX Type")]
     [SerializeField] private SoundActions fireSFX;

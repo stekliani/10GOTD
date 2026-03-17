@@ -18,6 +18,23 @@ public static class L
     {
         return LocalizationSettings.StringDatabase.GetLocalizedString(table, key, args);
     }
+    public static void MainMenuDiamondsLocalizer(LocalizeStringEvent localizer, BaseStatsUpgradeManager upgradeManager)
+    {
+        localizer.StringReference.TableReference = "Menu UI";
+        localizer.StringReference.TableEntryReference = "Menu.Upgrades.diamondsAmount";
+        localizer.StringReference.Arguments = new object[]
+        {
+            upgradeManager.GetDiamondsAmount()
+        };
+        localizer.RefreshString();
+    }
+    public static void MainMenuUpgradesButtonsLocalizer(LocalizeStringEvent localizer,string key)
+    {
+        localizer.StringReference.TableReference = "Menu UI";
+        localizer.StringReference.TableEntryReference = key;
+        localizer.RefreshString();
+    }
+
 
     public static void PlayerStatLocalizer(LocalizeStringEvent localizer, PlayerStatEntry cached)
     {

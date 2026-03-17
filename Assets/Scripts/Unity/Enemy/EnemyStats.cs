@@ -41,7 +41,6 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
     {
         _enemyAnimationController = GetComponent<EnemyAnimationController>();
         _enemyMovement = GetComponent<EnemyMovement>();
-        _playerInventory = FindObjectOfType<PlayerInventory>();
     }
 
     private void OnEnable()
@@ -50,7 +49,6 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
         _isAlive = true;
 
         EnableColliders();
-        EnsureReferences();
         ResetState();
 
         _currentHealth = maxHealth;
@@ -87,7 +85,10 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
 
     private void FireProjectile()
     {
-        var go = MainPoolManager.Instance.Get(rangedEnemyProjectilePrefab);
+        if (_poolManager == null) return;
+        if (_playerInventory == null) return;
+
+        var go = _poolManager.Get(rangedEnemyProjectilePrefab);
         if (go == null) return;
 
         var proj = go.GetComponent<RangedEnemyProjectile>();
@@ -157,10 +158,6 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
         {
             await Task.Delay((int)(deathAnimationTime * 1000), _cts.Token);
 
-            // If we were destroyed/disabled (scene change, cleanup, etc.) after the delay started,
-            // don't attempt to access/pool this component.
-            if (!this || !_isAlive || _poolManager == null) return;
-
             // Reset pose BEFORE disabling, otherwise pooled skeletal rigs can respawn in the final death pose.
             _enemyAnimationController?.ResetToDefaults();
             _poolManager?.Return(this);
@@ -177,10 +174,10 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
         _enemyAnimationController.ChangeAnimation(EnemyAnimations.walking);
     }
 
-    private void EnsureReferences()
+    public void SetPlayerReferences(PlayerLevels playerLevels, PlayerInventory playerInventory)
     {
-        _playerLevels ??= FindObjectOfType<PlayerLevels>();
-        _playerInventory ??= FindObjectOfType<PlayerInventory>();
+        _playerLevels = playerLevels;
+        _playerInventory = playerInventory;
     }
 
     private float GetDeathAnimationTime()

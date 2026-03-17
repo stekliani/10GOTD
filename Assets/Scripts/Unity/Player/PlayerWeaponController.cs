@@ -12,7 +12,7 @@ public class PlayerWeaponController : MonoBehaviour
 
     [Header("Range Circle")]
     [SerializeField] private int   circleSegments = 64;
-    [SerializeField] private float circleRadius   => _player.Area / 2f;
+    [SerializeField] private float circleRadius   => _player.Area;
 
     private PlayerStats  _player;
     private LineRenderer _line;

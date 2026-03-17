@@ -49,7 +49,7 @@ AudioMixerController:
   - guid: 13610e633c64bed4a81f87cd7083564a
     name: SFXVolume
   - guid: 42b0df8e974b77346ab79684b05b1f67
-    name: UIMusicVolume
+    name: UISounds
   m_AudioMixerGroupViews:
   - guids:
     - 21f6b34afff44f046a0b9d51d5d29f0f

@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Loading_ka
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: ka
+  m_SharedData: {fileID: 11400000, guid: a963af61ff951e34585b7f318089db4e, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 5206917120
+    m_Localized: "\u10D2\u10D0\u10E1\u10D0\u10D2\u10E0\u10EB\u10D4\u10DA\u10D4\u10D1\u10DA\u10D0\u10D3
+      \u10D3\u10D0\u10D0\u10ED\u10D8\u10E0\u10D4\u10D7 \u10DC\u10D4\u10D1\u10D8\u10E1\u10DB\u10D8\u10D4\u10E0
+      \u10D0\u10D3\u10D2\u10D8\u10DA\u10D0\u10E1..."
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

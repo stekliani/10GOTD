@@ -28,6 +28,8 @@ public class SpawnManager : MonoBehaviour
 
     private Transform         _playerTransform;
     private PlayerStats _playerStats;
+    private PlayerInventory _playerInventory;
+    private PlayerLevels _playerLevels;
     private List<WaveRuntime> _waves = new();
     private int               _highestActiveIndex;
 
@@ -36,6 +38,9 @@ public class SpawnManager : MonoBehaviour
     {
         _playerStats = FindObjectOfType<PlayerStats>();
         if (_playerStats != null) _playerTransform = _playerStats.transform;
+
+        _playerInventory = FindObjectOfType<PlayerInventory>();
+        _playerLevels = FindObjectOfType<PlayerLevels>();
 
 
 
@@ -190,12 +195,13 @@ public class SpawnManager : MonoBehaviour
 
         enemy.transform.position = spawnPos;
         enemy.transform.rotation = Quaternion.identity;
+        enemy.SetPlayerReferences(_playerLevels, _playerInventory);
         enemy.gameObject.SetActive(true);
     }
 
     private float GetSpawnRadius()
     {
-        spawnRadius = _playerStats.Area + 0.5f;
+        spawnRadius = (_playerStats.Area * 2f) + 0.5f;
         return spawnRadius;
     }
 }
