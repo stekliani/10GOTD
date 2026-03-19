@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -6,28 +7,37 @@ public class EnemyMovement : MonoBehaviour, ISlowable
     [SerializeField] private float speed = 3f;
     [SerializeField] private Rigidbody2D rb;
 
-    [Header("Ranged Enemy things")]
-    [Tooltip("Do not touch if this enemy is not ranged!")]
-    [SerializeField] private bool isRanged = false;
+    [Header("Ranged Enemy")]
+    [Tooltip("Leave false for melee enemies.")]
+    [SerializeField] private bool isRanged;
     [SerializeField] private float attackRange;
 
-    [Header("Obstacle Avoidance")]
+    [Header("Grid Pathfinding")]
     [SerializeField] private LayerMask obstacleLayer;
-    [SerializeField] private float avoidanceRadius = 1.5f;
-    [SerializeField] private float avoidanceStrength = 1.5f;
+    [SerializeField] private float pathRefreshInterval = 0.3f; // seconds between AStar recalculations
+    [SerializeField] private float waypointReachRadius = 0.1f; // distance to consider a waypoint reached
+
+    // private state
 
     private SpriteRenderer _spriteRenderer;
     private PlayerStats _player;
-    private Vector2 _lastMoveDir;
     private EnemyAnimationController _enemyAnimationController;
     private EnemyStats _enemyStats;
-    private bool _isWithinAttackRange;
 
-    private void Awake()
+    private List<Vector2> _path = new();
+    private int _pathIndex;
+    private float _nextPathTime;
+    private Vector2 _lastMoveDir;
+    private bool _isWithinAttackRange;
+    private bool _isAtackingPlayer;
+    // lifecycle
+
+    private void OnEnable()
     {
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         _enemyAnimationController = GetComponent<EnemyAnimationController>();
         _enemyStats = GetComponent<EnemyStats>();
+        _enemyAnimationController.ChangeAnimation(EnemyAnimations.walking);
     }
 
     private void Start()
@@ -37,73 +47,83 @@ public class EnemyMovement : MonoBehaviour, ISlowable
 
     private void FixedUpdate()
     {
+        RefreshPathIfDue();
         Move();
         FlipSprite();
-        ChangeAnimationState(EnemyAnimations.walking);
     }
 
-    // ---------------- SLOW SYSTEM ----------------
+    // ISlowable
 
     public void ApplySlow(float amount) => speed -= amount;
     public void RemoveSlow(float amount) => speed += amount;
     public void SetSpeed(float delta) => speed += delta;
 
-    // ---------------- MOVEMENT ----------------
+    //pathfinding
+
+    private void RefreshPathIfDue()
+    {
+        if (_player == null || Time.time < _nextPathTime)
+            return;
+
+        _nextPathTime = Time.time + pathRefreshInterval;
+
+        _path = GridPathfinder.FindPath(
+            transform.position,
+            _player.transform.position,
+            IsWalkable);
+
+        _pathIndex = 0;
+    }
+
+    /// <summary>
+    /// A cell is walkable when no obstacle collider overlaps its centre.
+    /// Only called during AStar search, not every frame.
+    /// </summary>
+    private bool IsWalkable(Vector2Int cell)
+    {
+        Vector2 centre = GridPathfinder.CellToWorld(cell);
+        float boxSize = GridPathfinder.CellSize * 0.9f; // slightly inset to avoid edge grazing
+        return !Physics2D.OverlapBox(centre, Vector2.one * boxSize, 0f, obstacleLayer);
+    }
+
+    // movement
 
     private void Move()
     {
-        if (_player == null)
+        if (_player == null || !_enemyStats.CheckIfAlive())
             return;
 
-        Vector2 toPlayer =
-            (_player.transform.position - transform.position).normalized;
-
-        Vector2 avoidance =
-            EnemyMovementSystem.GetAvoidanceDirection(
-                transform.position,
-                avoidanceRadius,
-                obstacleLayer);
-
-        // Combine steering forces
-        Vector2 moveDir = (toPlayer + avoidance * avoidanceStrength).normalized;
-
-        if (!_enemyStats.CheckIfAlive())
-            moveDir = Vector2.zero;
-
-        if (moveDir != Vector2.zero)
-            _lastMoveDir = moveDir;
-
-
+        // Ranged enemies stop once inside attack range
         if (isRanged)
         {
-            float distanceToPlayer = Vector2.Distance(transform.position, _player.transform.position);
-
-            if (distanceToPlayer <= attackRange)
-            {
-                // Within attack range ? stop moving
-                moveDir = Vector2.zero;
-                _isWithinAttackRange = true;
-            }
-            else
-            {
-                // Outside attack range ?  move toward player
-                rb.MovePosition(rb.position + moveDir * speed * Time.fixedDeltaTime);
-                _isWithinAttackRange = false;
-            }
+            float dist = Vector2.Distance(transform.position, _player.transform.position);
+            _isWithinAttackRange = dist <= attackRange;
+            if (_isWithinAttackRange)
+                return;
         }
-        else
+
+        if (_path == null || _pathIndex >= _path.Count)
+            return;
+
+        Vector2 target = _path[_pathIndex];
+        Vector2 toTarget = target - (Vector2)transform.position;
+        float distance = toTarget.magnitude;
+
+        // Waypoint reached — advance to next
+        if (distance <= waypointReachRadius)
         {
-            rb.MovePosition(rb.position + moveDir * speed * Time.fixedDeltaTime);
+            _pathIndex++;
+            return;
         }
+
+        Vector2 moveDir = toTarget.normalized;
+        _lastMoveDir = moveDir;
+        rb.MovePosition(rb.position + moveDir * speed * Time.fixedDeltaTime);
     }
 
+    public bool CheckIfRangedEnemyCanAttack() => _isWithinAttackRange;
 
-    public bool CheckIfRangedEnemyCanAttack()
-    {
-        return _isWithinAttackRange;
-    }
-
-    // ---------------- VISUALS ----------------
+    // visuals
 
     private void FlipSprite()
     {
@@ -121,25 +141,36 @@ public class EnemyMovement : MonoBehaviour, ISlowable
         visuals.localScale = scale;
     }
 
-    private void ChangeAnimationState(EnemyAnimations animation)
-    {
-        _enemyAnimationController.ChangeAnimation(animation);
-    }
-
-    // ---------------- DEBUG ----------------
+    // debug gizmos
 
     private void OnDrawGizmos()
     {
         if (!gameObject.activeInHierarchy)
             return;
 
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, avoidanceRadius);
+        // Draw the current AStar path
+        if (_path != null && _path.Count > 0)
+        {
+            Gizmos.color = Color.cyan;
+            Vector3 prev = transform.position;
+            for (int i = _pathIndex; i < _path.Count; i++)
+            {
+                Gizmos.DrawLine(prev, _path[i]);
+                Gizmos.DrawWireSphere(_path[i], 0.1f);
+                prev = _path[i];
+            }
+        }
 
+        // Draw current movement direction
         if (Application.isPlaying)
         {
             Gizmos.color = Color.green;
             Gizmos.DrawRay(transform.position, _lastMoveDir);
         }
+    }
+
+    public void SetAtackBool(bool atacking)
+    {
+        _isAtackingPlayer = atacking;
     }
 }

@@ -51,7 +51,9 @@ public class PlayerWeaponController : MonoBehaviour
         Weapon instance = Instantiate(prefab, transform.position, Quaternion.identity, transform);
 
         if (instance is HealingFountain && healingFountainSpawnPoint != null)
+        {
             instance.transform.position = healingFountainSpawnPoint.position;
+        }
 
         instance.IsActive = active;
         instance.Initialize(_player);
