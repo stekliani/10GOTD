@@ -80,13 +80,13 @@ public class EnemyMovement : MonoBehaviour, ISlowable
 
             if (distanceToPlayer <= attackRange)
             {
-                // Within attack range � stop moving
+                // Within attack range ? stop moving
                 moveDir = Vector2.zero;
                 _isWithinAttackRange = true;
             }
             else
             {
-                // Outside attack range � move toward player
+                // Outside attack range ?  move toward player
                 rb.MovePosition(rb.position + moveDir * speed * Time.fixedDeltaTime);
                 _isWithinAttackRange = false;
             }
