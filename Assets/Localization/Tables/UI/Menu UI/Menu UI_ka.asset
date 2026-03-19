@@ -61,6 +61,10 @@ MonoBehaviour:
       \u10EE\u10DB\u10D4\u10D1\u10D8"
     m_Metadata:
       m_Items: []
+  - m_Id: 5797344160989184
+    m_Localized: "\u10D4\u10DC\u10D0"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

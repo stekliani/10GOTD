@@ -55,6 +55,10 @@ MonoBehaviour:
     m_Key: Menu.Settings.uiMusic
     m_Metadata:
       m_Items: []
+  - m_Id: 5797344160989184
+    m_Key: Menu.Settings.language
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

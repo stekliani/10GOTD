@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using TMPro;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.Localization.Components;
+using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour, IInputObserver
@@ -41,6 +40,9 @@ public class UIManager : MonoBehaviour, IInputObserver
     private PlayerLevels    _playerLevels;
 
     TemplateHelper templateHelper;
+
+    private string _coinsLabel;
+    private string _xpLabel;
     private void Awake()
     {
         if (inputManager   == null) inputManager   = FindObjectOfType<InputManager>();
@@ -58,8 +60,11 @@ public class UIManager : MonoBehaviour, IInputObserver
     private void Update()
     {
         UpdateHealthBar();
-        coinsText.text = $"{L.GetPlayerInventoryStat("Inventory.coins")}: {_playerInventory.GetCoinAmount()}";
-        xpText.text = $"{L.GetPlayerStat("Stat.xp")}: {_playerLevels.GetCurrentXp()}/{_playerLevels.GetXpToNextLevel()}";
+        if (coinsText != null && _playerInventory != null)
+            coinsText.text = $"{_coinsLabel}: {_playerInventory.GetCoinAmount()}";
+
+        if (xpText != null && _playerLevels != null)
+            xpText.text = $"{_xpLabel}: {_playerLevels.GetCurrentXp()}/{_playerLevels.GetXpToNextLevel()}";
     }
 
     private void OnEnable()
@@ -73,6 +78,9 @@ public class UIManager : MonoBehaviour, IInputObserver
         _playerInventory?.AddObserver(this);
         Weapon.OnWeaponSpawned          += RegisterWeapon;
         PlayerLevels.OnLevelUpRequested += OpenLevelUpScreen;
+        LocalizationSettings.SelectedLocaleChanged += OnSelectedLocaleChanged;
+
+        RefreshHudLabels();
     }
 
     private void OnDisable()
@@ -82,6 +90,18 @@ public class UIManager : MonoBehaviour, IInputObserver
         _playerInventory?.RemoveObserver(this);
         Weapon.OnWeaponSpawned          -= RegisterWeapon;
         PlayerLevels.OnLevelUpRequested -= OpenLevelUpScreen;
+        LocalizationSettings.SelectedLocaleChanged -= OnSelectedLocaleChanged;
+    }
+
+    private void OnSelectedLocaleChanged(UnityEngine.Localization.Locale _)
+    {
+        RefreshHudLabels();
+    }
+
+    private void RefreshHudLabels()
+    {
+        _coinsLabel = L.GetPlayerInventoryStat("Inventory.coins");
+        _xpLabel = L.GetPlayerStat("Stat.xp");
     }
 
     public void OnNotify(InputActions action)
@@ -137,7 +157,7 @@ public class UIManager : MonoBehaviour, IInputObserver
             GameObject go = Instantiate(Template, Background.transform);
 
             var templateImage = go.GetComponentInChildren<Image>();
-            var localizer = go.GetComponentInChildren<LocalizeStringEvent>();
+            var localizer = go.GetComponentInChildren<UnityEngine.Localization.Components.LocalizeStringEvent>();
             var cached = stat;
 
             go.SetActive(true);

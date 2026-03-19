@@ -58,6 +58,10 @@ MonoBehaviour:
     m_Localized: UI Sounds
     m_Metadata:
       m_Items: []
+  - m_Id: 5797344160989184
+    m_Localized: Language
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

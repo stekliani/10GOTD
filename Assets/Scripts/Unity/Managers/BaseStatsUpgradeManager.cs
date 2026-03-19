@@ -113,6 +113,7 @@ public class BaseStatsUpgradeManager :
 
         RefreshDiamondsLocalizedText();
         RefreshApplyButtonLocalizedText();
+        RefreshCloseButtonLocalizedText();
     }
 
     public void SaveUpgrades()
@@ -291,11 +292,11 @@ public class BaseStatsUpgradeManager :
 
         // In the scene, the LocalizeStringEvent may not have its UpdateString UnityEvent wired.
         // Wire it at runtime so RefreshString actually pushes into the TMP text.
-        setCloseButtonTextAction ??= (value) => applyButtonText.text = value;
+        setCloseButtonTextAction ??= (value) => closeButtonText.text = value;
         closeButtonLocalizeEvent.OnUpdateString.RemoveListener(setCloseButtonTextAction);
         closeButtonLocalizeEvent.OnUpdateString.AddListener(setCloseButtonTextAction);
 
-        L.MainMenuUpgradesButtonsLocalizer(applyButtonLocalizeEvent, "Menu.Upgrades.close");
+        L.MainMenuUpgradesButtonsLocalizer(closeButtonLocalizeEvent, "Menu.Upgrades.close");
     }
 
 
