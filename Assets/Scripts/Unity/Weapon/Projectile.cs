@@ -15,6 +15,7 @@ public class Projectile : AnimationSubject,IPoolable
     [SerializeField] private AnimationActions hitVisual;
 
     private float _damage;
+    private float _piercing;
     private float _speed;
     private bool _isHoming;
     private EnemyStats _target;
@@ -50,6 +51,7 @@ public class Projectile : AnimationSubject,IPoolable
 
         float damageMultiplier = 1f + player.DamageBoost / 100f;
         _damage = weaponData.Damage * damageMultiplier;
+        _piercing = player.Piercing;
 
         float speedMultiplier = 1f + player.ProjectileSpeed / 100f;
         _speed = weaponData.Speed * speedMultiplier;
@@ -140,7 +142,7 @@ public class Projectile : AnimationSubject,IPoolable
         EnemyStats enemy = collision.GetComponentInParent<EnemyStats>();
         if (enemy == null) return;
 
-        if (!enemy.TryTakeDamage(_damage))
+        if (!enemy.TryTakeDamage(_damage, _piercing))
             return;
 
         _hasDamagedEnemy = true;

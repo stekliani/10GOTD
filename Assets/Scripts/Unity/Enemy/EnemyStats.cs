@@ -97,16 +97,16 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
         proj.AcquireTarget(_playerInventory.gameObject);
     }
 
-    public void TakeDamage(float damage) => TryTakeDamage(damage);
+    public void TakeDamage(float damage, float piercing) => TryTakeDamage(damage, piercing);
 
     /// <summary>
     /// Returns false if the enemy was already dead or damage was invalid, so callers can pierce (e.g. another projectile killed it this frame).
     /// </summary>
-    public bool TryTakeDamage(float damage)
+    public bool TryTakeDamage(float damage, float piercing)
     {
         if (!_isAlive || damage <= 0) return false;
 
-        _currentHealth -= damage;
+        _currentHealth -= damage * (1 + piercing / 100);
 
         if (_currentHealth <= 0)
             Die();

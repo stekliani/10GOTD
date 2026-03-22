@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStats : Subject, IPlayerMutator, IDamageable, IHealable, IEnemyTarget
+public class PlayerStats : Subject, IPlayerMutator, IHealable, IEnemyTarget
 {
     public static event EventHandler OnHeal;
 
@@ -57,7 +57,10 @@ public class PlayerStats : Subject, IPlayerMutator, IDamageable, IHealable, IEne
     {
         float dt = Time.deltaTime;
         _buffSystem.Tick(dt);
-        _statusEffectSystem.Tick(this, dt);
+
+        //-------------------------------------------------------------------------
+        //_statusEffectSystem.Tick(this, dt); implement if need to debuff player
+        //-------------------------------------------------------------------------
 
         if (_currentHealth < MaxHealth)
         {
@@ -74,7 +77,7 @@ public class PlayerStats : Subject, IPlayerMutator, IDamageable, IHealable, IEne
         Debug.Log(Recovery);
     }
 
-    // ── IPlayerStats (read) ──────────────────────────────────────────────────
+    // IPlayerStats (read)
     private StatsModifier Total => _runtimeModifier + _buffSystem.CachedTotal;
 
     public float CurrentHealth     => _currentHealth;
@@ -95,7 +98,7 @@ public class PlayerStats : Subject, IPlayerMutator, IDamageable, IHealable, IEne
 
     public string SaveKey => throw new NotImplementedException();
 
-    // ── IPlayerMutator (write) ───────────────────────────────────────────────
+    // IPlayerMutator (write)
     public void TakeDamage(float damage)
     {
         float reduction = Mathf.Clamp(Armor / 100f, 0f, 0.9f);
@@ -158,12 +161,14 @@ public class PlayerStats : Subject, IPlayerMutator, IDamageable, IHealable, IEne
             _                                                 => null
         };
 
-        if (effect != null) _statusEffectSystem.Apply(effect, this);
+        //------------------------------------------------------------------------------------------------
+        //if (effect != null) _statusEffectSystem.Apply(effect, this); implement if need to debuff player
+        //------------------------------------------------------------------------------------------------
     }
 
     public void ClearAllStatusEffects() => _statusEffectSystem.ClearAll();
 
-    // ── Stats display helpers ─────────────────────────────────────────────────
+    // Stats display helpers
     public PlayerStatEntry[] GetStats() => _allStats;
 
     public float GetFinalStatValue(PlayerStatEntry stat)

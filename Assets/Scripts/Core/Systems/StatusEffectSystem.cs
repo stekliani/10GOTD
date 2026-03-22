@@ -13,7 +13,7 @@ public class PoisonEffect : StatusEffect
 {
     private readonly float _dps;
     private float _tickTimer;
-
+    private const float NoPiercingAmount = 0f;
     public PoisonEffect(float dps, float duration)
     {
         _dps          = dps;
@@ -25,7 +25,7 @@ public class PoisonEffect : StatusEffect
         _tickTimer += dt;
         if (_tickTimer >= 1f)
         {
-            target.TakeDamage(_dps);
+            target.TakeDamage(_dps,NoPiercingAmount);
             _tickTimer = 0f;
         }
     }
@@ -34,7 +34,7 @@ public class PoisonEffect : StatusEffect
 public class BurnEffect : StatusEffect
 {
     private readonly float _dps;
-
+    private const float NoPiercingAmount = 0f;
     public BurnEffect(float dps, float duration)
     {
         _dps          = dps;
@@ -43,7 +43,7 @@ public class BurnEffect : StatusEffect
 
     public override void OnTick(IDamageable target, float dt)
     {
-        target.TakeDamage(_dps * dt);
+        target.TakeDamage(_dps * dt,NoPiercingAmount);
     }
 }
 
