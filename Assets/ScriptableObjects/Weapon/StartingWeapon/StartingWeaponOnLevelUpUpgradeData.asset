@@ -16,8 +16,10 @@ MonoBehaviour:
   Damage: 10
   Speed: 0
   Interval: 0
-  Area: 0
   SlowAmount: 0
+  FreezeDuration: 0
+  Amount: 2
   Lifetime: 0
   Health: 0
   Armor: 0
+  HealingMultiplier: 0

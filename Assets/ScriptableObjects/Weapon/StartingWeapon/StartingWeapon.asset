@@ -20,10 +20,10 @@ MonoBehaviour:
   baseUpgradeLevel: 0
   baseDamage: 100
   baseSpeed: 50
-  baseInterval: 2
+  baseInterval: 1
   baseSlowAmount: 0
   baseFreezeDuration: 0
-  baseAmount: 0
+  baseAmount: 1
   baseLifetime: 1
   baseHealth: 0
   baseArmor: 0

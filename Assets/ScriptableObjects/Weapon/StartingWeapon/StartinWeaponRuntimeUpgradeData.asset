@@ -16,9 +16,11 @@ MonoBehaviour:
   UpgradeLevel: 1
   Damage: 5
   Speed: 0
-  Interval: 0
-  Area: 0
+  Interval: 0.05
   SlowAmount: 0
+  FreezeDuration: 0
+  Amount: 0
   Lifetime: 0
   Health: 0
   Armor: 0
+  HealingMultiplier: 0

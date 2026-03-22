@@ -15,7 +15,7 @@ MonoBehaviour:
   WeaponLevel: 1
   Damage: 0
   Speed: 1
-  Interval: -0.4
+  Interval: 0.1
   SlowAmount: 0
   FreezeDuration: 0
   Amount: 1

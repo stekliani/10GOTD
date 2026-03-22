@@ -22,19 +22,23 @@ MonoBehaviour:
   baseSpeed: 0
   baseInterval: 0
   baseSlowAmount: 0
-  baseLifetime: 5
+  baseFreezeDuration: 0
+  baseAmount: 0
+  baseLifetime: 0
   baseHealth: 0
   baseArmor: 0
-  baseHealingMultiplier: 0
+  baseHealingMultiplier: 1
   WeaponLevel: 0
   UpgradeLevel: 0
   WeaponUpgradeCost: 0
   UpgradeCostPerLevel: 0
+  Amount: 0
   Damage: 0
   Speed: 0
   Interval: 0
   Area: 0
   SlowAmount: 0
+  FreezeDuration: 0
   Lifetime: 0
   Health: 0
   Armor: 0

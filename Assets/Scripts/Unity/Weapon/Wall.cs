@@ -7,7 +7,6 @@ public class Wall : MonoBehaviour, IEnemyTarget
     private Collider2D[] _colliders;
     private SpriteRenderer[] _spriteRenderers;
     public float currentHealth;
-    private float _maxHealth;
     public float respawnTime;
     public bool isCountingDown = false;
     private WallWeapon _owner;
@@ -42,7 +41,6 @@ public class Wall : MonoBehaviour, IEnemyTarget
 
     public void InitializeHealth(float amount)
     {
-        _maxHealth = amount;
         currentHealth = amount;
     }
 

@@ -65,10 +65,13 @@ public class PlayerStats : Subject, IPlayerMutator, IDamageable, IHealable, IEne
                 ? _healingFountain.GetHealingAmountMultiplier()
                 : 1f;
             Heal(Recovery * dt * multiplier);
+            Debug.Log($"recovery:{Recovery} multiplier: {multiplier}");
         }
 
         if(_currentMana < MaxMana)
             RecoverMana(ManaRegen * dt);
+
+        Debug.Log(Recovery);
     }
 
     // ── IPlayerStats (read) ──────────────────────────────────────────────────

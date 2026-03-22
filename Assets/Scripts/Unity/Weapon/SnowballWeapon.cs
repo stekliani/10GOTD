@@ -6,18 +6,17 @@ public class SnowballWeapon : Weapon
     private const int MAX_SNOWBALLS = 3;
 
     [SerializeField] private GameObject _snowballHolder;
-    [SerializeField] private float _orbitSpeed = 90f; // degrees per second
+    [Tooltip("Base orbit rate in degrees/sec when weapon Speed is 100 and Projectile Speed bonus is 0.")]
+    [SerializeField] private float _orbitSpeed = 90f;
     private float _orbitRadius;
 
     private readonly List<Snowball> _allSnowballs = new List<Snowball>();
     private float _currentAngle = 0f;
     private int _lastActiveCount = -1;
-    private PlayerStats _player;
     // Init
     protected new void Awake()
     {
         base.Awake();
-        _player = FindObjectOfType<PlayerStats>();
         // Parent to this weapon so snowballs are destroyed with the weapon and never leave stale refs.
         GameObject holderInstance = Instantiate(_snowballHolder, transform);
         holderInstance.transform.localPosition = Vector3.zero;
@@ -46,12 +45,18 @@ public class SnowballWeapon : Weapon
         }
 
         if (desiredCount == 0) return;
+        if (player == null) return;
+        Transform playerTransform = (player as MonoBehaviour)?.transform;
+        if (playerTransform == null) return;
 
-        // Advance orbit angle
-        _currentAngle += _orbitSpeed * Time.deltaTime;
-        if (_currentAngle >= 360f) _currentAngle -= 360f;
+        // Angular speed: base * weapon Speed (100 = 1x) * same ProjectileSpeed scaling as projectiles
+        float weaponSpeedFactor = data.Speed / 100f;
+        float projectileSpeedFactor = 1f + player.ProjectileSpeed / 100f;
+        float orbitDegPerSec = _orbitSpeed * weaponSpeedFactor * projectileSpeedFactor;
 
-        // Position active snowballs evenly around orbit
+        _currentAngle = Mathf.Repeat(_currentAngle + orbitDegPerSec * Time.deltaTime, 360f);
+
+        // Even spacing: equal slices, shared rotation offset
         float slice = 360f / desiredCount;
         int activeIndex = 0;
 
@@ -61,9 +66,9 @@ public class SnowballWeapon : Weapon
             if (sb == null || !sb.gameObject.activeSelf) continue;
 
             float angle = _currentAngle + (activeIndex * slice);
-            _orbitRadius = Mathf.Clamp(_player.Area, 1, 5);
+            _orbitRadius = Mathf.Clamp(player.Area, 1, 5);
             sb.SetOrbitParams(angle, _orbitRadius);
-            sb.UpdatePosition(_player.transform);
+            sb.UpdatePosition(playerTransform);
 
             activeIndex++;
         }

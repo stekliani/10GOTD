@@ -11,7 +11,7 @@ public class ProjectileWeapon : Weapon
 
     [Header("Projectile Settings")]
     [SerializeField] private bool isHomingProjectile;
-    [SerializeField] private int  projectileAmount => player.Amount + 1;
+    [SerializeField] private int  projectileAmount => data.Amount + player.Amount;
 
 
     protected override void Update()
@@ -47,7 +47,7 @@ public class ProjectileWeapon : Weapon
         // Case 1: projectileAmount <= enemyCount -> unique random targets
         if (projectileAmount <= enemyCount)
         {
-            // Shuffle first N elements using partial Fisher–Yates
+            // Shuffle first N elements using partial Fisherï¿½Yates
             for (int i = 0; i < projectileAmount; i++)
             {
                 int randomIndex = Random.Range(i, enemyCount);

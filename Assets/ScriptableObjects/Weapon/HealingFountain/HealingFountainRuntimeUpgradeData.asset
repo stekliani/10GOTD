@@ -18,7 +18,9 @@ MonoBehaviour:
   Speed: 0
   Interval: 0
   SlowAmount: 0
+  FreezeDuration: 0
+  Amount: 0
   Lifetime: 0
   Health: 0
   Armor: 0
-  HealingMultiplier: 0.25
+  HealingMultiplier: 0.1
