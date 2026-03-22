@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3861337861517679166
+--- !u!1 &6623762362562089272
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1523134456821007326}
-  - component: {fileID: 1048359935372989697}
+  - component: {fileID: 8175168481203920424}
+  - component: {fileID: 5499526466177856205}
   m_Layer: 0
-  m_Name: StartingWeapon
+  m_Name: SnowballWeapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1523134456821007326
+--- !u!4 &8175168481203920424
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3861337861517679166}
+  m_GameObject: {fileID: 6623762362562089272}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -32,21 +32,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1048359935372989697
+--- !u!114 &5499526466177856205
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3861337861517679166}
+  m_GameObject: {fileID: 6623762362562089272}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b33d8c7c94ca854ea8f439d41d8fa63, type: 3}
+  m_Script: {fileID: 11500000, guid: 7ec6ed6e7971b1b41986e0999d3adbd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseData: {fileID: 11400000, guid: 4bf12e356551e6f488e97f3dd133a41b, type: 2}
-  levelUpUpgradeData: {fileID: 11400000, guid: 4bcad4aa4433a3844b7a050be79c3095, type: 2}
-  runtimeUpgradeData: {fileID: 11400000, guid: 8b0cc55856ac1824882252c46f48ca21, type: 2}
-  projectilePrefab: {fileID: 8163476985559384702, guid: 9d196ac8f98d79148957ba701680f332, type: 3}
-  fireSFX: 1
-  isHomingProjectile: 0
+  baseData: {fileID: 11400000, guid: d0e30fccd577bd948a03c147d9acf3a4, type: 2}
+  levelUpUpgradeData: {fileID: 11400000, guid: 1cf82fff05a7d1e4f9324fe84e7966c6, type: 2}
+  runtimeUpgradeData: {fileID: 11400000, guid: d1a182738fabf2e4481a7f6b3784fc87, type: 2}
+  _snowballHolder: {fileID: 8827634078760224097, guid: 9d348565316989d4cb7d80689bbeb7d5, type: 3}
+  _orbitRadius: 2
+  _orbitSpeed: 90

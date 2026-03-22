@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9968faf4271a344c9427e428dd63da7, type: 3}
   m_Name: WallOnLevelUpUpgradeData
   m_EditorClassIdentifier: 
-  WeaponLevel: 0
+  WeaponLevel: 1
   Damage: 0
   Speed: 0
-  Interval: 0
+  Interval: 0.5
   SlowAmount: 0
   Lifetime: 0
-  Health: 0
+  Health: 50
   Armor: 0
   HealingMultiplier: 0

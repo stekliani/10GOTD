@@ -24,7 +24,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 1489549836107776
-    m_Key: Weapon.weapomUpgradeCard
+    m_Key: Weapon.weaponUpgradeCard
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6224228837441536
+    m_Key: Weapon.freezeInfo
     m_Metadata:
       m_Items: []
   m_Metadata:

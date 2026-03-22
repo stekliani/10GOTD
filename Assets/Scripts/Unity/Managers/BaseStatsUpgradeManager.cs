@@ -41,8 +41,6 @@ public class BaseStatsUpgradeManager :
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject);
-
     }
 
     private void Start()

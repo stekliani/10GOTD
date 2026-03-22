@@ -1,10 +1,21 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class InputManager : Subject
 {
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) NotifyObservers(InputActions.OpenStatsWindow);
-        if (Input.GetKeyUp(KeyCode.E))        NotifyObservers(InputActions.OpenLevelUpWindow);
+        Keyboard keyboard = Keyboard.current;
+        if (keyboard == null) return;
+
+        if (keyboard.escapeKey.wasPressedThisFrame)
+        {
+            NotifyObservers(InputActions.OpenStatsWindow);
+        }
+
+        if (keyboard.eKey.wasReleasedThisFrame)
+        {
+            NotifyObservers(InputActions.OpenLevelUpWindow);
+        }
     }
 }

@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: WallRuntimeUpgradeData
   m_EditorClassIdentifier: 
   WeaponLevel: 0
-  UpgradeLevel: 0
+  UpgradeLevel: 1
   Damage: 0
   Speed: 0
   Interval: 0
   SlowAmount: 0
   Lifetime: 0
-  Health: 0
+  Health: 5
   Armor: 0
   HealingMultiplier: 0

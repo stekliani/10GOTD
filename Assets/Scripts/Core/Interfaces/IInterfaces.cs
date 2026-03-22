@@ -42,6 +42,12 @@ public interface ISlowable
     void RemoveSlow(float amount);
 }
 
+public interface IFreezable
+{
+    bool isFrozen {  get; }
+    void Freeze(float freezeTime);
+}
+
 // ── WEAPON ───────────────────────────────────────────────────────────────────
 public interface IWeapon
 {
@@ -49,6 +55,11 @@ public interface IWeapon
     int  GetLevel();
     int  GetMaxLevel();
     void Initialize(IPlayerStats player);
+}
+
+public interface IRotatingWeapon
+{
+    void RotateAroundPlayer();
 }
 
 // ── PLAYER STATS — read-only view ────────────────────────────────────────────

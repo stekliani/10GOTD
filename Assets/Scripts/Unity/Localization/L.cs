@@ -96,7 +96,8 @@ public static class L
         weaponName,
         data.WeaponLevel,
         data.Damage * damageMultiplier,
-        data.HealingMultiplier
+        data.HealingMultiplier,
+        data.FreezeDuration,
         };
 
         localizer.RefreshString();

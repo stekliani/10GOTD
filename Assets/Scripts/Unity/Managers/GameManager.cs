@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 
     private float _timer;
     private SpawnManager _spawnManager;
+    private PlayerStats _playerStats;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -17,7 +18,10 @@ public class GameManager : MonoBehaviour
 
         Instance = this;
 
+        Time.timeScale = 1f;
+
         _spawnManager = FindObjectOfType<SpawnManager>();
+        _playerStats = FindObjectOfType<PlayerStats>();
     }
 
     private void OnEnable()
@@ -42,12 +46,13 @@ public class GameManager : MonoBehaviour
 
     public void HandleGameOver()
     {
-
+        Time.timeScale = 0f;
         int diamondsRewardAmount = 0;
         diamondsRewardAmount = ((int)_timer / 60) + GetDiamondsRewardFromWaves();
         BaseStatsUpgradeManager.Instance.AddDiamonds(diamondsRewardAmount);
 
         SaveManager.SaveAll();
+        _playerStats.ResetRuntimeModifiers();
         Debug.Log("Added" + diamondsRewardAmount + "Diamonds");
     }
 

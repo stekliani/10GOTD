@@ -22,6 +22,8 @@ public class WeaponDataSO : ScriptableObject
     [SerializeField] private float baseSpeed;
     [SerializeField] private float baseInterval;
     [SerializeField] private float baseSlowAmount;
+    [SerializeField] private float baseFreezeDuration;
+    [SerializeField] private int baseAmount;
 
     [Header("Lifetime")]
     [SerializeField] private float baseLifetime;
@@ -36,11 +38,13 @@ public class WeaponDataSO : ScriptableObject
     [HideInInspector] public int   UpgradeLevel;
     [HideInInspector] public int   WeaponUpgradeCost;
     [HideInInspector] public int   UpgradeCostPerLevel;
+    [HideInInspector] public int Amount;
     [HideInInspector] public float Damage;
     [HideInInspector] public float Speed;
     [HideInInspector] public float Interval;
     [HideInInspector] public float Area;
     [HideInInspector] public float SlowAmount;
+    [HideInInspector] public float FreezeDuration;
     [HideInInspector] public float Lifetime;
     [HideInInspector] public float Health;
     [HideInInspector] public float Armor;
@@ -56,10 +60,12 @@ public class WeaponDataSO : ScriptableObject
         Speed              = baseSpeed;
         Interval           = baseInterval;
         SlowAmount         = baseSlowAmount;
+        FreezeDuration     = baseFreezeDuration;
+        Amount             = baseAmount;
         Lifetime           = baseLifetime;
         Health             = baseHealth;
         Armor              = baseArmor;
-        HealingMultiplier = baseHealingMultiplier;
+        HealingMultiplier  = baseHealingMultiplier;
     }
 
     public void ApplyBonus(WeaponUpgradeDataSO bonus)
@@ -70,6 +76,8 @@ public class WeaponDataSO : ScriptableObject
         Speed        += bonus.Speed;
         Interval     -= bonus.Interval;   // reducing interval = faster fire
         SlowAmount   += bonus.SlowAmount;
+        FreezeDuration += bonus.FreezeDuration;
+        Amount       += bonus.Amount;
         Lifetime     += bonus.Lifetime;
         Health       += bonus.Health;
         Armor        += bonus.Armor;

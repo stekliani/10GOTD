@@ -14,6 +14,8 @@ public class WeaponUpgradeDataSO : ScriptableObject
     public float Speed;
     public float Interval;
     public float SlowAmount;
+    public float FreezeDuration;
+    public int Amount;
     public float Lifetime;
     public float Health;
     public float Armor;

@@ -70,6 +70,9 @@ public abstract class Weapon : Subject, IWeapon
         data.Speed       += upgrade.Speed;
         data.Interval    -= upgrade.Interval;
         data.Lifetime    += upgrade.Lifetime;
+        data.SlowAmount += upgrade.SlowAmount;
+        data.FreezeDuration += upgrade.FreezeDuration;
+        data.Amount += upgrade.Amount;
         data.Health      += upgrade.Health;
         data.Armor       += upgrade.Armor;
         data.HealingMultiplier += upgrade.HealingMultiplier;

@@ -5,25 +5,44 @@ using UnityEngine;
 public class Wall : MonoBehaviour, IEnemyTarget
 {
     private Collider2D[] _colliders;
-    [HideInInspector] public float currentHealth;
-    [HideInInspector] public float respawnTime;
-    [HideInInspector] public bool isCountingDown = false;
+    private SpriteRenderer[] _spriteRenderers;
+    public float currentHealth;
+    private float _maxHealth;
+    public float respawnTime;
+    public bool isCountingDown = false;
+    private WallWeapon _owner;
 
+    private void Awake()
+    {
+        _owner = FindObjectOfType<WallWeapon>();
+    }
     private void OnEnable()
     {
-        _colliders = GetComponents<Collider2D>();
+        if (_colliders == null || _colliders.Length == 0)
+            _colliders = GetComponentsInChildren<Collider2D>(includeInactive: true);
         foreach (Collider2D col in _colliders)
-            col.enabled = true;
+            if (col != null) col.enabled = true;
+
+        if (_spriteRenderers == null || _spriteRenderers.Length == 0)
+            _spriteRenderers = GetComponentsInChildren<SpriteRenderer>(includeInactive: true);
+        foreach (SpriteRenderer r in _spriteRenderers)
+            if (r != null) r.enabled = true;
     }
 
     private void OnDisable()
     {
-        foreach (Collider2D col in _colliders)
-            col.enabled = false;
+        if (_colliders != null)
+            foreach (Collider2D col in _colliders)
+                if (col != null) col.enabled = false;
+
+        if (_spriteRenderers != null)
+            foreach (SpriteRenderer r in _spriteRenderers)
+                if (r != null) r.enabled = false;
     }
 
     public void InitializeHealth(float amount)
     {
+        _maxHealth = amount;
         currentHealth = amount;
     }
 
@@ -42,12 +61,33 @@ public class Wall : MonoBehaviour, IEnemyTarget
     private IEnumerator RespawnRoutine()
     {
         isCountingDown = true;
-        gameObject.SetActive(false);
+        SetCollidersEnabled(false);
+        SetSpriteRenderersEnabled(false);
 
         yield return new WaitForSeconds(respawnTime);
 
-        InitializeHealth(currentHealth); // reset health tracked from outside
+        // Restore health back to the wall's max health when respawning.
+        _owner.InitializeWallHealth(this);
         isCountingDown = false;
-        gameObject.SetActive(true);
+        SetCollidersEnabled(true);
+        SetSpriteRenderersEnabled(true);
+    }
+
+    private void SetCollidersEnabled(bool enabled)
+    {
+        if (_colliders == null || _colliders.Length == 0)
+            _colliders = GetComponentsInChildren<Collider2D>(includeInactive: true);
+
+        foreach (Collider2D col in _colliders)
+            if (col != null) col.enabled = enabled;
+    }
+
+    private void SetSpriteRenderersEnabled(bool enabled)
+    {
+        if (_spriteRenderers == null || _spriteRenderers.Length == 0)
+            _spriteRenderers = GetComponentsInChildren<SpriteRenderer>(includeInactive: true);
+
+        foreach (SpriteRenderer r in _spriteRenderers)
+            if (r != null) r.enabled = enabled;
     }
 }

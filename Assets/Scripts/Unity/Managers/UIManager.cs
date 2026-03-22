@@ -32,6 +32,7 @@ public class UIManager : MonoBehaviour, IInputObserver
     [Header("HUD")]
     [SerializeField] private TextMeshProUGUI coinsText;
     [SerializeField] private TextMeshProUGUI xpText;
+    [SerializeField] private GameObject pauseWindow;
 
     private const int MaxUpgradeOptions = 4;
 
@@ -43,6 +44,16 @@ public class UIManager : MonoBehaviour, IInputObserver
 
     private string _coinsLabel;
     private string _xpLabel;
+
+    private enum weaponType
+    {
+        other,
+        healingFountain,
+        snowballWeapon,
+        fireball
+    }
+    weaponType type;
+
     private void Awake()
     {
         if (inputManager   == null) inputManager   = FindObjectOfType<InputManager>();
@@ -114,7 +125,19 @@ public class UIManager : MonoBehaviour, IInputObserver
         }
     }
     #region Open/close Windows
-    public void OpenStatsWindow()
+
+    public void TogglePauseWindow()
+    {
+        if (pauseWindow.activeSelf)
+        {
+            pauseWindow.SetActive(false);
+        }
+        else
+        {
+            pauseWindow.SetActive(true);
+        }
+    }
+    private void OpenStatsWindow()
     {
         if (!Background.activeSelf)
         {
@@ -134,7 +157,7 @@ public class UIManager : MonoBehaviour, IInputObserver
         PopulateLevelUpWindow();
         Time.timeScale = 0f;
     }
-    public void OpenOrCloseLevelUpWindow()
+    private void OpenOrCloseLevelUpWindow()
     {
         if (LevelUpScreenPanel.activeSelf)
             LevelUpScreenPanel.SetActive(false);
@@ -147,7 +170,7 @@ public class UIManager : MonoBehaviour, IInputObserver
     #endregion
 
     #region Update/Populate Windows
-    public void UpdateStatsDisplay()
+    private void UpdateStatsDisplay()
     {
         foreach (Transform child in Background.transform)
             Destroy(child.gameObject);
@@ -167,7 +190,7 @@ public class UIManager : MonoBehaviour, IInputObserver
         }
     }
 
-    public void PopulateLevelUpWindow()
+    private void PopulateLevelUpWindow()
     {
         foreach (Transform child in actualLevelUpScreen.transform)
         {
@@ -197,7 +220,7 @@ public class UIManager : MonoBehaviour, IInputObserver
         }
     }
 
-    public void UpgradeWeaponAndCloseWindow(Weapon weapon)
+    private void UpgradeWeaponAndCloseWindow(Weapon weapon)
     {
         bool firstTime = !weapon.IsActive;
 
@@ -258,10 +281,32 @@ public class UIManager : MonoBehaviour, IInputObserver
             image.sprite = data.weaponSprite;
 
             // --- Choose localization entry ---
-            string weaponEntryKey =
-                weapon is HealingFountain
-                ? "Weapon.healingInfo"
-                : "Weapon.damageInfo";
+            string weaponEntryKey;
+            if (weapon is HealingFountain) 
+            {
+                type = weaponType.healingFountain;
+            }
+            else if (weapon is SnowballWeapon)
+            {
+                type = weaponType.snowballWeapon;
+            }
+            else
+            {
+                type = weaponType.other;
+            }
+
+            switch (type)
+            {
+                default:
+                    weaponEntryKey = "Weapon.damageInfo";
+                    break;
+                case weaponType.healingFountain:
+                    weaponEntryKey = "Weapon.healingInfo";
+                    break;
+                case weaponType.snowballWeapon:
+                    weaponEntryKey = "Weapon.freezeInfo";
+                    break;
+            }
 
             // --- LOCALIZE WEAPON TEXT ---
             string localizedWeaponName = L.GetLocalizedWeaponName(data.weaponName);

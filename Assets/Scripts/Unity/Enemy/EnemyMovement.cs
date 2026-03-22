@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class EnemyMovement : MonoBehaviour, ISlowable
+public class EnemyMovement : MonoBehaviour, ISlowable, IFreezable
 {
     [SerializeField] private float speed = 3f;
     [SerializeField] private Rigidbody2D rb;
@@ -30,6 +30,12 @@ public class EnemyMovement : MonoBehaviour, ISlowable
     private Vector2 _lastMoveDir;
     private bool _isWithinAttackRange;
     private bool _isAtackingPlayer;
+    private float _freezeTime;
+
+    //public state
+    public bool isFrozen => _freezeTime > 0f;
+
+
     // lifecycle
 
     private void OnEnable()
@@ -43,6 +49,11 @@ public class EnemyMovement : MonoBehaviour, ISlowable
     private void Start()
     {
         _player = FindObjectOfType<PlayerStats>();
+    }
+
+    private void Update()
+    {
+        _freezeTime -= Time.deltaTime;
     }
 
     private void FixedUpdate()
@@ -90,20 +101,18 @@ public class EnemyMovement : MonoBehaviour, ISlowable
 
     private void Move()
     {
-        if (_player == null || !_enemyStats.CheckIfAlive())
-            return;
+        if (isFrozen) { return; }
+        if (_player == null || !_enemyStats.CheckIfAlive()) {  return; }
 
         // Ranged enemies stop once inside attack range
         if (isRanged)
         {
             float dist = Vector2.Distance(transform.position, _player.transform.position);
             _isWithinAttackRange = dist <= attackRange;
-            if (_isWithinAttackRange)
-                return;
+            if (_isWithinAttackRange) { return; }
         }
 
-        if (_path == null || _pathIndex >= _path.Count)
-            return;
+        if (_path == null || _pathIndex >= _path.Count) {  return; }
 
         Vector2 target = _path[_pathIndex];
         Vector2 toTarget = target - (Vector2)transform.position;
@@ -172,5 +181,11 @@ public class EnemyMovement : MonoBehaviour, ISlowable
     public void SetAtackBool(bool atacking)
     {
         _isAtackingPlayer = atacking;
+    }
+
+    public void Freeze(float freezeTime)
+    {
+        _freezeTime = 0f;
+        _freezeTime = freezeTime;
     }
 }

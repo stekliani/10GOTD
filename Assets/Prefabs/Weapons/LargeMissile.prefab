@@ -146,6 +146,7 @@ MonoBehaviour:
   spiralDuration: 0.6
   randomSpiralDirection: 1
   hitSFX: 4
+  hitVisual: 1
 --- !u!114 &3925776153718550302
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -15,7 +15,6 @@ public class MainPoolManager : MonoBehaviour
     private Dictionary<MonoBehaviour, Pool> lookup = new();
     private List<IPoolable> _activeObjectsList = new();
     public static MainPoolManager Instance { get; private set; }
-    [HideInInspector] public bool isInitialized = false;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -24,8 +23,6 @@ public class MainPoolManager : MonoBehaviour
             return;
         }
         Instance = this;
-        DontDestroyOnLoad(gameObject);
-        isInitialized = false;
         InitializePools();
     }
 
@@ -39,7 +36,6 @@ public class MainPoolManager : MonoBehaviour
                 CreateOne(pool);
             lookup[pool.prefab] = pool;
         }
-        isInitialized = true;
     }
 
     private IPoolable CreateOne(Pool pool)

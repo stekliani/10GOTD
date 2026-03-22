@@ -12,18 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b063ebfa05668d4e859b8e5d0e95332, type: 3}
   m_Name: Wall
   m_EditorClassIdentifier: 
-  weaponSprite: {fileID: 0}
-  weaponName: 
-  baseWeaponLevel: 0
-  baseWeaponUpgradeCost: 0
-  baseUpgradeCostPerLevel: 0
+  weaponSprite: {fileID: 233393259, guid: 703cef155f3c8b5419bcf2ba48ada346, type: 3}
+  weaponName: WeaponName.wall
+  baseWeaponLevel: 1
+  baseWeaponUpgradeCost: 20
+  baseUpgradeCostPerLevel: 20
   baseUpgradeLevel: 0
   baseDamage: 0
   baseSpeed: 0
-  baseInterval: 0
+  baseInterval: 5
   baseSlowAmount: 0
   baseLifetime: 0
-  baseHealth: 0
+  baseHealth: 50
   baseArmor: 0
   baseHealingMultiplier: 0
   WeaponLevel: 0

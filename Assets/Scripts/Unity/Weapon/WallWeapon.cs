@@ -11,7 +11,9 @@ public class WallWeapon : Weapon
     protected new void Awake()
     {
         base.Awake();
-        GetWalls();
+        GameObject holderInstance = Instantiate(_wallsHolder, transform);
+
+        GetWalls(holderInstance);
 
         _maxHealth = data.Health;
 
@@ -45,12 +47,20 @@ public class WallWeapon : Weapon
         }
     }
 
-    private void GetWalls()
+
+    private void GetWalls(GameObject holderRoot)
     {
+        _walls.Clear();
         // GetComponentsInChildren works on components, not GameObjects
-        foreach (Wall wall in _wallsHolder.GetComponentsInChildren<Wall>(includeInactive: true))
+        foreach (Wall wall in holderRoot.GetComponentsInChildren<Wall>(includeInactive: true))
         {
             _walls.Add(wall);
         }
+    }
+
+    public void InitializeWallHealth(Wall wall)
+    {
+        _maxHealth = data.Health;
+        wall.InitializeHealth(_maxHealth);
     }
 }

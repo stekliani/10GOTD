@@ -40,6 +40,14 @@ MonoBehaviour:
       Level: {1}'
     m_Metadata:
       m_Items: []
+  - m_Id: 6224228837441536
+    m_Localized: '{0}
+
+      Level: {1}
+
+      Freeze duration: {4}'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

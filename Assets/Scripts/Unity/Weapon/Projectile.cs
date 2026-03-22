@@ -11,6 +11,9 @@ public class Projectile : AnimationSubject,IPoolable
     [Header("Hit SFX")]
     [SerializeField] private SoundActions hitSFX;
 
+    [Header("Hit Visual")]
+    [SerializeField] private AnimationActions hitVisual;
+
     private float _damage;
     private float _speed;
     private bool _isHoming;
@@ -141,10 +144,14 @@ public class Projectile : AnimationSubject,IPoolable
         _hasDamagedEnemy = true;
 
         int layer = enemy.gameObject.layer;
-        if (layer == LayerMask.NameToLayer("GroundEnemy"))
-            NotifyObservers(AnimationActions.PlayGroundExplosion, enemy.transform.position);
-        else if (layer == LayerMask.NameToLayer("FlyingEnemy")) 
-            NotifyObservers(AnimationActions.PlayMidAirExplosion, enemy.transform.position);
+
+        if (hitVisual != AnimationActions.none)
+        {
+            if (layer == LayerMask.NameToLayer("GroundEnemy"))
+                NotifyObservers(AnimationActions.PlayGroundExplosion, enemy.transform.position);
+            else if (layer == LayerMask.NameToLayer("FlyingEnemy"))
+                NotifyObservers(AnimationActions.PlayMidAirExplosion, enemy.transform.position);
+        }
 
 
         SoundEventBus.Raise(hitSFX);

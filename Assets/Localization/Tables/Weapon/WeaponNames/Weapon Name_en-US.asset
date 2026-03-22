@@ -23,11 +23,19 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 370430132224
-    m_Localized: Missile
+    m_Localized: Missile launcher
     m_Metadata:
       m_Items: []
   - m_Id: 781807468544
     m_Localized: Healing Fountain
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5538144226852864
+    m_Localized: Wall
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6201225818882048
+    m_Localized: Snowball
     m_Metadata:
       m_Items: []
   references:

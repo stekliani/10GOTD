@@ -10,19 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8b063ebfa05668d4e859b8e5d0e95332, type: 3}
-  m_Name: RocketLauncher 1
+  m_Name: Snowball
   m_EditorClassIdentifier: 
-  weaponSprite: {fileID: 1089178045, guid: fcc2ac9d8c6a20c4283a2de1952421c1, type: 3}
-  weaponName: small missile
+  weaponSprite: {fileID: -20370583, guid: bf057976a53f2694ca87314e28fbf445, type: 3}
+  weaponName: WeaponName.snowball
   baseWeaponLevel: 1
   baseWeaponUpgradeCost: 20
-  baseUpgradeCostPerLevel: 5
+  baseUpgradeCostPerLevel: 50
   baseUpgradeLevel: 0
-  baseDamage: 100
-  baseSpeed: 20
-  baseInterval: 1
+  baseDamage: 0
+  baseSpeed: 100
+  baseInterval: 5
   baseSlowAmount: 0
-  baseLifetime: 1
+  baseFreezeDuration: 2
+  baseAmount: 1
+  baseLifetime: 5
   baseHealth: 0
   baseArmor: 0
   baseHealingMultiplier: 0
@@ -30,11 +32,13 @@ MonoBehaviour:
   UpgradeLevel: 0
   WeaponUpgradeCost: 0
   UpgradeCostPerLevel: 0
+  Amount: 0
   Damage: 0
   Speed: 0
   Interval: 0
   Area: 0
   SlowAmount: 0
+  FreezeDuration: 0
   Lifetime: 0
   Health: 0
   Armor: 0

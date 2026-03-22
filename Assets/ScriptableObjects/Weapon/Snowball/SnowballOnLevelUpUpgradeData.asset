@@ -9,16 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56a67904ecd397541a3dddecedd147ed, type: 3}
-  m_Name: RocketLauncher1RuntimeupgradeData
+  m_Script: {fileID: 11500000, guid: e9968faf4271a344c9427e428dd63da7, type: 3}
+  m_Name: SnowballOnLevelUpUpgradeData
   m_EditorClassIdentifier: 
-  WeaponLevel: 0
-  UpgradeLevel: 1
-  Damage: 5
-  Speed: 0
-  Interval: 0
-  Area: 0
+  WeaponLevel: 1
+  Damage: 0
+  Speed: 1
+  Interval: -0.4
   SlowAmount: 0
-  Lifetime: 0
+  FreezeDuration: 0
+  Amount: 1
+  Lifetime: 1
   Health: 0
   Armor: 0
+  HealingMultiplier: 0

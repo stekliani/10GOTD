@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 371766727, guid: 442bd12c3b80c4a41a6c7a2c2a0478fc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -279,8 +279,8 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 512
-  avoidanceRadius: 1.5
-  avoidanceStrength: 1.5
+  pathRefreshInterval: 0.3
+  waypointReachRadius: 0.1
 --- !u!114 &208480711580934407
 MonoBehaviour:
   m_ObjectHideFlags: 0
