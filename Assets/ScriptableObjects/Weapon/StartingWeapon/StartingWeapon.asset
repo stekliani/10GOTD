@@ -20,8 +20,10 @@ MonoBehaviour:
   baseUpgradeLevel: 0
   baseDamage: 100
   baseSpeed: 50
-  baseInterval: 1
+  baseInterval: 2
   baseSlowAmount: 0
+  baseFreezeDuration: 0
+  baseAmount: 0
   baseLifetime: 1
   baseHealth: 0
   baseArmor: 0
@@ -30,11 +32,13 @@ MonoBehaviour:
   UpgradeLevel: 0
   WeaponUpgradeCost: 0
   UpgradeCostPerLevel: 0
+  Amount: 0
   Damage: 0
   Speed: 0
   Interval: 0
   Area: 0
   SlowAmount: 0
+  FreezeDuration: 0
   Lifetime: 0
   Health: 0
   Armor: 0

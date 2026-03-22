@@ -17,9 +17,6 @@ public class GameManager : MonoBehaviour
         }
 
         Instance = this;
-
-        Time.timeScale = 1f;
-
         _spawnManager = FindObjectOfType<SpawnManager>();
         _playerStats = FindObjectOfType<PlayerStats>();
     }

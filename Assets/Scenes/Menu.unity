@@ -735,9 +735,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 383830858}
-        m_TargetAssemblyTypeName: BaseStatsUpgradeManager, GameAssembly
-        m_MethodName: CloseUpgradesWindow
+      - m_Target: {fileID: 793617255}
+        m_TargetAssemblyTypeName: ChangeScene, GameAssembly
+        m_MethodName: CloseMenuMetaUpgradesWindow
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3776,7 +3776,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upgradeWindow: {fileID: 1789667136}
   settingsWindow: {fileID: 625289390}
-  baseStatsUpgradeManager: {fileID: 383830858}
 --- !u!1 &801176088
 GameObject:
   m_ObjectHideFlags: 0
@@ -6368,9 +6367,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 383830858}
-        m_TargetAssemblyTypeName: BaseStatsUpgradeManager, GameAssembly
-        m_MethodName: SaveUpgrades
+      - m_Target: {fileID: 793617255}
+        m_TargetAssemblyTypeName: ChangeScene, GameAssembly
+        m_MethodName: SaveMenuMetaProgress
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

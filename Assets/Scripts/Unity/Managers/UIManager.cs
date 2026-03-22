@@ -50,7 +50,8 @@ public class UIManager : MonoBehaviour, IInputObserver
         other,
         healingFountain,
         snowballWeapon,
-        fireball
+        fireball,
+        wall,
     }
     weaponType type;
 
@@ -290,6 +291,10 @@ public class UIManager : MonoBehaviour, IInputObserver
             {
                 type = weaponType.snowballWeapon;
             }
+            else if (weapon is WallWeapon)
+            {
+                type = weaponType.wall;
+            }
             else
             {
                 type = weaponType.other;
@@ -305,6 +310,9 @@ public class UIManager : MonoBehaviour, IInputObserver
                     break;
                 case weaponType.snowballWeapon:
                     weaponEntryKey = "Weapon.freezeInfo";
+                    break;
+                case weaponType.wall:
+                    weaponEntryKey = "Weapon.wallInfo";
                     break;
             }
 

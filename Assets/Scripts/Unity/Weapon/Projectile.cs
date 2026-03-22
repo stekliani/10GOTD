@@ -140,7 +140,9 @@ public class Projectile : AnimationSubject,IPoolable
         EnemyStats enemy = collision.GetComponentInParent<EnemyStats>();
         if (enemy == null) return;
 
-        enemy.TakeDamage(_damage);
+        if (!enemy.TryTakeDamage(_damage))
+            return;
+
         _hasDamagedEnemy = true;
 
         int layer = enemy.gameObject.layer;

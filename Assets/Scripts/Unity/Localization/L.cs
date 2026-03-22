@@ -98,6 +98,7 @@ public static class L
         data.Damage * damageMultiplier,
         data.HealingMultiplier,
         data.FreezeDuration,
+        data.Health,
         };
 
         localizer.RefreshString();

@@ -6,7 +6,6 @@ public class ChangeScene : MonoBehaviour
     private PlayerStats _player;
     [SerializeField] private GameObject upgradeWindow;
     [SerializeField] private GameObject settingsWindow;
-    [SerializeField] private BaseStatsUpgradeManager baseStatsUpgradeManager;
 
     private string mainMenuSceneName = SceneLoader.Scene.Menu.ToString();
     private string level1SceneName = SceneLoader.Scene.Level1.ToString();
@@ -36,9 +35,14 @@ public class ChangeScene : MonoBehaviour
         else
         {
             upgradeWindow?.SetActive(true);
-            baseStatsUpgradeManager.PopulateUpgradesMenu();
+            BaseStatsUpgradeManager.Instance?.PopulateUpgradesMenu();
         }
     }
+
+    /// <summary>Wire menu buttons to this (scene-local) so UnityEvents survive menu reload; forwards to the DDOL singleton.</summary>
+    public void SaveMenuMetaProgress() => BaseStatsUpgradeManager.Instance?.SaveUpgrades();
+
+    public void CloseMenuMetaUpgradesWindow() => BaseStatsUpgradeManager.Instance?.CloseUpgradesWindow();
 
     public void ToggleSettingsWindow()
     {

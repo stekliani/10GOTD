@@ -63,7 +63,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 4337352523776
-    m_Localized: Cooldown Reduction {0}
+    m_Localized: Cooldown Reduction {0}%
     m_Metadata:
       m_Items: []
   - m_Id: 4890128236544

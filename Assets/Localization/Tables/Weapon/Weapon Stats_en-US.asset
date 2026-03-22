@@ -48,6 +48,14 @@ MonoBehaviour:
       Freeze duration: {4}'
     m_Metadata:
       m_Items: []
+  - m_Id: 6577033216864256
+    m_Localized: '{0}
+
+      Level: {1}
+
+      Wall health: {5}'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

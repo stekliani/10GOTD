@@ -97,14 +97,21 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
         proj.AcquireTarget(_playerInventory.gameObject);
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage) => TryTakeDamage(damage);
+
+    /// <summary>
+    /// Returns false if the enemy was already dead or damage was invalid, so callers can pierce (e.g. another projectile killed it this frame).
+    /// </summary>
+    public bool TryTakeDamage(float damage)
     {
-        if (!_isAlive || damage <= 0) return;
+        if (!_isAlive || damage <= 0) return false;
 
         _currentHealth -= damage;
 
         if (_currentHealth <= 0)
             Die();
+
+        return true;
     }
 
     public void ApplySlow(float amount) => _enemyMovement?.SetSpeed(-amount);

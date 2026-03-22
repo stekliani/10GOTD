@@ -31,6 +31,10 @@ MonoBehaviour:
     m_Key: Weapon.freezeInfo
     m_Metadata:
       m_Items: []
+  - m_Id: 6577033216864256
+    m_Key: Weapon.wallInfo
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

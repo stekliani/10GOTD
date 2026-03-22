@@ -14,6 +14,7 @@ public class LoadingScreen : MonoBehaviour
     [SerializeField] private Slider progressBar;
     [SerializeField] private TMP_Text progressText;
     private string _sceneToLoad = SceneLoader.Scene.Menu.ToString();
+    private Scene _loadedScene;
 
     private void Awake()
     {
@@ -62,8 +63,12 @@ public class LoadingScreen : MonoBehaviour
         Scene loaded = SceneManager.GetSceneByName(_sceneToLoad);
         if (loaded.IsValid())
         {
+            _loadedScene = loaded;
+
             SceneManager.SetActiveScene(loaded);
             PauseGame();
+
+            MuteSceneAudio(_loadedScene);
         }
 
         // Two EventSystems (Loading + Menu) while additive — disable Loading's; continue uses Input System.
@@ -81,6 +86,7 @@ public class LoadingScreen : MonoBehaviour
 
         // Paused after Menu became active — resume here so gameplay / UI timers run again before we unload Loading.
         ResumeGame();
+        UnmuteSceneAudio(_loadedScene);
 
         if (!string.IsNullOrEmpty(loadingSceneName))
             yield return SceneManager.UnloadSceneAsync(loadingSceneName);
@@ -172,5 +178,27 @@ public class LoadingScreen : MonoBehaviour
     private void PauseGame()
     {
         Time.timeScale = 0f;
+    }
+
+    private static void MuteSceneAudio(Scene scene)
+    {
+        foreach (var audio in UnityEngine.Object.FindObjectsOfType<AudioSource>(true))
+        {
+            if (audio.gameObject.scene == scene)
+            {
+                audio.mute = true;
+            }
+        }
+    }
+
+    private static void UnmuteSceneAudio(Scene scene)
+    {
+        foreach (var audio in UnityEngine.Object.FindObjectsOfType<AudioSource>(true))
+        {
+            if (audio.gameObject.scene == scene)
+            {
+                audio.mute = false;
+            }
+        }
     }
 }

@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Localization.Components;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 public class BaseStatsUpgradeManager :
     MonoBehaviour,
@@ -29,18 +30,73 @@ public class BaseStatsUpgradeManager :
 
     private void OnEnable()
     {
-        PopulateUpgradesMenu();
+        if (contentGameobject != null && MainMenuUpgradeTemplate != null)
+            PopulateUpgradesMenu();
     }
 
     private void Awake()
     {
         if (Instance != null && Instance != this)
         {
+            Instance.AdoptMenuUiFrom(this);
             Destroy(gameObject);
             return;
         }
 
         Instance = this;
+
+        DontDestroyOnLoad(gameObject);
+        SceneManager.sceneLoaded += HandleMenuSceneLoaded;
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+            SceneManager.sceneLoaded -= HandleMenuSceneLoaded;
+    }
+
+    /// <summary>
+    /// When the menu scene loads again, a second BaseStatsUpgradeManager exists with valid UI refs.
+    /// The singleton (DDOL) keeps save state; we copy fresh scene references onto it before destroying the duplicate.
+    /// </summary>
+    private void HandleMenuSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (Instance == null) return;
+        if (!scene.name.Equals(SceneLoader.Scene.Menu.ToString(), StringComparison.Ordinal))
+            return;
+
+        foreach (var m in FindObjectsOfType<BaseStatsUpgradeManager>(true))
+        {
+            if (m == Instance) continue;
+            Instance.AdoptMenuUiFrom(m);
+            Destroy(m.gameObject);
+            break;
+        }
+    }
+
+    /// <summary>
+    /// Copies UI references from a freshly loaded menu instance onto the persistent singleton.
+    /// </summary>
+    public void AdoptMenuUiFrom(BaseStatsUpgradeManager other)
+    {
+        if (other == null) return;
+
+        contentGameobject = other.contentGameobject;
+        MainMenuUpgradeTemplate = other.MainMenuUpgradeTemplate;
+        playerDataSO = other.playerDataSO;
+        upgradePanel = other.upgradePanel;
+        diamondsText = other.diamondsText;
+        applyButtonText = other.applyButtonText;
+        closeButtonText = other.closeButtonText;
+
+        diamondsLocalizeEvent = null;
+        applyButtonLocalizeEvent = null;
+        closeButtonLocalizeEvent = null;
+        setDiamondsTextAction = null;
+        setApplyButtonTextAction = null;
+        setCloseButtonTextAction = null;
+
+        PopulateUpgradesMenu();
     }
 
     private void Start()
@@ -58,6 +114,8 @@ public class BaseStatsUpgradeManager :
 
     public void PopulateUpgradesMenu()
     {
+        if (contentGameobject == null || MainMenuUpgradeTemplate == null)
+            return;
 
         PlayerStatEntry[] stats = GetEntityStats();
 
@@ -83,9 +141,11 @@ public class BaseStatsUpgradeManager :
             statButton.interactable = cached.canUpgrade(diamonds, cached.currentUpgradeLevel, cached.maxUpgradeLevel);
             statButton.onClick.AddListener(() =>
             {
-
+                // Cost must be read before UpgradeStatFromMenu — GetUpgradeCost() uses currentUpgradeLevel,
+                // which increments inside UpgradeStatFromMenu, so reading after would charge the *next* tier.
+                int cost = cached.GetUpgradeCost();
                 cached.UpgradeStatFromMenu();
-                diamonds -= cached.GetUpgradeCost();
+                diamonds -= cost;
                 PopulateUpgradesMenu();
             });
 
@@ -122,7 +182,8 @@ public class BaseStatsUpgradeManager :
 
     public void CloseUpgradesWindow()
     {
-        upgradePanel.SetActive(false);
+        if (upgradePanel != null)
+            upgradePanel.SetActive(false);
     }
     private void ResetUpgrades()
     {
