@@ -38,6 +38,10 @@ MonoBehaviour:
     m_Localized: Snowball
     m_Metadata:
       m_Items: []
+  - m_Id: 6916001440194560
+    m_Localized: Fireball
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

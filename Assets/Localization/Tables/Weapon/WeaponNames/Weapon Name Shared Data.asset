@@ -35,6 +35,10 @@ MonoBehaviour:
     m_Key: WeaponName.snowball
     m_Metadata:
       m_Items: []
+  - m_Id: 6916001440194560
+    m_Key: WeaponName.fireball
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

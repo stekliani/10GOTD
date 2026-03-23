@@ -12,19 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b063ebfa05668d4e859b8e5d0e95332, type: 3}
   m_Name: FireballWeaponData
   m_EditorClassIdentifier: 
-  weaponSprite: {fileID: 0}
-  weaponName: 
-  baseWeaponLevel: 0
+  weaponSprite: {fileID: -801245748, guid: 2286ea2ffdce69c4890e3e86705497a7, type: 3}
+  weaponName: WeaponName.fireball
+  baseWeaponLevel: 1
   baseWeaponUpgradeCost: 0
   baseUpgradeCostPerLevel: 0
   baseUpgradeLevel: 0
-  baseDamage: 0
-  baseSpeed: 0
-  baseInterval: 0
+  baseDamage: 100
+  baseSpeed: 100
+  baseInterval: 5
   baseSlowAmount: 0
   baseFreezeDuration: 0
-  baseAmount: 0
-  baseLifetime: 0
+  baseAmount: 1
+  baseLifetime: 5
   baseHealth: 0
   baseArmor: 0
   baseHealingMultiplier: 0
