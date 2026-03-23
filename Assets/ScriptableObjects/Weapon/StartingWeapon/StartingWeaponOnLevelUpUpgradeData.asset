@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: StartingWeaponOnLevelUpUpgradeData
   m_EditorClassIdentifier: 
   WeaponLevel: 1
-  Damage: 10
+  Damage: 20
   Speed: 0
-  Interval: 0
+  Interval: 0.3
   SlowAmount: 0
   FreezeDuration: 0
   Amount: 2

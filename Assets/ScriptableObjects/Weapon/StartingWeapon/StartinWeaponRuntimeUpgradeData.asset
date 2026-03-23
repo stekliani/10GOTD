@@ -16,7 +16,7 @@ MonoBehaviour:
   UpgradeLevel: 1
   Damage: 5
   Speed: 0
-  Interval: 0.05
+  Interval: 0
   SlowAmount: 0
   FreezeDuration: 0
   Amount: 0
