@@ -45,14 +45,23 @@ public class EnemySpawnConfigDrawer : PropertyDrawer
 
         float lineHeight = EditorGUIUtility.singleLineHeight;
         float padding = 2f;
+        float sectionGap = 6f;
 
         var prefabProp = property.FindPropertyRelative("prefab");
         var countProp = property.FindPropertyRelative("spawnCount");
         var intervalProp = property.FindPropertyRelative("spawnInterval");
+        var affectedStatsProp = property.FindPropertyRelative("affectedStats");
 
-        Rect prefabRect = new Rect(position.x, position.y, position.width, lineHeight);
-        Rect countRect = new Rect(position.x, position.y + lineHeight + padding, position.width, lineHeight);
-        Rect intervalRect = new Rect(position.x, position.y + 2 * (lineHeight + padding), position.width, lineHeight);
+        float y = position.y;
+        Rect prefabRect = new Rect(position.x, y, position.width, lineHeight);
+        y += lineHeight + padding;
+        Rect countRect = new Rect(position.x, y, position.width, lineHeight);
+        y += lineHeight + padding;
+        Rect intervalRect = new Rect(position.x, y, position.width, lineHeight);
+        y += lineHeight + sectionGap;
+        Rect scalingHeaderRect = new Rect(position.x, y, position.width, lineHeight);
+        y += lineHeight + padding;
+        Rect affectedStatsRect = new Rect(position.x, y, position.width, lineHeight);
 
         // ----- Current selection -----
         int currentIndex = -1;
@@ -81,6 +90,8 @@ public class EnemySpawnConfigDrawer : PropertyDrawer
         // ----- Other fields -----
         EditorGUI.PropertyField(countRect, countProp);
         EditorGUI.PropertyField(intervalRect, intervalProp);
+        EditorGUI.LabelField(scalingHeaderRect, "Wave Stat Scaling", EditorStyles.boldLabel);
+        EditorGUI.PropertyField(affectedStatsRect, affectedStatsProp);
 
         EditorGUI.EndProperty();
     }
@@ -90,6 +101,10 @@ public class EnemySpawnConfigDrawer : PropertyDrawer
     {
         float lineHeight = EditorGUIUtility.singleLineHeight;
         float padding = 2f;
-        return lineHeight * 3 + padding * 4;
+        float sectionGap = 6f;
+
+        // 5 lines: prefab, count, interval, scaling header, affected stats
+        // plus regular paddings and one larger section gap.
+        return lineHeight * 5 + padding * 4 + sectionGap;
     }
 }

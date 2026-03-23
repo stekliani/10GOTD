@@ -325,14 +325,22 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 758617068986793916, guid: fba23634a2f083c4ebd1e53013cd8659, type: 3}
       propertyPath: pools.Array.size
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 758617068986793916, guid: fba23634a2f083c4ebd1e53013cd8659, type: 3}
       propertyPath: pools.Array.data[10].prefab
       value: 
       objectReference: {fileID: 4748218824652439937, guid: b2d71f92a8147a74880fb40a729e28f3, type: 3}
     - target: {fileID: 758617068986793916, guid: fba23634a2f083c4ebd1e53013cd8659, type: 3}
+      propertyPath: pools.Array.data[11].prefab
+      value: 
+      objectReference: {fileID: 5032803961342074220, guid: 1543d5e7ba121a04fa82c68f679c8f93, type: 3}
+    - target: {fileID: 758617068986793916, guid: fba23634a2f083c4ebd1e53013cd8659, type: 3}
       propertyPath: pools.Array.data[10].initialSize
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 758617068986793916, guid: fba23634a2f083c4ebd1e53013cd8659, type: 3}
+      propertyPath: pools.Array.data[11].initialSize
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7267352480876784121, guid: fba23634a2f083c4ebd1e53013cd8659, type: 3}
@@ -19572,6 +19580,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 443e8f52f3036c9479a18a16516151f4, type: 2}
   - {fileID: 11400000, guid: 15d5d5f60138c004582eead38c1e2895, type: 2}
   - {fileID: 11400000, guid: 5ecb913c6ad47af43a69ad9aac6d2305, type: 2}
+  enableWaveStatScaling: 1
+  scalingStartsAtWave: 2
+  bonusPercentPerWave: 1
+  maxBonusPercent: 100
 --- !u!224 &2537430212757185913
 RectTransform:
   m_ObjectHideFlags: 0
@@ -19968,6 +19980,10 @@ PrefabInstance:
     - target: {fileID: 5209770440514045021, guid: 8bc21d4791161c94b8fe5fde3cb7e675, type: 3}
       propertyPath: maxHealth.statNameKey
       value: Stat.maxHealth
+      objectReference: {fileID: 0}
+    - target: {fileID: 5209770440514045021, guid: 8bc21d4791161c94b8fe5fde3cb7e675, type: 3}
+      propertyPath: amount.maxUpgradeLevel
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5209770440514045021, guid: 8bc21d4791161c94b8fe5fde3cb7e675, type: 3}
       propertyPath: damageBoost.statNameKey

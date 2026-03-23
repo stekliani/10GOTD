@@ -13,18 +13,26 @@ public class SpawnManager : MonoBehaviour
         public int        remaining;
         public float      timer;
         public float      interval;
+        public WaveAffectedEnemyStats affectedStats;
     }
 
     private class WaveRuntime
     {
         public bool                      isActive;
+        public bool                      isSpawningComplete;
         public bool                      isComplete;
+        public int                       aliveEnemies;
         public int                       diamondsReward;
         public List<EnemyVariantRuntime> variants = new();
     }
 
     [SerializeField] private float      spawnRadius = 10f;
     [SerializeField] private WaveDataSO[] wavesArray;
+    [Header("Wave Enemy Stat Scaling")]
+    [SerializeField] private bool enableWaveStatScaling = true;
+    [SerializeField, Min(1)] private int scalingStartsAtWave = 2;
+    [SerializeField, Min(0f)] private float bonusPercentPerWave = 1f;
+    [SerializeField, Min(0f)] private float maxBonusPercent = 100f;
 
     private Transform         _playerTransform;
     private PlayerStats _playerStats;
@@ -59,7 +67,14 @@ public class SpawnManager : MonoBehaviour
         _waves.Clear();
         foreach (WaveDataSO so in wavesArray)
         {
-            WaveRuntime runtime = new() { isActive = false, isComplete = false, diamondsReward = 0 };
+            WaveRuntime runtime = new()
+            {
+                isActive = false,
+                isSpawningComplete = false,
+                isComplete = false,
+                aliveEnemies = 0,
+                diamondsReward = so.diamondsReward
+            };
             foreach (EnemySpawnConfig cfg in so.variants)
             {
                 runtime.variants.Add(new EnemyVariantRuntime
@@ -67,9 +82,9 @@ public class SpawnManager : MonoBehaviour
                     prefab    = cfg.prefab,
                     remaining = cfg.spawnCount,
                     interval  = cfg.spawnInterval,
-                    timer     = 0f
+                    timer     = 0f,
+                    affectedStats = cfg.affectedStats
                 });
-                runtime.diamondsReward += cfg.diamonds;
             }
             _waves.Add(runtime);
         }
@@ -126,8 +141,9 @@ public class SpawnManager : MonoBehaviour
     {
         if (_playerTransform == null) return;
 
-        foreach (WaveRuntime wave in _waves)
+        for (int waveIndex = 0; waveIndex < _waves.Count; waveIndex++)
         {
+            WaveRuntime wave = _waves[waveIndex];
             if (!wave.isActive) continue;
 
             foreach (EnemyVariantRuntime variant in wave.variants)
@@ -136,21 +152,24 @@ public class SpawnManager : MonoBehaviour
                 variant.timer -= Time.deltaTime;
                 if (variant.timer <= 0f)
                 {
-                    SpawnOnEdge(variant.prefab);
+                    SpawnOnEdge(variant.prefab, waveIndex, variant.affectedStats);
                     variant.remaining--;
                     variant.timer = variant.interval;
                 }
             }
 
-            if (AllEnemiesFinishedInWave(wave))
+            if (!wave.isSpawningComplete && AllEnemiesFinishedInWave(wave))
             {
-                if (!wave.isComplete)
-                {
-                    wave.isComplete = true;
-                }
+                wave.isSpawningComplete = true;
 
                 if (wave == _waves[_highestActiveIndex])
                     ActivateNextWave();
+            }
+
+            // Reward completion now means: wave finished spawning AND all enemies from it are dead.
+            if (wave.isSpawningComplete && !wave.isComplete && wave.aliveEnemies <= 0)
+            {
+                wave.isComplete = true;
             }
         }
     }
@@ -185,18 +204,38 @@ public class SpawnManager : MonoBehaviour
         return sum;
     }
 
-    private void SpawnOnEdge(EnemyStats prefab)
+    private void SpawnOnEdge(EnemyStats prefab, int waveIndex, WaveAffectedEnemyStats affectedStats)
     {
         Vector2 dir = UnityEngine.Random.insideUnitCircle.normalized;
         Vector3 spawnPos = _playerTransform.position + (Vector3)(dir * GetSpawnRadius());
 
         GameObject go = MainPoolManager.Instance.Get(prefab);
         EnemyStats enemy = go.GetComponent<EnemyStats>();
+        int waveNumber = waveIndex + 1;
+        float waveMultiplier = GetWaveStatMultiplier(waveNumber);
+        _waves[waveIndex].aliveEnemies++;
+        enemy.SetOnDeathCallback(() => OnEnemyDiedFromWave(waveIndex));
+        enemy.ConfigureWaveScaling(waveMultiplier, affectedStats);
 
         enemy.transform.position = spawnPos;
         enemy.transform.rotation = Quaternion.identity;
         enemy.SetPlayerReferences(_playerLevels, _playerInventory);
         enemy.gameObject.SetActive(true);
+    }
+
+    private void OnEnemyDiedFromWave(int waveIndex)
+    {
+        if (waveIndex < 0 || waveIndex >= _waves.Count) return;
+        _waves[waveIndex].aliveEnemies = Mathf.Max(0, _waves[waveIndex].aliveEnemies - 1);
+    }
+
+    private float GetWaveStatMultiplier(int waveNumber)
+    {
+        if (!enableWaveStatScaling) return 1f;
+        if (waveNumber < scalingStartsAtWave) return 1f;
+
+        float bonusPercent = Mathf.Min(maxBonusPercent, waveNumber * bonusPercentPerWave);
+        return 1f + (bonusPercent / 100f);
     }
 
     private float GetSpawnRadius()

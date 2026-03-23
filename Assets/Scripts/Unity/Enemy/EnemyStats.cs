@@ -26,6 +26,20 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
     private CancellationTokenSource _cts;
     private Collider2D[] _colliders;
     private bool _isAlive = false;
+    private float _baseMaxHealth;
+    private float _baseDamagePerSecond;
+    private float _baseAttackInterval;
+    private float _baseXpReward;
+    private int _baseCoinReward;
+    private float _runtimeMaxHealth;
+    private float _runtimeDamagePerSecond;
+    private float _runtimeAttackInterval;
+    private float _runtimeXpReward;
+    private int _runtimeCoinReward;
+    private float _runtimeProjectileDamageMultiplier = 1f;
+    private float _waveMultiplier = 1f;
+    private WaveAffectedEnemyStats _scaledStats = WaveAffectedEnemyStats.None;
+    private System.Action _onDeathCallback;
 
     public MonoBehaviour PrefabKey { get; private set; }
     public static readonly List<EnemyStats> ActiveEnemies = new();
@@ -41,6 +55,11 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
     {
         _enemyAnimationController = GetComponent<EnemyAnimationController>();
         _enemyMovement = GetComponent<EnemyMovement>();
+        _baseMaxHealth = maxHealth;
+        _baseDamagePerSecond = damagePerSecond;
+        _baseAttackInterval = attackInterval;
+        _baseXpReward = xpReward;
+        _baseCoinReward = coinReward;
     }
 
     private void OnEnable()
@@ -49,10 +68,11 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
         _isAlive = true;
 
         EnableColliders();
+        ApplyRuntimeStatsFromBase();
+        ApplyWaveScaling();
         ResetState();
-
-        _currentHealth = maxHealth;
-        _currentAttackInterval = attackInterval;
+        _currentHealth = _runtimeMaxHealth;
+        _currentAttackInterval = _runtimeAttackInterval;
 
         ActiveEnemies.Add(this);
         AliveEnemiesCount++;
@@ -63,6 +83,7 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
         _cts?.Cancel();
         _cts?.Dispose();
         _cts = null;
+        _onDeathCallback = null;
 
         ActiveEnemies.Remove(this);
         AliveEnemiesCount--;
@@ -79,7 +100,7 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
         if (_enemyMovement.CheckIfRangedEnemyCanAttack() && _currentAttackInterval <= 0)
         {
             FireProjectile();
-            _currentAttackInterval = attackInterval;
+            _currentAttackInterval = _runtimeAttackInterval;
         }
     }
 
@@ -94,6 +115,7 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
         var proj = go.GetComponent<RangedEnemyProjectile>();
         proj.transform.position = transform.position;
         proj.gameObject.SetActive(true);
+        proj.SetDamageMultiplier(_runtimeProjectileDamageMultiplier);
         proj.AcquireTarget(_playerInventory.gameObject);
     }
 
@@ -143,7 +165,7 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
     {
         if (collision.TryGetComponent(out IEnemyTarget player))
         {
-            player.TakeDamage(damagePerSecond * Time.deltaTime);
+            player.TakeDamage(_runtimeDamagePerSecond * Time.deltaTime);
         }
     }
 
@@ -151,9 +173,11 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
     {
         _isAlive = false;
         DisableColliders();
+        _onDeathCallback?.Invoke();
+        _onDeathCallback = null;
 
-        _playerLevels?.AddXp(xpReward);
-        _playerInventory?.AddCoins(coinReward);
+        _playerLevels?.AddXp(_runtimeXpReward);
+        _playerInventory?.AddCoins(_runtimeCoinReward);
         _enemyAnimationController.ChangeAnimation(EnemyAnimations.dying);
 
         ReturnToPool(GetDeathAnimationTime());
@@ -174,7 +198,7 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
 
     private void ResetState()
     {
-        _currentHealth = maxHealth;
+        _currentHealth = _runtimeMaxHealth;
         _contactCount = 0;
         StopAllCoroutines();
         _enemyAnimationController?.ResetToDefaults();
@@ -203,6 +227,48 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
     }
 
     public bool CheckIfAlive() => _isAlive;
+
+    public void ConfigureWaveScaling(float multiplier, WaveAffectedEnemyStats affectedStats)
+    {
+        _waveMultiplier = Mathf.Max(0f, multiplier);
+        _scaledStats = affectedStats;
+    }
+
+    public void SetOnDeathCallback(System.Action onDeathCallback)
+    {
+        _onDeathCallback = onDeathCallback;
+    }
+
+    private void ApplyRuntimeStatsFromBase()
+    {
+        _runtimeMaxHealth = _baseMaxHealth;
+        _runtimeDamagePerSecond = _baseDamagePerSecond;
+        _runtimeAttackInterval = _baseAttackInterval;
+        _runtimeXpReward = _baseXpReward;
+        _runtimeCoinReward = _baseCoinReward;
+        _runtimeProjectileDamageMultiplier = 1f;
+    }
+
+    private void ApplyWaveScaling()
+    {
+        if ((_scaledStats & WaveAffectedEnemyStats.Health) != 0)
+            _runtimeMaxHealth *= _waveMultiplier;
+
+        if ((_scaledStats & WaveAffectedEnemyStats.Damage) != 0)
+        {
+            _runtimeDamagePerSecond *= _waveMultiplier;
+            _runtimeProjectileDamageMultiplier = _waveMultiplier;
+        }
+
+        if ((_scaledStats & WaveAffectedEnemyStats.XpReward) != 0)
+            _runtimeXpReward *= _waveMultiplier;
+
+        if ((_scaledStats & WaveAffectedEnemyStats.CoinReward) != 0)
+            _runtimeCoinReward = Mathf.RoundToInt(_runtimeCoinReward * _waveMultiplier);
+
+        float speedMultiplier = (_scaledStats & WaveAffectedEnemyStats.MoveSpeed) != 0 ? _waveMultiplier : 1f;
+        _enemyMovement?.SetWaveSpeedMultiplier(speedMultiplier);
+    }
 
     public static class AwaitExtensions
     {

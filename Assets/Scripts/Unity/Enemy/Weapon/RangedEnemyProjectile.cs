@@ -8,11 +8,20 @@ public class RangedEnemyProjectile : MonoBehaviour, IPoolable
 
     private Vector2 _moveDir;
     private MainPoolManager _pool;
+    private float _baseDamage;
+    private float _runtimeDamage;
     public MonoBehaviour PrefabKey { get; private set; }
+
+    private void Awake()
+    {
+        _baseDamage = damage;
+        _runtimeDamage = _baseDamage;
+    }
 
     private void OnEnable()
     {
         if (rb != null) rb.velocity = Vector2.zero;
+        _runtimeDamage = _baseDamage;
     }
 
     private void FixedUpdate()
@@ -29,7 +38,7 @@ public class RangedEnemyProjectile : MonoBehaviour, IPoolable
     {
         if (collision.TryGetComponent(out IEnemyTarget target))
         {
-            target.TakeDamage(damage);
+            target.TakeDamage(_runtimeDamage);
             _pool.Return(this);
         }
     }
@@ -38,5 +47,10 @@ public class RangedEnemyProjectile : MonoBehaviour, IPoolable
     {
         _pool = manager;
         PrefabKey = prefabKey;
+    }
+
+    public void SetDamageMultiplier(float multiplier)
+    {
+        _runtimeDamage = _baseDamage * Mathf.Max(0f, multiplier);
     }
 }

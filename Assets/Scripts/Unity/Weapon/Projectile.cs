@@ -83,6 +83,7 @@ public class Projectile : AnimationSubject,IPoolable
         // If we somehow lost our weapon, just despawn safely
         if (_parent == null)
         {
+            Debug.LogError($"{this} parent (weapon is missing)");
             Despawn();
             return;
         }

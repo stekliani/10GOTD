@@ -19,7 +19,7 @@ MonoBehaviour:
   baseUpgradeCostPerLevel: 5
   baseUpgradeLevel: 0
   baseDamage: 100
-  baseSpeed: 50
+  baseSpeed: 20
   baseInterval: 1
   baseSlowAmount: 0
   baseFreezeDuration: 0

@@ -31,6 +31,9 @@ public class EnemyMovement : MonoBehaviour, ISlowable, IFreezable
     private bool _isWithinAttackRange;
     private bool _isAtackingPlayer;
     private float _freezeTime;
+    private float _baseSpeed;
+    private float _waveSpeedMultiplier = 1f;
+    private float _currentSpeed;
 
     //public state
     public bool isFrozen => _freezeTime > 0f;
@@ -38,12 +41,19 @@ public class EnemyMovement : MonoBehaviour, ISlowable, IFreezable
 
     // lifecycle
 
+    private void Awake()
+    {
+        _baseSpeed = speed;
+        _currentSpeed = _baseSpeed;
+    }
+
     private void OnEnable()
     {
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         _enemyAnimationController = GetComponent<EnemyAnimationController>();
         _enemyStats = GetComponent<EnemyStats>();
         _enemyAnimationController.ChangeAnimation(EnemyAnimations.walking);
+        _currentSpeed = _baseSpeed * _waveSpeedMultiplier;
     }
 
     private void Start()
@@ -65,9 +75,9 @@ public class EnemyMovement : MonoBehaviour, ISlowable, IFreezable
 
     // ISlowable
 
-    public void ApplySlow(float amount) => speed -= amount;
-    public void RemoveSlow(float amount) => speed += amount;
-    public void SetSpeed(float delta) => speed += delta;
+    public void ApplySlow(float amount) => _currentSpeed -= amount;
+    public void RemoveSlow(float amount) => _currentSpeed += amount;
+    public void SetSpeed(float delta) => _currentSpeed += delta;
 
     //pathfinding
 
@@ -127,7 +137,7 @@ public class EnemyMovement : MonoBehaviour, ISlowable, IFreezable
 
         Vector2 moveDir = toTarget.normalized;
         _lastMoveDir = moveDir;
-        rb.MovePosition(rb.position + moveDir * speed * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position + moveDir * _currentSpeed * Time.fixedDeltaTime);
     }
 
     public bool CheckIfRangedEnemyCanAttack() => _isWithinAttackRange;
@@ -187,5 +197,11 @@ public class EnemyMovement : MonoBehaviour, ISlowable, IFreezable
     {
         _freezeTime = 0f;
         _freezeTime = freezeTime;
+    }
+
+    public void SetWaveSpeedMultiplier(float multiplier)
+    {
+        _waveSpeedMultiplier = Mathf.Max(0f, multiplier);
+        _currentSpeed = _baseSpeed * _waveSpeedMultiplier;
     }
 }
