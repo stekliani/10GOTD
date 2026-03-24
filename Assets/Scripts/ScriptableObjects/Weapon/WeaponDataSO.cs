@@ -25,8 +25,9 @@ public class WeaponDataSO : ScriptableObject
     [SerializeField] private float baseFreezeDuration;
     [SerializeField] private int baseAmount;
 
-    [Header("Lifetime")]
+    [Header("Neutral")]
     [SerializeField] private float baseLifetime;
+    [SerializeField] private float baseArea;
 
     [Header("Defense")]
     [SerializeField] private float baseHealth;
@@ -59,6 +60,7 @@ public class WeaponDataSO : ScriptableObject
         Damage             = baseDamage;
         Speed              = baseSpeed;
         Interval           = baseInterval;
+        Area               = baseArea;
         SlowAmount         = baseSlowAmount;
         FreezeDuration     = baseFreezeDuration;
         Amount             = baseAmount;
@@ -75,6 +77,7 @@ public class WeaponDataSO : ScriptableObject
         Damage       += bonus.Damage;
         Speed        += bonus.Speed;
         Interval     -= bonus.Interval;   // reducing interval = faster fire
+        Area         += bonus.Area;
         SlowAmount   += bonus.SlowAmount;
         FreezeDuration += bonus.FreezeDuration;
         Amount       += bonus.Amount;

@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8b063ebfa05668d4e859b8e5d0e95332, type: 3}
-  m_Name: StartingWeapon
+  m_Name: SlowingWeaponData
   m_EditorClassIdentifier: 
-  weaponSprite: {fileID: 1118642405, guid: 8ec55f21481e4944cb4b3f3e77d8a294, type: 3}
-  weaponName: WeaponName.bow
+  weaponSprite: {fileID: 21300000, guid: 1aff536a9913649458594f04b6b69000, type: 3}
+  weaponName: WeaponName.slowingWeapon
   baseWeaponLevel: 1
   baseWeaponUpgradeCost: 20
-  baseUpgradeCostPerLevel: 5
+  baseUpgradeCostPerLevel: 20
   baseUpgradeLevel: 0
-  baseDamage: 100
-  baseSpeed: 20
-  baseInterval: 1
-  baseSlowAmount: 0
+  baseDamage: 0
+  baseSpeed: 0
+  baseInterval: 0
+  baseSlowAmount: 20
   baseFreezeDuration: 0
-  baseAmount: 1
-  baseLifetime: 1
-  baseArea: 0
+  baseAmount: 0
+  baseLifetime: 0
+  baseArea: 5
   baseHealth: 0
   baseArmor: 0
   baseHealingMultiplier: 0

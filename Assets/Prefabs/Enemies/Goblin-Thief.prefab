@@ -100,8 +100,8 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 512
-  avoidanceRadius: 1.5
-  avoidanceStrength: 1.5
+  pathRefreshInterval: 0.3
+  waypointReachRadius: 0.1
 --- !u!114 &4971871758957586788
 MonoBehaviour:
   m_ObjectHideFlags: 0

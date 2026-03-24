@@ -39,7 +39,7 @@ public interface IHealable
 public interface ISlowable
 {
     void ApplySlow(float amount);
-    void RemoveSlow(float amount);
+    void RemoveSlow();
 }
 
 public interface IFreezable

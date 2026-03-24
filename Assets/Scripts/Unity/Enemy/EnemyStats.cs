@@ -136,9 +136,6 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
         return true;
     }
 
-    public void ApplySlow(float amount) => _enemyMovement?.SetSpeed(-amount);
-    public void RemoveSlow(float amount) => _enemyMovement?.SetSpeed(amount);
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent(out IEnemyTarget player))

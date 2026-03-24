@@ -69,6 +69,7 @@ public abstract class Weapon : Subject, IWeapon
         data.Damage      += upgrade.Damage;
         data.Speed       += upgrade.Speed;
         data.Interval    -= upgrade.Interval;
+        data.Area        += upgrade.Area;
         data.Lifetime    += upgrade.Lifetime;
         data.SlowAmount += upgrade.SlowAmount;
         data.FreezeDuration += upgrade.FreezeDuration;

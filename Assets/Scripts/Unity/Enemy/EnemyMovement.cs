@@ -71,13 +71,17 @@ public class EnemyMovement : MonoBehaviour, ISlowable, IFreezable
         RefreshPathIfDue();
         Move();
         FlipSprite();
+        Debug.Log("currentSpeed:" + _currentSpeed);
     }
 
     // ISlowable
 
-    public void ApplySlow(float amount) => _currentSpeed -= amount;
-    public void RemoveSlow(float amount) => _currentSpeed += amount;
-    public void SetSpeed(float delta) => _currentSpeed += delta;
+    public void ApplySlow(float amount)
+    {
+        float percent = amount / 100f;
+        _currentSpeed -= _currentSpeed * percent;
+    }
+    public void RemoveSlow() => _currentSpeed = _baseSpeed * _waveSpeedMultiplier;
 
     //pathfinding
 

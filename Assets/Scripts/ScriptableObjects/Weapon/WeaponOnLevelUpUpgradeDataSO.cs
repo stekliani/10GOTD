@@ -12,6 +12,7 @@ public class WeaponOnLevelUpUpgradeDataSO : ScriptableObject
     public float Damage;
     public float Speed;
     public float Interval;
+    public float Area;
     public float SlowAmount;
     public float FreezeDuration;
     public int Amount;
