@@ -34,7 +34,7 @@ public class WeaponDataSO : ScriptableObject
     [SerializeField] private float baseArmor;
     [SerializeField] private float baseHealingMultiplier;
 
-    // ── Runtime values (on instance copy) ─────────────────────────────────────
+    //Runtime values (on instance copy)
     [HideInInspector] public int   WeaponLevel;
     [HideInInspector] public int   UpgradeLevel;
     [HideInInspector] public int   WeaponUpgradeCost;

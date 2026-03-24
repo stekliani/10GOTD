@@ -99,6 +99,8 @@ public static class L
         data.HealingMultiplier,
         data.FreezeDuration,
         data.Health,
+        data.SlowAmount,
+        data.Area,
         };
 
         localizer.RefreshString();

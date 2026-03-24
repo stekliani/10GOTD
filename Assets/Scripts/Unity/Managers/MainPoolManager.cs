@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,19 +24,38 @@ public class MainPoolManager : MonoBehaviour
             return;
         }
         Instance = this;
-        InitializePools();
     }
 
-    public void InitializePools()
+    public IEnumerator InitializePoolsAsync(System.Action<float> onProgress)
     {
         lookup.Clear();
+
+        int total = 0;
+        foreach (var pool in pools)
+            total += pool.initialSize;
+
+        int created = 0;
+
         foreach (var pool in pools)
         {
             pool.objects = new Queue<IPoolable>();
+
             for (int i = 0; i < pool.initialSize; i++)
+            {
                 CreateOne(pool);
+                created++;
+
+                onProgress?.Invoke((float)created / total);
+
+                // Spread work across frames
+                if (created % 5 == 0)
+                    yield return null;
+            }
+
             lookup[pool.prefab] = pool;
         }
+
+        onProgress?.Invoke(1f);
     }
 
     private IPoolable CreateOne(Pool pool)

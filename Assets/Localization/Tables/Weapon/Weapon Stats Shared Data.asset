@@ -35,6 +35,10 @@ MonoBehaviour:
     m_Key: Weapon.wallInfo
     m_Metadata:
       m_Items: []
+  - m_Id: 7242637572964352
+    m_Key: Weapon.slowInfo
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

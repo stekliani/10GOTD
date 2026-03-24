@@ -254,8 +254,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dbe7f7c364b30a4595e3ebd280a2239, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  damagePerSecond: 1
+  maxHealth: 10000
+  damagePerSecond: 0.1
   xpReward: 5
   coinReward: 5
   rangedEnemyProjectilePrefab: {fileID: 0}

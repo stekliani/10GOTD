@@ -39,6 +39,10 @@ MonoBehaviour:
     m_Key: WeaponName.fireball
     m_Metadata:
       m_Items: []
+  - m_Id: 7227331945299968
+    m_Key: WeaponName.slowingWeapon
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

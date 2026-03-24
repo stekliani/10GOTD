@@ -95,8 +95,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 6094937866240
-    m_Localized: "\u0417\u043E\u043D\u0430 \u0441\u0442\u0440\u0435\u043B\u044C\u0431\u044B
-      {0}"
+    m_Localized: "\u041E\u0431\u043B\u0430\u0441\u0442\u044C {0}"
     m_Metadata:
       m_Items: []
   references:

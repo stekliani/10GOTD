@@ -43,9 +43,6 @@ public class PlayerWeaponController : MonoBehaviour
             SpawnWeapon(w, active: false);
     }
 
-    private void Update() => DrawCircle(circleSegments, circleRadius);
-
-
     private void SpawnWeapon(Weapon prefab, bool active)
     {
         Weapon instance = Instantiate(prefab, transform.position, Quaternion.identity, transform);
@@ -60,13 +57,15 @@ public class PlayerWeaponController : MonoBehaviour
         upgradeManager?.RegisterWeaponInstance(instance);
     }
 
-    private void DrawCircle(int segments, float radius)
-    {
-        _line.positionCount = segments;
-        for (int i = 0; i < segments; i++)
-        {
-            float angle = (float)i / segments * Mathf.PI * 2f;
-            _line.SetPosition(i, new Vector3(Mathf.Cos(angle) * radius, Mathf.Sin(angle) * radius, 0f));
-        }
-    }
+    //uncoment if need to draw player firing range and call this function in update method
+
+    //private void DrawCircle(int segments, float radius)
+    //{
+    //    _line.positionCount = segments;
+    //    for (int i = 0; i < segments; i++)
+    //    {
+    //        float angle = (float)i / segments * Mathf.PI * 2f;
+    //        _line.SetPosition(i, new Vector3(Mathf.Cos(angle) * radius, Mathf.Sin(angle) * radius, 0f));
+    //    }
+    //}
 }

@@ -52,6 +52,7 @@ public class UIManager : MonoBehaviour, IInputObserver
         snowballWeapon,
         fireball,
         wall,
+        slowingWeapon,
     }
     weaponType type;
 
@@ -295,6 +296,10 @@ public class UIManager : MonoBehaviour, IInputObserver
             {
                 type = weaponType.wall;
             }
+            else if(weapon is SlowingWeapon)
+            {
+                type = weaponType.slowingWeapon;
+            }
             else
             {
                 type = weaponType.other;
@@ -313,6 +318,9 @@ public class UIManager : MonoBehaviour, IInputObserver
                     break;
                 case weaponType.wall:
                     weaponEntryKey = "Weapon.wallInfo";
+                    break;
+                case weaponType.slowingWeapon:
+                    weaponEntryKey = "Weapon.slowInfo";
                     break;
             }
 
