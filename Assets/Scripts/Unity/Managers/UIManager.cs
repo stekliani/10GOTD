@@ -10,7 +10,7 @@ public class UIManager : MonoBehaviour, IInputObserver
 {
     public static event Action OnUpgradeChosen;
 
-    [SerializeField] private InputManager   inputManager;
+    [SerializeField] private InputManager inputManager;
     [SerializeField] private UpgradeManager upgradeManager;
 
     [Header("Stats Window")]
@@ -36,14 +36,36 @@ public class UIManager : MonoBehaviour, IInputObserver
 
     private const int MaxUpgradeOptions = 4;
 
-    private PlayerStats     _playerStats;
+    private PlayerStats _playerStats;
     private PlayerInventory _playerInventory;
-    private PlayerLevels    _playerLevels;
-
-    TemplateHelper templateHelper;
+    private PlayerLevels _playerLevels;
 
     private string _coinsLabel;
     private string _xpLabel;
+
+    private bool statsInitialized = false;
+
+    private Dictionary<PlayerStatEntry, PlayerStatUI> statUIMap = new();
+    private Dictionary<Weapon, WeaponUI> weaponUIMap = new();
+
+    private class PlayerStatUI
+    {
+        public Image image;
+        public Button button;
+        public TextMeshProUGUI buttonText;
+        public LocalizeStringEvent statLocalizer;
+        public LocalizeStringEvent buttonLocalizer;
+    }
+
+    class WeaponUI
+    {
+        public GameObject root;
+        public Image image;
+        public Button button;
+
+        public LocalizeStringEvent weaponLocalizer;
+        public LocalizeStringEvent buttonLocalizer;
+    }
 
     private enum weaponType
     {
@@ -54,17 +76,19 @@ public class UIManager : MonoBehaviour, IInputObserver
         wall,
         slowingWeapon,
     }
+
     weaponType type;
 
     private void Awake()
     {
-        if (inputManager   == null) inputManager   = FindObjectOfType<InputManager>();
+        if (inputManager == null) inputManager = FindObjectOfType<InputManager>();
         if (upgradeManager == null) upgradeManager = FindObjectOfType<UpgradeManager>();
 
-        _playerStats     = FindObjectOfType<PlayerStats>();
+        _playerStats = FindObjectOfType<PlayerStats>();
         _playerInventory = FindObjectOfType<PlayerInventory>();
-        _playerLevels    = FindObjectOfType<PlayerLevels>();
+        _playerLevels = FindObjectOfType<PlayerLevels>();
     }
+
     private void Start()
     {
         UpdateRuntimeUpgradesWindow();
@@ -73,23 +97,21 @@ public class UIManager : MonoBehaviour, IInputObserver
     private void Update()
     {
         UpdateHealthBar();
+
         if (coinsText != null && _playerInventory != null)
-            coinsText.text = $"{_coinsLabel}: {_playerInventory.GetCoinAmount()}";
+            coinsText.text = _coinsLabel + ": " + _playerInventory.GetCoinAmount();
 
         if (xpText != null && _playerLevels != null)
-            xpText.text = $"{_xpLabel}: {_playerLevels.GetCurrentXp()}/{_playerLevels.GetXpToNextLevel()}";
+            xpText.text = _xpLabel + ": " + _playerLevels.GetCurrentXp() + "/" + _playerLevels.GetXpToNextLevel();
     }
 
     private void OnEnable()
     {
-        if (inputManager   == null) inputManager   = FindObjectOfType<InputManager>();
-        if (upgradeManager == null) upgradeManager = FindObjectOfType<UpgradeManager>();
-        if (_playerInventory == null) _playerInventory = FindObjectOfType<PlayerInventory>();
-
         inputManager?.AddObserver(this);
         upgradeManager?.AddObserver(this);
         _playerInventory?.AddObserver(this);
-        Weapon.OnWeaponSpawned          += RegisterWeapon;
+
+        Weapon.OnWeaponSpawned += RegisterWeapon;
         PlayerLevels.OnLevelUpRequested += OpenLevelUpScreen;
         LocalizationSettings.SelectedLocaleChanged += OnSelectedLocaleChanged;
 
@@ -101,14 +123,17 @@ public class UIManager : MonoBehaviour, IInputObserver
         inputManager?.RemoveObserver(this);
         upgradeManager?.RemoveObserver(this);
         _playerInventory?.RemoveObserver(this);
-        Weapon.OnWeaponSpawned          -= RegisterWeapon;
+
+        Weapon.OnWeaponSpawned -= RegisterWeapon;
         PlayerLevels.OnLevelUpRequested -= OpenLevelUpScreen;
         LocalizationSettings.SelectedLocaleChanged -= OnSelectedLocaleChanged;
     }
 
+    #region Update Displays
     private void OnSelectedLocaleChanged(UnityEngine.Localization.Locale _)
     {
         RefreshHudLabels();
+        UpdatePlayerStatsUI();
     }
 
     private void RefreshHudLabels()
@@ -121,122 +146,107 @@ public class UIManager : MonoBehaviour, IInputObserver
     {
         switch (action)
         {
-            case InputActions.OpenStatsWindow:     OpenStatsWindow();          break;
-            case InputActions.OpenLevelUpWindow:   OpenOrCloseLevelUpWindow(); break;
-            case InputActions.UpgradeRuntimeStats: UpdateRuntimeUpgradesWindow(); break;
+            case InputActions.OpenStatsWindow:
+                OpenStatsWindow();
+                break;
+            case InputActions.OpenLevelUpWindow:
+                OpenOrCloseLevelUpWindow();
+                break;
+            case InputActions.UpgradeRuntimeStats:
+                UpdateRuntimeUpgradesWindow();
+                break;
         }
     }
-    #region Open/close Windows
 
-    public void TogglePauseWindow()
+    private void InitializePlayerStatsUI()
     {
-        if (pauseWindow.activeSelf)
-        {
-            pauseWindow.SetActive(false);
-        }
-        else
-        {
-            pauseWindow.SetActive(true);
-        }
-    }
-    private void OpenStatsWindow()
-    {
-        if (!Background.activeSelf)
-        {
-            UpdateStatsDisplay();
-            Background.SetActive(true);
-            Time.timeScale = 0f;
-        }
-        else
-        {
-            Background.SetActive(false);
-            Time.timeScale = 1f;
-        }
-    }
-    private void OpenLevelUpScreen()
-    {
-        LevelUpScreenPanel.SetActive(true);
-        PopulateLevelUpWindow();
-        Time.timeScale = 0f;
-    }
-    private void OpenOrCloseLevelUpWindow()
-    {
-        if (LevelUpScreenPanel.activeSelf)
-            LevelUpScreenPanel.SetActive(false);
-        else
-        {
-            LevelUpScreenPanel.SetActive(true);
-            PopulateLevelUpWindow();
-        }
-    }
-    #endregion
-
-    #region Update/Populate Windows
-    private void UpdateStatsDisplay()
-    {
-        foreach (Transform child in Background.transform)
-            Destroy(child.gameObject);
-
         foreach (PlayerStatEntry stat in _playerStats.GetStats())
         {
-            GameObject go = Instantiate(Template, Background.transform);
+            GameObject go = Instantiate(runtimeUpgradeTemplate, contentGameobject.transform);
 
-            var templateImage = go.GetComponentInChildren<Image>();
-            var localizer = go.GetComponentInChildren<UnityEngine.Localization.Components.LocalizeStringEvent>();
-            var cached = stat;
+            var ui = new PlayerStatUI();
 
-            go.SetActive(true);
-            templateImage.sprite = stat.statSprite;
-            // Use final in‑game value (includes runtime modifiers) for display
-            L.PlayerStatLocalizer(localizer, _playerStats, cached);
+            ui.image = go.GetComponentInChildren<Image>();
+            ui.button = go.GetComponentInChildren<Button>();
+            ui.buttonText = ui.button.GetComponentInChildren<TextMeshProUGUI>();
+
+            var localizers = go.GetComponentsInChildren<LocalizeStringEvent>();
+
+            if (localizers.Length >= 2)
+            {
+                ui.statLocalizer = localizers[0];
+                ui.buttonLocalizer = localizers[1];
+            }
+
+            ui.image.sprite = stat.statSprite;
+
+            ui.button.onClick.AddListener(() =>
+            {
+                upgradeManager.UpgradePlayerStat(stat, ui.button);
+                UpdatePlayerStatsUI();
+            });
+
+            statUIMap[stat] = ui;
+        }
+
+        statsInitialized = true;
+    }
+
+    private void UpdatePlayerStatsUI()
+    {
+        foreach (var pair in statUIMap)
+        {
+            var stat = pair.Key;
+            var ui = pair.Value;
+
+            L.PlayerStatLocalizer(ui.statLocalizer, _playerStats, stat);
+
+            bool isInteractable = stat.canUpgrade(
+                _playerInventory.GetCoinAmount(),
+                stat.currentUpgradeLevel,
+                stat.maxUpgradeLevel
+            );
+
+            bool hasMaxLevel = stat.maxUpgradeLevel > 0;
+            bool isMaxed = hasMaxLevel && stat.currentUpgradeLevel >= stat.maxUpgradeLevel;
+
+            if (stat.statNameKey == "Stat.armor")
+                isMaxed = _playerStats.Armor >= 90;
+
+            ui.button.interactable = !isMaxed && isInteractable;
+
+            if (!isMaxed)
+            {
+                L.ButtonLocalizer(ui.buttonLocalizer, "UI.upgradeCost");
+
+                ui.buttonLocalizer.StringReference.TableReference = "In Game UI";
+                ui.buttonLocalizer.StringReference.TableEntryReference = "UI.upgradeCost";
+                ui.buttonLocalizer.StringReference.Arguments =
+                    new object[] { stat.GetUpgradeCost() };
+
+                ui.buttonLocalizer.RefreshString();
+            }
+            else
+            {
+                L.ButtonLocalizer(ui.buttonLocalizer, "UI.maxLevel");
+
+                ui.buttonText.text =
+                    ui.buttonLocalizer.StringReference.GetLocalizedString();
+            }
         }
     }
 
-    private void PopulateLevelUpWindow()
+    private void UpdateRuntimeUpgradesWindow()
     {
-        foreach (Transform child in actualLevelUpScreen.transform)
-        {
-            if (child.gameObject.TryGetComponent<Decoration>(out Decoration d)) continue;
+        // ALWAYS initialize stats first
+        if (!statsInitialized)
+            InitializePlayerStatsUI();
 
-            Destroy(child.gameObject);
+        // Always update stats first
+        UpdatePlayerStatsUI();
 
-        }
-
-        List<Weapon> options = upgradeManager.GetRandomUpgrades(MaxUpgradeOptions);
-
-        foreach (Weapon option in options)
-        {
-            GameObject go = Instantiate(weaponUpgradeTemplate, actualLevelUpScreen.transform);
-            Weapon captured = option;
-
-            var helper = go.GetComponent<TemplateHelper>();
-            var data = option.GetWeaponData();
-
-            string localizedWeaponName = L.GetLocalizedWeaponName(data.weaponName);
-            string localizedLevel = L.Get("In Game UI", "UI.level");
-
-            helper.image.sprite = data.weaponSprite;
-            helper.text.text = $"{localizedWeaponName}\n{localizedLevel}: {data.WeaponLevel}";
-
-            helper.button.onClick.AddListener(() => UpgradeWeaponAndCloseWindow(captured));
-        }
-    }
-
-    private void UpgradeWeaponAndCloseWindow(Weapon weapon)
-    {
-        bool firstTime = !weapon.IsActive;
-
-        weapon.IsActive = true;
-
-        // only apply upgrade stats if weapon was already active before
-        if (!firstTime)
-            weapon.UpgradeWeapon(weapon.GetWeaponOnLevelUpUpgradeData());
-
-
-        LevelUpScreenPanel.SetActive(false);
-        OnUpgradeChosen?.Invoke();
-        Time.timeScale = 1f;
-        UpdateRuntimeUpgradesWindow();
+        // THEN weapons
+        UpdateWeaponsDisplay();
     }
 
     private void UpdateHealthBar()
@@ -245,65 +255,32 @@ public class UIManager : MonoBehaviour, IInputObserver
             Mathf.Clamp01(_playerStats.CurrentHealth / _playerStats.MaxHealth);
     }
 
-    private void UpdateRuntimeUpgradesWindow()
-    {
-        foreach (Transform child in contentGameobject.transform)
-            Destroy(child.gameObject);
-
-
-        //Player Stat Upgrades
-        UpdatePlayerStatsDisplay();
-
-        //Weapon Upgrades
-        UpdateWeaponsDisplay();
-    }
-    #endregion
-
-
     private void UpdateWeaponsDisplay()
     {
-        foreach (Weapon weapon in upgradeManager.GetActivatedWeaponsList())
-        {
-            GameObject runtimeUpgradeTemplate = Instantiate(this.runtimeUpgradeTemplate, contentGameobject.transform);
-            Weapon captured = weapon;
+        List<Weapon> activeWeapons = upgradeManager.GetActivatedWeaponsList();
 
+        foreach (Weapon weapon in activeWeapons)
+        {
+            // Ensure UI exists
+            CreateWeaponUI(weapon);
+
+            var ui = weaponUIMap[weapon];
             var data = weapon.GetWeaponData();
 
-            // --- Components ---
-            Image image = runtimeUpgradeTemplate.GetComponentInChildren<Image>();
-            Button weaponUpgradeButton = runtimeUpgradeTemplate.GetComponentInChildren<Button>();
+            ui.image.sprite = data.weaponSprite;
 
-            LocalizeStringEvent weaponTextLocalizer =
-                runtimeUpgradeTemplate.GetComponentInChildren<LocalizeStringEvent>();
-
-            LocalizeStringEvent buttonLocalizer =
-                weaponUpgradeButton.GetComponentInChildren<LocalizeStringEvent>();
-
-            // --- Sprite ---
-            image.sprite = data.weaponSprite;
-
-            // --- Choose localization entry ---
             string weaponEntryKey;
-            if (weapon is HealingFountain) 
-            {
+
+            if (weapon is HealingFountain)
                 type = weaponType.healingFountain;
-            }
             else if (weapon is SnowballWeapon)
-            {
                 type = weaponType.snowballWeapon;
-            }
             else if (weapon is WallWeapon)
-            {
                 type = weaponType.wall;
-            }
-            else if(weapon is SlowingWeapon)
-            {
+            else if (weapon is SlowingWeapon)
                 type = weaponType.slowingWeapon;
-            }
             else
-            {
                 type = weaponType.other;
-            }
 
             switch (type)
             {
@@ -324,85 +301,136 @@ public class UIManager : MonoBehaviour, IInputObserver
                     break;
             }
 
-            // --- LOCALIZE WEAPON TEXT ---
             string localizedWeaponName = L.GetLocalizedWeaponName(data.weaponName);
 
-            L.WeaponLocalizer(weaponTextLocalizer, weapon,_playerStats, weaponEntryKey, localizedWeaponName);
+            L.WeaponLocalizer(ui.weaponLocalizer, weapon, _playerStats, weaponEntryKey, localizedWeaponName);
 
-            // --- Button state ---
-            weaponUpgradeButton.interactable =
+            ui.button.interactable =
                 _playerInventory.GetCoinAmount() >= data.GetUpgradeCost();
 
-            // --- LOCALIZE BUTTON TEXT ---
-            L.WeaponButtonLocalizer(buttonLocalizer, localizedWeaponName, data);
-
-            // --- Upgrade action ---
-            weaponUpgradeButton.onClick.AddListener(() =>
-                captured.ApplyWeaponRuntimeLevelUpUpgrade());
+            L.WeaponButtonLocalizer(ui.buttonLocalizer, localizedWeaponName, data);
         }
-
     }
-    private void UpdatePlayerStatsDisplay()
+    #endregion
+
+    #region Open/Close windows
+    private void OpenStatsWindow()
     {
-        foreach (PlayerStatEntry statEntry in _playerStats.GetStats())
+        if (!Background.activeSelf)
         {
-            var stat = Instantiate(runtimeUpgradeTemplate, contentGameobject.transform);
-            var cached = statEntry;
+            Background.SetActive(true);
+            Time.timeScale = 0f;
+        }
+        else
+        {
+            Background.SetActive(false);
+            Time.timeScale = 1f;
+        }
+    }
 
-            var statImage = stat.GetComponentInChildren<Image>();
-            var statButton = stat.GetComponentInChildren<Button>();
-            var statButtonText = statButton.GetComponentInChildren<TextMeshProUGUI>();
-            var localizer = stat.GetComponentInChildren<LocalizeStringEvent>();
-            var buttonTextLocalizer = statButton.GetComponentInChildren<LocalizeStringEvent>();
+    private void OpenLevelUpScreen()
+    {
+        LevelUpScreenPanel.SetActive(true);
+        PopulateLevelUpWindow();
+        Time.timeScale = 0f;
+    }
 
-            // Show the current final value (base + runtime upgrades + data)
-            L.PlayerStatLocalizer(localizer, _playerStats, cached);
+    private void OpenOrCloseLevelUpWindow()
+    {
+        if (LevelUpScreenPanel.activeSelf)
+            LevelUpScreenPanel.SetActive(false);
+        else
+        {
+            LevelUpScreenPanel.SetActive(true);
+            PopulateLevelUpWindow();
+        }
+    }
 
-            statImage.sprite = cached.statSprite;
-            bool isInteractable = cached.canUpgrade(_playerInventory.GetCoinAmount(), cached.currentUpgradeLevel, cached.maxUpgradeLevel);
-            statButton.interactable = isInteractable;
-            statButton.onClick.AddListener(() =>
-            {
-                upgradeManager.UpgradePlayerStat(cached, statButton);
-            });
+    private void UpgradeWeaponAndCloseWindow(Weapon weapon)
+    {
+        bool firstTime = !weapon.IsActive;
 
-            bool hasMaxLevel = cached.maxUpgradeLevel > 0;
-            bool isMaxed = hasMaxLevel && cached.currentUpgradeLevel >= cached.maxUpgradeLevel;
+        weapon.IsActive = true;
 
-            if (cached.statNameKey == "Stat.armor")
-            {
-                isMaxed = _playerStats.Armor >= 90;
+        if (!firstTime)
+            weapon.UpgradeWeapon(weapon.GetWeaponOnLevelUpUpgradeData());
 
-                if (!isMaxed)
-                {
-                    statButton.interactable = isInteractable;
-                }
-                else
-                {
-                    statButton.interactable = !isMaxed;
-                }
-            }
+        LevelUpScreenPanel.SetActive(false);
+        OnUpgradeChosen?.Invoke();
+        Time.timeScale = 1f;
 
-            if (!isMaxed)
-            {
-                L.ButtonLocalizer(buttonTextLocalizer, "UI.upgradeCost");
-
-                buttonTextLocalizer.StringReference.TableReference = "In Game UI";
-                buttonTextLocalizer.StringReference.TableEntryReference = "UI.upgradeCost";
-                buttonTextLocalizer.StringReference.Arguments =
-                    new object[] { cached.GetUpgradeCost() };
-
-                buttonTextLocalizer.RefreshString();
-            }
-            else
-            {
-                L.ButtonLocalizer(buttonTextLocalizer, "UI.maxLevel");
-
-                statButtonText.text =
-                    buttonTextLocalizer.StringReference.GetLocalizedString();
-            }
+        UpdateRuntimeUpgradesWindow();
+    }
+    #endregion
+    #region Create/Populate
+    private void PopulateLevelUpWindow()
+    {
+        foreach (Transform child in actualLevelUpScreen.transform)
+        {
+            if (child.GetComponent<Decoration>()) continue;
+            Destroy(child.gameObject);
         }
 
+        List<Weapon> options = upgradeManager.GetRandomUpgrades(MaxUpgradeOptions);
+
+        foreach (Weapon option in options)
+        {
+            GameObject go = Instantiate(weaponUpgradeTemplate, actualLevelUpScreen.transform);
+            Weapon captured = option;
+
+            var helper = go.GetComponent<TemplateHelper>();
+            var data = option.GetWeaponData();
+
+            string localizedWeaponName = L.GetLocalizedWeaponName(data.weaponName);
+            string localizedLevel = L.Get("In Game UI", "UI.level");
+
+            helper.image.sprite = data.weaponSprite;
+            helper.text.text = localizedWeaponName + "\n" + localizedLevel + ": " + data.WeaponLevel;
+
+            helper.button.onClick.AddListener(() =>
+                UpgradeWeaponAndCloseWindow(captured));
+        }
     }
-    private void RegisterWeapon(Weapon weapon) => weapon.AddObserver(this);
+
+    private void CreateWeaponUI(Weapon weapon)
+    {
+        if (weaponUIMap.ContainsKey(weapon))
+            return;
+
+        GameObject go = Instantiate(runtimeUpgradeTemplate, contentGameobject.transform);
+
+        var ui = new WeaponUI();
+        ui.root = go;
+
+        ui.image = go.GetComponentInChildren<Image>();
+        ui.button = go.GetComponentInChildren<Button>();
+
+        var localizers = go.GetComponentsInChildren<LocalizeStringEvent>();
+
+        if (localizers.Length >= 2)
+        {
+            ui.weaponLocalizer = localizers[0];
+            ui.buttonLocalizer = localizers[1];
+        }
+
+        ui.button.onClick.AddListener(() =>
+        {
+            weapon.ApplyWeaponRuntimeLevelUpUpgrade();
+            UpdateWeaponsDisplay();
+        });
+
+        weaponUIMap[weapon] = ui;
+    }
+    #endregion
+    private void RegisterWeapon(Weapon weapon)
+    {
+        weapon.AddObserver(this);
+
+        // Only create UI if stats already exist
+        if (statsInitialized)
+        {
+            CreateWeaponUI(weapon); // new method (below)
+            UpdateWeaponsDisplay();
+        }
+    }
 }
