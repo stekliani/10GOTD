@@ -10,8 +10,8 @@ public class PlayerWeaponController : MonoBehaviour
     [SerializeField] private UpgradeManager upgradeManager;
     [SerializeField] private Transform      healingFountainSpawnPoint;
 
-    [Header("Range Circle")]
-    [SerializeField] private int   circleSegments = 64;
+    //[Header("Range Circle")]
+    //[SerializeField] private int   circleSegments = 64;
     [SerializeField] private float circleRadius   => _player.Area;
 
     private PlayerStats  _player;

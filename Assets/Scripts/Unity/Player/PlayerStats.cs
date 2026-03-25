@@ -138,7 +138,7 @@ public class PlayerStats : Subject, IPlayerMutator, IHealable, IEnemyTarget
         _currentHealth   = Mathf.Clamp(_currentHealth, 0, MaxHealth);
     }
 
-    // ── Buff API ─────────────────────────────────────────────────────────────
+    //  Buff API
     public void ApplyBuff(BuffDefinitionSO buff)
     {
         _buffSystem.ApplyBuff(buff.buffID, buff.modifier, buff.duration, buff.stackType);
@@ -151,7 +151,7 @@ public class PlayerStats : Subject, IPlayerMutator, IHealable, IEnemyTarget
         _currentHealth = Mathf.Clamp(_currentHealth, 0, MaxHealth);
     }
 
-    // ── Status Effect API ────────────────────────────────────────────────────
+    // Status Effect API 
     public void ApplyStatusEffect(StatusEffectDefinitionSO def)
     {
         StatusEffect effect = def.type switch

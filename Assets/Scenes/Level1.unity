@@ -20187,6 +20187,10 @@ PrefabInstance:
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 5209770440514045021, guid: 8bc21d4791161c94b8fe5fde3cb7e675, type: 3}
+      propertyPath: amount.upgradeCostPerLevel
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5209770440514045021, guid: 8bc21d4791161c94b8fe5fde3cb7e675, type: 3}
       propertyPath: projectileSpeed.statNameKey
       value: Stat.projectileSpeed
       objectReference: {fileID: 0}
@@ -20201,7 +20205,7 @@ PrefabInstance:
     - target: {fileID: 5300525328511882004, guid: 8bc21d4791161c94b8fe5fde3cb7e675, type: 3}
       propertyPath: startingWeapon
       value: 
-      objectReference: {fileID: 6137221774092840482, guid: 8d0aefef104ce1c449de30dca94e633e, type: 3}
+      objectReference: {fileID: 1048359935372989697, guid: bad8cffd177fd7a4691362cabc7103ba, type: 3}
     - target: {fileID: 5300525328511882004, guid: 8bc21d4791161c94b8fe5fde3cb7e675, type: 3}
       propertyPath: upgradeManager
       value: 
@@ -20212,7 +20216,7 @@ PrefabInstance:
       objectReference: {fileID: 1439366537}
     - target: {fileID: 5300525328511882004, guid: 8bc21d4791161c94b8fe5fde3cb7e675, type: 3}
       propertyPath: extraWeaponsArray.Array.size
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5300525328511882004, guid: 8bc21d4791161c94b8fe5fde3cb7e675, type: 3}
       propertyPath: extraWeaponsArray.Array.data[0]
@@ -20232,6 +20236,10 @@ PrefabInstance:
       objectReference: {fileID: 833659653886737183, guid: 1223c13edc02e1d4293e8c9307821138, type: 3}
     - target: {fileID: 5300525328511882004, guid: 8bc21d4791161c94b8fe5fde3cb7e675, type: 3}
       propertyPath: extraWeaponsArray.Array.data[4]
+      value: 
+      objectReference: {fileID: 5284212896887066858, guid: a85566b57e11a654d912a9abc30ab7f3, type: 3}
+    - target: {fileID: 5300525328511882004, guid: 8bc21d4791161c94b8fe5fde3cb7e675, type: 3}
+      propertyPath: extraWeaponsArray.Array.data[5]
       value: 
       objectReference: {fileID: 7715878322532327970, guid: 762ecbfc34e2a6d41b50740a180c1102, type: 3}
     - target: {fileID: 6102647710939846201, guid: 8bc21d4791161c94b8fe5fde3cb7e675, type: 3}
@@ -20797,7 +20805,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 67.9
+  m_fontSize: 67.85
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -20941,7 +20949,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 46.75
+  m_fontSize: 46.8
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -21121,7 +21129,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 67.9
+  m_fontSize: 67.85
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -21677,7 +21685,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 31.75
+  m_fontSize: 31.8
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1

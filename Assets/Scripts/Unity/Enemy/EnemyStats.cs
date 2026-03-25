@@ -128,7 +128,9 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
     {
         if (!_isAlive || damage <= 0) return false;
 
-        _currentHealth -= damage * (1 + piercing / 100);
+        float piercingPercentage = 1 + piercing / 100;
+        float totalDamage = damage * piercingPercentage;
+        _currentHealth -= totalDamage;
 
         if (_currentHealth <= 0)
             Die();

@@ -359,7 +359,8 @@ public class UIManager : MonoBehaviour, IInputObserver
             L.PlayerStatLocalizer(localizer, _playerStats, cached);
 
             statImage.sprite = cached.statSprite;
-            statButton.interactable = cached.canUpgrade(_playerInventory.GetCoinAmount(), cached.currentUpgradeLevel, cached.maxUpgradeLevel);
+            bool isInteractable = cached.canUpgrade(_playerInventory.GetCoinAmount(), cached.currentUpgradeLevel, cached.maxUpgradeLevel);
+            statButton.interactable = isInteractable;
             statButton.onClick.AddListener(() =>
             {
                 upgradeManager.UpgradePlayerStat(cached, statButton);
@@ -367,6 +368,20 @@ public class UIManager : MonoBehaviour, IInputObserver
 
             bool hasMaxLevel = cached.maxUpgradeLevel > 0;
             bool isMaxed = hasMaxLevel && cached.currentUpgradeLevel >= cached.maxUpgradeLevel;
+
+            if (cached.statNameKey == "Stat.armor")
+            {
+                isMaxed = _playerStats.Armor >= 90;
+
+                if (!isMaxed)
+                {
+                    statButton.interactable = isInteractable;
+                }
+                else
+                {
+                    statButton.interactable = !isMaxed;
+                }
+            }
 
             if (!isMaxed)
             {
