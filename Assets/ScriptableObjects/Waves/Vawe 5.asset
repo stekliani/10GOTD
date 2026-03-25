@@ -15,6 +15,6 @@ MonoBehaviour:
   variants:
   - prefab: {fileID: 446015292510548199, guid: 27263ec15927d0d428a6435790b9d97c, type: 3}
     spawnCount: 40
-    spawnInterval: 1
+    spawnInterval: 1.5
     affectedStats: 27
   diamondsReward: 20

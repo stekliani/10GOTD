@@ -255,7 +255,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
-  damagePerSecond: 0.1
+  armor: 1
+  damagePerSecond: 1
   xpReward: 5
   coinReward: 5
   rangedEnemyProjectilePrefab: {fileID: 0}

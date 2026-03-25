@@ -78,9 +78,9 @@ MonoBehaviour:
   damageBoost:
     statNameKey: Stat.damageBoost
     statSprite: {fileID: 1489639884, guid: a59f0179a09be4347b780cabfb5d2cb2, type: 3}
-    statValue: 10
+    statValue: 0
     maxUpgradeLevel: 0
-    currentUpgradeLevel: 10
+    currentUpgradeLevel: 0
     upgradeCostPerLevel: 12
     runtimeUpgradeModifier:
       maxHealth: 0
@@ -183,9 +183,9 @@ MonoBehaviour:
   piercing:
     statNameKey: Stat.piercing
     statSprite: {fileID: 1924733139, guid: b4e96c98bc867274d9205681db22412d, type: 3}
-    statValue: 0
+    statValue: 31
     maxUpgradeLevel: 0
-    currentUpgradeLevel: 0
+    currentUpgradeLevel: 31
     upgradeCostPerLevel: 20
     runtimeUpgradeModifier:
       maxHealth: 0
@@ -207,7 +207,7 @@ MonoBehaviour:
     statValue: 0
     maxUpgradeLevel: 10
     currentUpgradeLevel: 0
-    upgradeCostPerLevel: 80
+    upgradeCostPerLevel: 222
     runtimeUpgradeModifier:
       maxHealth: 0
       mana: 0

@@ -19096,7 +19096,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 305dd9e4313359b4c803743333ebd972, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgradeWindow: {fileID: 8641436855807214817}
   settingsWindow: {fileID: 0}
 --- !u!4 &507682491477038219
 Transform:
@@ -20118,6 +20117,30 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4718697033053851885, guid: 8bc21d4791161c94b8fe5fde3cb7e675, type: 3}
+      propertyPath: levelUpBonus.armor
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4718697033053851885, guid: 8bc21d4791161c94b8fe5fde3cb7e675, type: 3}
+      propertyPath: levelUpBonus.piercing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4718697033053851885, guid: 8bc21d4791161c94b8fe5fde3cb7e675, type: 3}
+      propertyPath: levelUpBonus.recovery
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4718697033053851885, guid: 8bc21d4791161c94b8fe5fde3cb7e675, type: 3}
+      propertyPath: levelUpBonus.maxHealth
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4718697033053851885, guid: 8bc21d4791161c94b8fe5fde3cb7e675, type: 3}
+      propertyPath: levelUpBonus.damageBoost
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4718697033053851885, guid: 8bc21d4791161c94b8fe5fde3cb7e675, type: 3}
+      propertyPath: levelUpBonus.cooldownReduction
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5209770440514045021, guid: 8bc21d4791161c94b8fe5fde3cb7e675, type: 3}
       propertyPath: data
       value: 
@@ -20805,7 +20828,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 67.85
+  m_fontSize: 67.9
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -20949,7 +20972,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 46.8
+  m_fontSize: 46.75
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -21129,7 +21152,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 67.85
+  m_fontSize: 67.9
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -21399,6 +21422,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afa229692d9ee6b43b7eeb4ddf35d5e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseDiamondsReward: 20
 --- !u!222 &6128749849721110119
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -21685,7 +21709,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 31.8
+  m_fontSize: 31.75
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1

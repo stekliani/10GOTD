@@ -5,6 +5,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+
+    [SerializeField] private int baseDiamondsReward;
+
     private float _timer;
     private SpawnManager _spawnManager;
     private PlayerStats _playerStats;
@@ -45,7 +48,7 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 0f;
         int diamondsRewardAmount = 0;
-        diamondsRewardAmount = ((int)_timer / 60) + GetDiamondsRewardFromWaves();
+        diamondsRewardAmount = ((int)_timer / 60) + GetDiamondsRewardFromWaves() + baseDiamondsReward;
         BaseStatsUpgradeManager.Instance.AddDiamonds(diamondsRewardAmount);
 
         SaveManager.SaveAll();

@@ -23,8 +23,9 @@ MonoBehaviour:
   baseInterval: 1
   baseSlowAmount: 0
   baseFreezeDuration: 0
-  baseAmount: 10
+  baseAmount: 15
   baseLifetime: 1
+  baseArea: 0
   baseHealth: 0
   baseArmor: 0
   baseHealingMultiplier: 0

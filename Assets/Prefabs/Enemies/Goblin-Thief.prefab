@@ -76,6 +76,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 120
+  armor: 1
   damagePerSecond: 5
   xpReward: 100
   coinReward: 0

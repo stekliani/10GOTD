@@ -14,11 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   variants:
   - prefab: {fileID: 7123390078605260798, guid: 35c904250bf566f499a12a118ca80099, type: 3}
-    spawnCount: 55
-    spawnInterval: 0.7
+    spawnCount: 75
+    spawnInterval: 1.3
     affectedStats: 1
   - prefab: {fileID: 5032803961342074220, guid: c454af9722ec5ba4b97cf037dd37beaa, type: 3}
-    spawnCount: 35
-    spawnInterval: 0.9
+    spawnCount: 45
+    spawnInterval: 1.6
+    affectedStats: 1
+  - prefab: {fileID: 5032803961342074220, guid: c454af9722ec5ba4b97cf037dd37beaa, type: 3}
+    spawnCount: 20
+    spawnInterval: 1.9
     affectedStats: 1
   diamondsReward: 10
