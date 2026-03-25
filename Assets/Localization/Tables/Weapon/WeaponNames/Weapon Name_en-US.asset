@@ -42,6 +42,10 @@ MonoBehaviour:
     m_Localized: Fireball
     m_Metadata:
       m_Items: []
+  - m_Id: 7227331945299968
+    m_Localized: Baricades
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

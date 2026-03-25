@@ -15,10 +15,10 @@ MonoBehaviour:
   maxHealth:
     statNameKey: Stat.maxHealth
     statSprite: {fileID: 1617093258, guid: a59f0179a09be4347b780cabfb5d2cb2, type: 3}
-    statValue: 100
-    maxUpgradeLevel: 10
-    currentUpgradeLevel: 10
-    upgradeCostPerLevel: 30
+    statValue: 0
+    maxUpgradeLevel: 0
+    currentUpgradeLevel: 0
+    upgradeCostPerLevel: 10
     runtimeUpgradeModifier:
       maxHealth: 0
       mana: 0
@@ -31,16 +31,15 @@ MonoBehaviour:
       piercing: 0
       amount: 0
       projectileSpeed: 0
-      cameraSize: 0
       area: 0
     baseStatUpgradeValue: 10
   mana:
     statNameKey: Stat.maxMana
     statSprite: {fileID: -1302359000, guid: ca085431ce8f99c40961a48c59b4bf29, type: 3}
-    statValue: 10
+    statValue: 0
     maxUpgradeLevel: 10
     currentUpgradeLevel: 0
-    upgradeCostPerLevel: 30
+    upgradeCostPerLevel: 0
     runtimeUpgradeModifier:
       maxHealth: 0
       mana: 0
@@ -53,16 +52,15 @@ MonoBehaviour:
       piercing: 0
       amount: 0
       projectileSpeed: 0
-      cameraSize: 0
       area: 0
     baseStatUpgradeValue: 10
   manaRegen:
     statNameKey: Stat.manaRegen
     statSprite: {fileID: 118129311, guid: 148accd5769e2684eb51272e290ee804, type: 3}
-    statValue: 1
+    statValue: 0
     maxUpgradeLevel: 10
-    currentUpgradeLevel: 1
-    upgradeCostPerLevel: 30
+    currentUpgradeLevel: 0
+    upgradeCostPerLevel: 0
     runtimeUpgradeModifier:
       maxHealth: 0
       mana: 0
@@ -75,16 +73,15 @@ MonoBehaviour:
       piercing: 0
       amount: 0
       projectileSpeed: 0
-      cameraSize: 0
       area: 0
     baseStatUpgradeValue: 1
   damageBoost:
     statNameKey: Stat.damageBoost
     statSprite: {fileID: 1489639884, guid: a59f0179a09be4347b780cabfb5d2cb2, type: 3}
-    statValue: 1
+    statValue: 0
     maxUpgradeLevel: 10
-    currentUpgradeLevel: 1
-    upgradeCostPerLevel: 30
+    currentUpgradeLevel: 0
+    upgradeCostPerLevel: 12
     runtimeUpgradeModifier:
       maxHealth: 0
       mana: 0
@@ -97,7 +94,6 @@ MonoBehaviour:
       piercing: 0
       amount: 0
       projectileSpeed: 0
-      cameraSize: 0
       area: 0
     baseStatUpgradeValue: 1
   xpBonus:
@@ -106,7 +102,7 @@ MonoBehaviour:
     statValue: 0
     maxUpgradeLevel: 10
     currentUpgradeLevel: 0
-    upgradeCostPerLevel: 30
+    upgradeCostPerLevel: 15
     runtimeUpgradeModifier:
       maxHealth: 0
       mana: 0
@@ -119,7 +115,6 @@ MonoBehaviour:
       piercing: 0
       amount: 0
       projectileSpeed: 0
-      cameraSize: 0
       area: 0
     baseStatUpgradeValue: 1
   recovery:
@@ -128,7 +123,7 @@ MonoBehaviour:
     statValue: 0
     maxUpgradeLevel: 10
     currentUpgradeLevel: 0
-    upgradeCostPerLevel: 30
+    upgradeCostPerLevel: 25
     runtimeUpgradeModifier:
       maxHealth: 0
       mana: 0
@@ -141,16 +136,15 @@ MonoBehaviour:
       piercing: 0
       amount: 0
       projectileSpeed: 0
-      cameraSize: 0
       area: 0
     baseStatUpgradeValue: 1
   cooldownReduction:
     statNameKey: Stat.cooldownReduction
     statSprite: {fileID: -1848626697, guid: a59f0179a09be4347b780cabfb5d2cb2, type: 3}
     statValue: 0
-    maxUpgradeLevel: 10
+    maxUpgradeLevel: 100
     currentUpgradeLevel: 0
-    upgradeCostPerLevel: 30
+    upgradeCostPerLevel: 33
     runtimeUpgradeModifier:
       maxHealth: 0
       mana: 0
@@ -163,16 +157,15 @@ MonoBehaviour:
       piercing: 0
       amount: 0
       projectileSpeed: 0
-      cameraSize: 0
       area: 0
     baseStatUpgradeValue: 1
   armor:
     statNameKey: Stat.armor
     statSprite: {fileID: 336132199, guid: a59f0179a09be4347b780cabfb5d2cb2, type: 3}
     statValue: 0
-    maxUpgradeLevel: 10
+    maxUpgradeLevel: 90
     currentUpgradeLevel: 0
-    upgradeCostPerLevel: 30
+    upgradeCostPerLevel: 50
     runtimeUpgradeModifier:
       maxHealth: 0
       mana: 0
@@ -185,16 +178,15 @@ MonoBehaviour:
       piercing: 0
       amount: 0
       projectileSpeed: 0
-      cameraSize: 0
       area: 0
     baseStatUpgradeValue: 1
   piercing:
     statNameKey: Stat.piercing
     statSprite: {fileID: 1924733139, guid: b4e96c98bc867274d9205681db22412d, type: 3}
     statValue: 0
-    maxUpgradeLevel: 10
+    maxUpgradeLevel: 0
     currentUpgradeLevel: 0
-    upgradeCostPerLevel: 30
+    upgradeCostPerLevel: 0
     runtimeUpgradeModifier:
       maxHealth: 0
       mana: 0
@@ -207,7 +199,6 @@ MonoBehaviour:
       piercing: 0
       amount: 0
       projectileSpeed: 0
-      cameraSize: 0
       area: 0
     baseStatUpgradeValue: 1
   amount:
@@ -216,7 +207,7 @@ MonoBehaviour:
     statValue: 0
     maxUpgradeLevel: 10
     currentUpgradeLevel: 0
-    upgradeCostPerLevel: 30
+    upgradeCostPerLevel: 80
     runtimeUpgradeModifier:
       maxHealth: 0
       mana: 0
@@ -229,7 +220,6 @@ MonoBehaviour:
       piercing: 0
       amount: 0
       projectileSpeed: 0
-      cameraSize: 0
       area: 0
     baseStatUpgradeValue: 1
   projectileSpeed:
@@ -238,7 +228,7 @@ MonoBehaviour:
     statValue: 0
     maxUpgradeLevel: 10
     currentUpgradeLevel: 0
-    upgradeCostPerLevel: 30
+    upgradeCostPerLevel: 0
     runtimeUpgradeModifier:
       maxHealth: 0
       mana: 0
@@ -251,7 +241,6 @@ MonoBehaviour:
       piercing: 0
       amount: 0
       projectileSpeed: 0
-      cameraSize: 0
       area: 0
     baseStatUpgradeValue: 1
   area:
@@ -260,7 +249,7 @@ MonoBehaviour:
     statValue: 0
     maxUpgradeLevel: 10
     currentUpgradeLevel: 0
-    upgradeCostPerLevel: 30
+    upgradeCostPerLevel: 0
     runtimeUpgradeModifier:
       maxHealth: 0
       mana: 0
@@ -273,6 +262,5 @@ MonoBehaviour:
       piercing: 0
       amount: 0
       projectileSpeed: 0
-      cameraSize: 0
       area: 0
     baseStatUpgradeValue: 1
