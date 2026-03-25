@@ -14,8 +14,8 @@ public class BaseStatsUpgradeManager :
     [SerializeField] private PlayerDataSO playerDataSO;
     [SerializeField] private GameObject upgradePanel;
     [SerializeField] private TextMeshProUGUI diamondsText;
-    //[SerializeField] private Button applyButton;
-    //[SerializeField] private TextMeshProUGUI applyButtonText;
+    [SerializeField] private Button applyButton;
+    [SerializeField] private TextMeshProUGUI applyButtonText;
     [SerializeField] private Button closeButton;
     [SerializeField] private TextMeshProUGUI closeButtonText;
     [SerializeField] private int diamonds;
@@ -78,7 +78,7 @@ public class BaseStatsUpgradeManager :
             break;
         }
         upgradesButton.onClick.AddListener(() => ToggleUpgradesWindow());
-        //applyButton.onClick.AddListener(() => SaveUpgrades());
+        applyButton.onClick.AddListener(() => SaveUpgrades());
         closeButton.onClick.AddListener(() => ToggleUpgradesWindow()); 
     }
 
@@ -94,8 +94,8 @@ public class BaseStatsUpgradeManager :
         playerDataSO = other.playerDataSO;
         upgradePanel = other.upgradePanel;
         diamondsText = other.diamondsText;
-        //applyButton = other.applyButton;
-        //applyButtonText = other.applyButtonText;
+        applyButton = other.applyButton;
+        applyButtonText = other.applyButtonText;
         closeButton = other.closeButton;
         closeButtonText = other.closeButtonText;
 
@@ -182,7 +182,7 @@ public class BaseStatsUpgradeManager :
         }
 
         RefreshDiamondsLocalizedText();
-        //RefreshApplyButtonLocalizedText();
+        RefreshApplyButtonLocalizedText();
         RefreshCloseButtonLocalizedText();
 
 
@@ -199,11 +199,11 @@ public class BaseStatsUpgradeManager :
         if (upgradePanel.activeSelf)
         {
             upgradePanel?.SetActive(false);
-            SaveManager.SaveAll();
         }
         else
         {
             upgradePanel?.SetActive(true);
+            SaveManager.LoadAll();
             PopulateUpgradesMenu();
         }
     }
@@ -347,22 +347,22 @@ public class BaseStatsUpgradeManager :
         L.MainMenuDiamondsLocalizer(diamondsLocalizeEvent, this);
     }
 
-    //private void RefreshApplyButtonLocalizedText()
-    //{
-    //    if (applyButtonText == null) return;
+    private void RefreshApplyButtonLocalizedText()
+    {
+        if (applyButtonText == null) return;
 
-    //    applyButtonLocalizeEvent ??= applyButtonText.GetComponent<LocalizeStringEvent>();
-    //    if(applyButtonLocalizeEvent == null) return;
+        applyButtonLocalizeEvent ??= applyButtonText.GetComponent<LocalizeStringEvent>();
+        if (applyButtonLocalizeEvent == null) return;
 
 
-    //    // In the scene, the LocalizeStringEvent may not have its UpdateString UnityEvent wired.
-    //    // Wire it at runtime so RefreshString actually pushes into the TMP text.
-    //    setApplyButtonTextAction ??= (value) => applyButtonText.text = value;
-    //    applyButtonLocalizeEvent.OnUpdateString.RemoveListener(setApplyButtonTextAction);
-    //    applyButtonLocalizeEvent.OnUpdateString.AddListener(setApplyButtonTextAction);
+        // In the scene, the LocalizeStringEvent may not have its UpdateString UnityEvent wired.
+        // Wire it at runtime so RefreshString actually pushes into the TMP text.
+        setApplyButtonTextAction ??= (value) => applyButtonText.text = value;
+        applyButtonLocalizeEvent.OnUpdateString.RemoveListener(setApplyButtonTextAction);
+        applyButtonLocalizeEvent.OnUpdateString.AddListener(setApplyButtonTextAction);
 
-    //    L.MainMenuUpgradesButtonsLocalizer(applyButtonLocalizeEvent, "Menu.Upgrades.apply");
-    //}
+        L.MainMenuUpgradesButtonsLocalizer(applyButtonLocalizeEvent, "Menu.Upgrades.apply");
+    }
     private void RefreshCloseButtonLocalizedText()
     {
         if (closeButtonText == null) return;

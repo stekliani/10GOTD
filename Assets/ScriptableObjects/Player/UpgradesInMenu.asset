@@ -78,9 +78,9 @@ MonoBehaviour:
   damageBoost:
     statNameKey: Stat.damageBoost
     statSprite: {fileID: 1489639884, guid: a59f0179a09be4347b780cabfb5d2cb2, type: 3}
-    statValue: 0
-    maxUpgradeLevel: 10
-    currentUpgradeLevel: 0
+    statValue: 10
+    maxUpgradeLevel: 0
+    currentUpgradeLevel: 10
     upgradeCostPerLevel: 12
     runtimeUpgradeModifier:
       maxHealth: 0
@@ -100,7 +100,7 @@ MonoBehaviour:
     statNameKey: Stat.bonusXP
     statSprite: {fileID: 1935279812, guid: ca085431ce8f99c40961a48c59b4bf29, type: 3}
     statValue: 0
-    maxUpgradeLevel: 10
+    maxUpgradeLevel: 0
     currentUpgradeLevel: 0
     upgradeCostPerLevel: 15
     runtimeUpgradeModifier:
@@ -186,7 +186,7 @@ MonoBehaviour:
     statValue: 0
     maxUpgradeLevel: 0
     currentUpgradeLevel: 0
-    upgradeCostPerLevel: 0
+    upgradeCostPerLevel: 20
     runtimeUpgradeModifier:
       maxHealth: 0
       mana: 0
@@ -228,7 +228,7 @@ MonoBehaviour:
     statValue: 0
     maxUpgradeLevel: 10
     currentUpgradeLevel: 0
-    upgradeCostPerLevel: 0
+    upgradeCostPerLevel: 50
     runtimeUpgradeModifier:
       maxHealth: 0
       mana: 0
@@ -249,7 +249,7 @@ MonoBehaviour:
     statValue: 0
     maxUpgradeLevel: 10
     currentUpgradeLevel: 0
-    upgradeCostPerLevel: 0
+    upgradeCostPerLevel: 500
     runtimeUpgradeModifier:
       maxHealth: 0
       mana: 0

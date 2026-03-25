@@ -1692,7 +1692,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 100
+  m_fontSize: 24
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1899,6 +1899,8 @@ MonoBehaviour:
   playerDataSO: {fileID: 11400000, guid: 12b273bf7996ab440b981def7e3d85b6, type: 2}
   upgradePanel: {fileID: 1789667136}
   diamondsText: {fileID: 702152211}
+  applyButton: {fileID: 1714143271}
+  applyButtonText: {fileID: 716983345}
   closeButton: {fileID: 225942662}
   closeButtonText: {fileID: 569924082}
   diamonds: 0
@@ -2879,7 +2881,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 100
+  m_fontSize: 24
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3973,7 +3975,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 100
+  m_fontSize: 24
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4212,7 +4214,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 100
+  m_fontSize: 24
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6290,7 +6292,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1714143270
 RectTransform:
   m_ObjectHideFlags: 0

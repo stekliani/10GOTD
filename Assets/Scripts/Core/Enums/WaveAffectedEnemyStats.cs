@@ -3,10 +3,11 @@ using System;
 [Flags]
 public enum WaveAffectedEnemyStats
 {
-    None       = 0,
-    Health     = 1 << 0,
-    Damage     = 1 << 1,
-    MoveSpeed  = 1 << 2,
-    XpReward   = 1 << 3,
-    CoinReward = 1 << 4
+    None = 0,
+    Health = 1 << 0,
+    Armor = 1 << 1,
+    Damage = 1 << 2,
+    MoveSpeed = 1 << 3,
+    XpReward = 1 << 4,
+    CoinReward = 1 << 5,
 }

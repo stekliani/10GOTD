@@ -6,6 +6,7 @@ using UnityEngine;
 public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
 {
     [SerializeField] private float maxHealth = 20f;
+    [SerializeField] private float armor = 0f;
     [SerializeField] private float damagePerSecond = 5f;
     [SerializeField] private float xpReward;
     [SerializeField] private int coinReward;
@@ -17,6 +18,7 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
 
     private float _currentAttackInterval;
     private float _currentHealth;
+    private float _currentArmor;
     private PlayerLevels _playerLevels;
     private PlayerInventory _playerInventory;
     private EnemyMovement _enemyMovement;
@@ -27,11 +29,13 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
     private Collider2D[] _colliders;
     private bool _isAlive = false;
     private float _baseMaxHealth;
+    private float _baseArmor;
     private float _baseDamagePerSecond;
     private float _baseAttackInterval;
     private float _baseXpReward;
     private int _baseCoinReward;
     private float _runtimeMaxHealth;
+    private float _runtimeArmor;
     private float _runtimeDamagePerSecond;
     private float _runtimeAttackInterval;
     private float _runtimeXpReward;
@@ -56,6 +60,7 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
         _enemyAnimationController = GetComponent<EnemyAnimationController>();
         _enemyMovement = GetComponent<EnemyMovement>();
         _baseMaxHealth = maxHealth;
+        _baseArmor = armor;
         _baseDamagePerSecond = damagePerSecond;
         _baseAttackInterval = attackInterval;
         _baseXpReward = xpReward;
@@ -71,8 +76,6 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
         ApplyRuntimeStatsFromBase();
         ApplyWaveScaling();
         ResetState();
-        _currentHealth = _runtimeMaxHealth;
-        _currentAttackInterval = _runtimeAttackInterval;
 
         ActiveEnemies.Add(this);
         AliveEnemiesCount++;
@@ -128,8 +131,17 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
     {
         if (!_isAlive || damage <= 0) return false;
 
-        float piercingPercentage = 1 + piercing / 100;
-        float totalDamage = damage * piercingPercentage;
+        // Convert to percentages
+        float piercingMultiplier = 1 + piercing / 100f;
+        float armorMultiplier = 1 + _currentArmor / 100f;
+
+        // Calculate total damage
+        float totalDamage = damage * (piercingMultiplier - armorMultiplier + 1);
+
+        // Ensure damage is never negative
+        totalDamage = Mathf.Max(0, totalDamage);
+
+        // Apply damage
         _currentHealth -= totalDamage;
 
         if (_currentHealth <= 0)
@@ -198,6 +210,7 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
     private void ResetState()
     {
         _currentHealth = _runtimeMaxHealth;
+        _currentArmor = _runtimeArmor;
         _contactCount = 0;
         StopAllCoroutines();
         _enemyAnimationController?.ResetToDefaults();
@@ -241,6 +254,7 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
     private void ApplyRuntimeStatsFromBase()
     {
         _runtimeMaxHealth = _baseMaxHealth;
+        _runtimeArmor = _baseArmor;
         _runtimeDamagePerSecond = _baseDamagePerSecond;
         _runtimeAttackInterval = _baseAttackInterval;
         _runtimeXpReward = _baseXpReward;
@@ -252,6 +266,9 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
     {
         if ((_scaledStats & WaveAffectedEnemyStats.Health) != 0)
             _runtimeMaxHealth *= _waveMultiplier;
+
+        if ((_scaledStats & WaveAffectedEnemyStats.Armor) != 0)
+            _runtimeArmor *= _waveMultiplier;
 
         if ((_scaledStats & WaveAffectedEnemyStats.Damage) != 0)
         {
