@@ -4,6 +4,7 @@ using UnityEngine;
 public class UIGlowPulse : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI textMeshPro;
+    private Material _instancedMaterial;
 
     [Header("UI Colors")]
     [SerializeField]
@@ -26,14 +27,17 @@ public class UIGlowPulse : MonoBehaviour
 
     void Start()
     {
-        if (textMeshPro == null)
-            textMeshPro = GetComponent<TextMeshProUGUI>();
+        if (textMeshPro == null) textMeshPro = GetComponent<TextMeshProUGUI>();
+        if (textMeshPro == null) return;
 
-        textMeshPro.fontSharedMaterial.EnableKeyword("GLOW_ON");
+        // Use a per-object material instance so we don't affect other TMP texts
+        _instancedMaterial = textMeshPro.fontMaterial;
+        _instancedMaterial.EnableKeyword("GLOW_ON");
     }
 
     void Update()
     {
+        if (_instancedMaterial == null) return;
         // Pulse alpha
         float alpha = Mathf.PingPong(Time.time * pulseSpeed, maxAlpha - minAlpha) + minAlpha;
 
@@ -56,10 +60,10 @@ public class UIGlowPulse : MonoBehaviour
         currentColor.a = alpha;
 
         // Apply to material
-        textMeshPro.fontSharedMaterial.SetColor("_GlowColor", currentColor);
+        _instancedMaterial.SetColor("_GlowColor", currentColor);
 
         // Optional: Pulse power too
         float glowPower = Mathf.PingPong(Time.time * 2, 0.5f) + 0.5f;
-        textMeshPro.fontSharedMaterial.SetFloat("_GlowPower", glowPower);
+        _instancedMaterial.SetFloat("_GlowPower", glowPower);
     }
 }

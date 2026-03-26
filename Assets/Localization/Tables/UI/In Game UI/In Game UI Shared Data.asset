@@ -31,6 +31,10 @@ MonoBehaviour:
     m_Key: UI.level
     m_Metadata:
       m_Items: []
+  - m_Id: 8664222422102016
+    m_Key: UI.diamondsRewardText
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

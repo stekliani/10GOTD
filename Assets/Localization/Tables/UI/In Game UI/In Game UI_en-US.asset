@@ -36,6 +36,10 @@ MonoBehaviour:
     m_Localized: Level
     m_Metadata:
       m_Items: []
+  - m_Id: 8664222422102016
+    m_Localized: 'Diamonds Collected: {0}'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

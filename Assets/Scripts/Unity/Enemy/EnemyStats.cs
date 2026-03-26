@@ -10,6 +10,7 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
     [SerializeField] private float damagePerSecond = 5f;
     [SerializeField] private float xpReward;
     [SerializeField] private int coinReward;
+    [SerializeField] private int diamondsReward;
 
     [Header("Ranged Enemy Things")]
     [Tooltip("Leave Empty if this enemy is not ranged")]
@@ -19,6 +20,8 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
     private float _currentAttackInterval;
     private float _currentHealth;
     private float _currentArmor;
+
+
     private PlayerLevels _playerLevels;
     private PlayerInventory _playerInventory;
     private EnemyMovement _enemyMovement;
@@ -28,18 +31,25 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
     private CancellationTokenSource _cts;
     private Collider2D[] _colliders;
     private bool _isAlive = false;
+
+    //base
     private float _baseMaxHealth;
     private float _baseArmor;
     private float _baseDamagePerSecond;
     private float _baseAttackInterval;
     private float _baseXpReward;
     private int _baseCoinReward;
+    private int _baseDiamondsReward;
+
+
+    //runtime
     private float _runtimeMaxHealth;
     private float _runtimeArmor;
     private float _runtimeDamagePerSecond;
     private float _runtimeAttackInterval;
     private float _runtimeXpReward;
     private int _runtimeCoinReward;
+    private int _runtimeDiamondsReward;
     private float _runtimeProjectileDamageMultiplier = 1f;
     private float _waveMultiplier = 1f;
     private WaveAffectedEnemyStats _scaledStats = WaveAffectedEnemyStats.None;
@@ -65,6 +75,7 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
         _baseAttackInterval = attackInterval;
         _baseXpReward = xpReward;
         _baseCoinReward = coinReward;
+        _baseDiamondsReward = diamondsReward;
     }
 
     private void OnEnable()
@@ -191,6 +202,7 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
         _playerInventory?.AddCoins(_runtimeCoinReward);
         _enemyAnimationController.ChangeAnimation(EnemyAnimations.dying);
 
+        GameManager.Instance.IncreaseDiamondsRewardFromMonsters(diamondsReward);
         ReturnToPool(GetDeathAnimationTime());
     }
 
@@ -259,6 +271,7 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
         _runtimeAttackInterval = _baseAttackInterval;
         _runtimeXpReward = _baseXpReward;
         _runtimeCoinReward = _baseCoinReward;
+        _runtimeDiamondsReward = _baseDiamondsReward;
         _runtimeProjectileDamageMultiplier = 1f;
     }
 
@@ -281,6 +294,8 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
 
         if ((_scaledStats & WaveAffectedEnemyStats.CoinReward) != 0)
             _runtimeCoinReward = Mathf.RoundToInt(_runtimeCoinReward * _waveMultiplier);
+        if((_scaledStats & WaveAffectedEnemyStats.DiamondReward) != 0)
+            _runtimeDiamondsReward *= Mathf.RoundToInt(_runtimeDiamondsReward * _waveMultiplier);
 
         float speedMultiplier = (_scaledStats & WaveAffectedEnemyStats.MoveSpeed) != 0 ? _waveMultiplier : 1f;
         _enemyMovement?.SetWaveSpeedMultiplier(speedMultiplier);

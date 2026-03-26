@@ -10,4 +10,5 @@ public enum WaveAffectedEnemyStats
     MoveSpeed = 1 << 3,
     XpReward = 1 << 4,
     CoinReward = 1 << 5,
+    DiamondReward = 1 << 6,
 }

@@ -23,6 +23,7 @@ public class LoadingScreen : MonoBehaviour
     private void Awake()
     {
         EnhancedTouchSupport.Enable();
+        SetSquareAspect();
     }
 
     private void Start()
@@ -208,5 +209,11 @@ public class LoadingScreen : MonoBehaviour
             if (audio.gameObject.scene == scene)
                 audio.mute = false;
         }
+    }
+
+
+    private void SetSquareAspect()
+    {
+        Screen.SetResolution(2960, 2960, true);
     }
 }

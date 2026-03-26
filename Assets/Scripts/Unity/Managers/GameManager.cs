@@ -6,12 +6,12 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
 
-    [SerializeField] private int baseDiamondsReward;
-
+    private int _diamondsRewardFromMonsters;
     private float _timer;
     private bool _gameOverHandled;
     private SpawnManager _spawnManager;
     private PlayerStats _playerStats;
+    private UIManager _uiManager;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -24,8 +24,9 @@ public class GameManager : MonoBehaviour
         _gameOverHandled = false;
         _spawnManager = FindObjectOfType<SpawnManager>();
         _playerStats = FindObjectOfType<PlayerStats>();
+        _uiManager = FindObjectOfType<UIManager>();
 
-        Screen.SetResolution(1080, 1080, true);
+        _diamondsRewardFromMonsters = 0;
     }
 
     private void OnEnable()
@@ -48,6 +49,10 @@ public class GameManager : MonoBehaviour
         HandleGameOver();
     }
 
+
+
+    private int totalDiamondsRewardAmount = 0;
+
     public void HandleGameOver()
     {
         // Guard against double-crediting diamonds when multiple damage sources
@@ -56,13 +61,15 @@ public class GameManager : MonoBehaviour
         _gameOverHandled = true;
 
         Time.timeScale = 0f;
-        int diamondsRewardAmount = 0;
-        diamondsRewardAmount = ((int)_timer / 60) + GetDiamondsRewardFromWaves() + baseDiamondsReward;
-        BaseStatsUpgradeManager.Instance.AddDiamonds(diamondsRewardAmount);
+        totalDiamondsRewardAmount = GetDiamondsRewardFromWaves() + _diamondsRewardFromMonsters;
+        BaseStatsUpgradeManager.Instance.AddDiamonds(totalDiamondsRewardAmount);
 
         SaveManager.SaveAll();
         _playerStats.ResetRuntimeModifiers();
-        Debug.Log("Added" + diamondsRewardAmount + "Diamonds");
+
+        _uiManager.OpenGameOverScreen();
+        
+        Debug.Log("Added" + totalDiamondsRewardAmount + "Diamonds");
     }
 
 
@@ -80,9 +87,14 @@ public class GameManager : MonoBehaviour
         return diamondsRewardFromWaves;
     }
 
-    private void SetSquareAspect()
+    public void IncreaseDiamondsRewardFromMonsters(int diamondsRewardAmount)
     {
+        _diamondsRewardFromMonsters += diamondsRewardAmount;
+    }
 
+    public int GetTotalDiamondsRewardAmount()
+    {
+        return totalDiamondsRewardAmount;
     }
     public float GetTimer() => _timer;
 }

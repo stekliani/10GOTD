@@ -259,6 +259,7 @@ MonoBehaviour:
   damagePerSecond: 1
   xpReward: 5
   coinReward: 5
+  diamondsReward: 1
   rangedEnemyProjectilePrefab: {fileID: 0}
   attackInterval: 0
 --- !u!114 &3093193067177886374
