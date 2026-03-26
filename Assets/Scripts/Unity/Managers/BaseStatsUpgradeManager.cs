@@ -52,12 +52,24 @@ public class BaseStatsUpgradeManager :
 
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += HandleMenuSceneLoaded;
+
+        LockOrientation();
     }
 
     private void OnDestroy()
     {
         if (Instance == this)
             SceneManager.sceneLoaded -= HandleMenuSceneLoaded;
+    }
+
+    private void LockOrientation()
+    {
+        Screen.orientation = ScreenOrientation.Portrait;
+
+        Screen.autorotateToLandscapeLeft = false;
+        Screen.autorotateToLandscapeRight = false;
+        Screen.autorotateToPortraitUpsideDown = false;
+        Screen.autorotateToPortrait = true;
     }
 
     /// <summary>

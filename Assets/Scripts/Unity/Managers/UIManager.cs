@@ -456,11 +456,8 @@ public class UIManager : MonoBehaviour, IInputObserver
     private void RegisterWeapon(Weapon weapon)
     {
         weapon.AddObserver(this);
-
-        // Only create UI if stats already exist
         if (statsInitialized)
         {
-            CreateWeaponUI(weapon); // new method (below)
             UpdateWeaponsDisplay();
         }
     }

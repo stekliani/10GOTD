@@ -210,6 +210,7 @@ public class SpawnManager : MonoBehaviour
         Vector3 spawnPos = _playerTransform.position + (Vector3)(dir * GetSpawnRadius());
 
         GameObject go = MainPoolManager.Instance.Get(prefab);
+        if (go == null) return;
         EnemyStats enemy = go.GetComponent<EnemyStats>();
         int waveNumber = waveIndex + 1;
         float waveMultiplier = GetWaveStatMultiplier(waveNumber);

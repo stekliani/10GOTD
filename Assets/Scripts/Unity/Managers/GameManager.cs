@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
         _gameOverHandled = false;
         _spawnManager = FindObjectOfType<SpawnManager>();
         _playerStats = FindObjectOfType<PlayerStats>();
+
+        Screen.SetResolution(1080, 1080, true);
     }
 
     private void OnEnable()
@@ -78,5 +80,9 @@ public class GameManager : MonoBehaviour
         return diamondsRewardFromWaves;
     }
 
+    private void SetSquareAspect()
+    {
+
+    }
     public float GetTimer() => _timer;
 }
