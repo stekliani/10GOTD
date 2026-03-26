@@ -14,24 +14,27 @@ public class UIManager : MonoBehaviour, IInputObserver
     [SerializeField] private UpgradeManager upgradeManager;
 
     [Header("Stats Window")]
-    [SerializeField] private GameObject Background;
-    [SerializeField] private GameObject Template;
+    [SerializeField] private GameObject background;
+    [SerializeField] private GameObject template;
 
-    [Header("Health Bar")]
-    [SerializeField] private Image HealthBarImage;
+    [Header("Bars")]
+    [SerializeField] private Image healthBarImage;
+    [SerializeField] private Image xpBarImage;
 
     [Header("Runtime Upgrades")]
     [SerializeField] private GameObject contentGameobject;
     [SerializeField] private GameObject runtimeUpgradeTemplate;
 
     [Header("Level-Up Menu")]
-    [SerializeField] private GameObject LevelUpScreenPanel;
+    [SerializeField] private GameObject levelUpScreenPanel;
     [SerializeField] private GameObject actualLevelUpScreen;
     [SerializeField] private GameObject weaponUpgradeTemplate;
 
     [Header("HUD")]
     [SerializeField] private TextMeshProUGUI coinsText;
     [SerializeField] private TextMeshProUGUI xpText;
+    [SerializeField] private TextMeshProUGUI hpText;
+    [SerializeField] private TextMeshProUGUI waveIndexText;
     [SerializeField] private GameObject pauseWindow;
 
     private const int MaxUpgradeOptions = 4;
@@ -39,7 +42,7 @@ public class UIManager : MonoBehaviour, IInputObserver
     private PlayerStats _playerStats;
     private PlayerInventory _playerInventory;
     private PlayerLevels _playerLevels;
-
+    private SpawnManager _spawnManager;
     private string _coinsLabel;
     private string _xpLabel;
 
@@ -87,6 +90,7 @@ public class UIManager : MonoBehaviour, IInputObserver
         _playerStats = FindObjectOfType<PlayerStats>();
         _playerInventory = FindObjectOfType<PlayerInventory>();
         _playerLevels = FindObjectOfType<PlayerLevels>();
+        _spawnManager = FindObjectOfType<SpawnManager>();
     }
 
     private void Start()
@@ -97,12 +101,19 @@ public class UIManager : MonoBehaviour, IInputObserver
     private void Update()
     {
         UpdateHealthBar();
+        UpdateXPBar();
 
         if (coinsText != null && _playerInventory != null)
             coinsText.text = _coinsLabel + ": " + _playerInventory.GetCoinAmount();
 
         if (xpText != null && _playerLevels != null)
             xpText.text = _xpLabel + ": " + _playerLevels.GetCurrentXp() + "/" + _playerLevels.GetXpToNextLevel();
+        if (hpText != null && _playerStats != null)
+            hpText.text = _playerStats.CurrentHealth + "/" + _playerStats.MaxHealth;
+        if(waveIndexText != null && _spawnManager != null)
+        {
+            UpdateWaveIndexText();
+        }
     }
 
     private void OnEnable()
@@ -251,8 +262,13 @@ public class UIManager : MonoBehaviour, IInputObserver
 
     private void UpdateHealthBar()
     {
-        HealthBarImage.fillAmount =
+        healthBarImage.fillAmount =
             Mathf.Clamp01(_playerStats.CurrentHealth / _playerStats.MaxHealth);
+    }
+
+    private void UpdateXPBar()
+    {
+        xpBarImage.fillAmount = Mathf.Clamp01(_playerLevels.GetCurrentXp() / _playerLevels.GetXpToNextLevel());
     }
 
     private void UpdateWeaponsDisplay()
@@ -306,42 +322,48 @@ public class UIManager : MonoBehaviour, IInputObserver
             L.WeaponLocalizer(ui.weaponLocalizer, weapon, _playerStats, weaponEntryKey, localizedWeaponName);
 
             ui.button.interactable =
-                _playerInventory.GetCoinAmount() >= data.GetUpgradeCost();
+                _playerInventory.GetCoinAmount() >= data.GetUpgradeCost() &&
+                data.UpgradeLevel < weapon.GetMaxLevel();
 
             L.WeaponButtonLocalizer(ui.buttonLocalizer, localizedWeaponName, data);
         }
+    }
+
+    public void UpdateWaveIndexText()
+    {
+        waveIndexText.text = _spawnManager.GetCurrentWaveIndex().ToString();
     }
     #endregion
 
     #region Open/Close windows
     private void OpenStatsWindow()
     {
-        if (!Background.activeSelf)
+        if (!background.activeSelf)
         {
-            Background.SetActive(true);
+            background.SetActive(true);
             Time.timeScale = 0f;
         }
         else
         {
-            Background.SetActive(false);
+            background.SetActive(false);
             Time.timeScale = 1f;
         }
     }
 
     private void OpenLevelUpScreen()
     {
-        LevelUpScreenPanel.SetActive(true);
+        levelUpScreenPanel.SetActive(true);
         PopulateLevelUpWindow();
         Time.timeScale = 0f;
     }
 
     private void OpenOrCloseLevelUpWindow()
     {
-        if (LevelUpScreenPanel.activeSelf)
-            LevelUpScreenPanel.SetActive(false);
+        if (levelUpScreenPanel.activeSelf)
+            levelUpScreenPanel.SetActive(false);
         else
         {
-            LevelUpScreenPanel.SetActive(true);
+            levelUpScreenPanel.SetActive(true);
             PopulateLevelUpWindow();
         }
     }
@@ -352,10 +374,14 @@ public class UIManager : MonoBehaviour, IInputObserver
 
         weapon.IsActive = true;
 
+        if(weapon is HealingFountain  && !weapon.gameObject.activeSelf)
+        {
+            weapon.gameObject.SetActive(true);
+        }
         if (!firstTime)
             weapon.UpgradeWeapon(weapon.GetWeaponOnLevelUpUpgradeData());
 
-        LevelUpScreenPanel.SetActive(false);
+        levelUpScreenPanel.SetActive(false);
         OnUpgradeChosen?.Invoke();
         Time.timeScale = 1f;
 
@@ -415,8 +441,13 @@ public class UIManager : MonoBehaviour, IInputObserver
 
         ui.button.onClick.AddListener(() =>
         {
+            // Runtime weapon upgrades should cost coins and stop at max upgrade level.
+            int cost = weapon.GetWeaponData().GetUpgradeCost();
+            if (_playerInventory.GetCoinAmount() < cost) return;
+            if (weapon.GetWeaponData().UpgradeLevel >= weapon.GetMaxLevel()) return;
+
+            _playerInventory.RemoveCoins(cost);
             weapon.ApplyWeaponRuntimeLevelUpUpgrade();
-            UpdateWeaponsDisplay();
         });
 
         weaponUIMap[weapon] = ui;

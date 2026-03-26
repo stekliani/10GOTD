@@ -21,7 +21,7 @@ MonoBehaviour:
   baseDamage: 0
   baseSpeed: 0
   baseInterval: 0
-  baseSlowAmount: 20
+  baseSlowAmount: 25
   baseFreezeDuration: 0
   baseAmount: 0
   baseLifetime: 0

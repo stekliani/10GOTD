@@ -18,13 +18,14 @@ MonoBehaviour:
   baseWeaponUpgradeCost: 0
   baseUpgradeCostPerLevel: 0
   baseUpgradeLevel: 0
-  baseDamage: 100
+  baseDamage: 5
   baseSpeed: 100
   baseInterval: 5
   baseSlowAmount: 0
   baseFreezeDuration: 0
   baseAmount: 1
   baseLifetime: 5
+  baseArea: 0
   baseHealth: 0
   baseArmor: 0
   baseHealingMultiplier: 0

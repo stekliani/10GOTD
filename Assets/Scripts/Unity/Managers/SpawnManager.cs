@@ -243,4 +243,9 @@ public class SpawnManager : MonoBehaviour
         spawnRadius = (_playerStats.Area * 2f) + 0.5f;
         return spawnRadius;
     }
+
+    public int GetCurrentWaveIndex()
+    {
+        return _highestActiveIndex + 1;
+    }
 }

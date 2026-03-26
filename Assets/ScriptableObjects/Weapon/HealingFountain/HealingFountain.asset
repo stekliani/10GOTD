@@ -15,8 +15,8 @@ MonoBehaviour:
   weaponSprite: {fileID: 400633910, guid: 1ca6c3a833d887949950f45ab508eff6, type: 3}
   weaponName: WeaponName.healingFountain
   baseWeaponLevel: 1
-  baseWeaponUpgradeCost: 500
-  baseUpgradeCostPerLevel: 200
+  baseWeaponUpgradeCost: 50
+  baseUpgradeCostPerLevel: 20
   baseUpgradeLevel: 0
   baseDamage: 0
   baseSpeed: 0
@@ -25,9 +25,10 @@ MonoBehaviour:
   baseFreezeDuration: 0
   baseAmount: 0
   baseLifetime: 0
+  baseArea: 0
   baseHealth: 0
   baseArmor: 0
-  baseHealingMultiplier: 1
+  baseHealingMultiplier: 1.5
   WeaponLevel: 0
   UpgradeLevel: 0
   WeaponUpgradeCost: 0

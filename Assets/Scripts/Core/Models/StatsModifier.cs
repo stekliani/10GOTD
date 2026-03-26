@@ -28,7 +28,9 @@ public struct StatsModifier
             damageBoost       = a.damageBoost       + b.damageBoost,
             xpBonus           = a.xpBonus           + b.xpBonus,
             recovery          = a.recovery          + b.recovery,
-            cooldownReduction = a.cooldownReduction - b.cooldownReduction,
+            // Cooldown reduction should accumulate positively.
+            // Using subtraction here flips the sign when multiple modifiers stack.
+            cooldownReduction = a.cooldownReduction + b.cooldownReduction,
             armor             = a.armor             + b.armor,
             piercing          = a.piercing          + b.piercing,
             amount            = a.amount            + b.amount,

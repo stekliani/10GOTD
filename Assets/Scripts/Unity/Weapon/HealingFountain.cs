@@ -7,6 +7,7 @@ public class HealingFountain : Weapon
     {
         base.Awake();
         IsActive = false;
+        this.gameObject.SetActive(false);
     }
 
     protected override void Fire() { /* Passive — no fire action */ }

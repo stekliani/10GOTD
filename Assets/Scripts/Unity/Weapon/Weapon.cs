@@ -81,8 +81,13 @@ public abstract class Weapon : Subject, IWeapon
 
     public virtual void ApplyWeaponRuntimeLevelUpUpgrade()
     {
-        if (runtimeUpgradeData != null)
-            data.ApplyBonus(runtimeUpgradeData);
+        if (runtimeUpgradeData == null) return;
+        if (data == null) return;
+        // Runtime upgrades increase `WeaponDataSO.UpgradeLevel` (used for cost),
+        // so cap based on UpgradeLevel (not WeaponLevel).
+        if (data.UpgradeLevel >= MaxLevel) return;
+
+        data.ApplyBonus(runtimeUpgradeData);
 
         NotifyObservers(InputActions.UpgradeRuntimeStats);
     }

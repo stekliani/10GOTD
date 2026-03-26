@@ -26,6 +26,7 @@ public class PlayerStats : Subject, IPlayerMutator, IHealable, IEnemyTarget
     private float _currentMana;
     private float _xp;
     private StatsModifier _runtimeModifier;
+    private bool _isDead;
 
     private readonly BuffSystem         _buffSystem         = new();
     private readonly StatusEffectSystem _statusEffectSystem = new();
@@ -44,7 +45,7 @@ public class PlayerStats : Subject, IPlayerMutator, IHealable, IEnemyTarget
 
 
 
-        _currentHealth = maxHealth.statValue;
+        _currentHealth = MaxHealth;
         _currentMana = mana.statValue;
     }
 
@@ -104,7 +105,7 @@ public class PlayerStats : Subject, IPlayerMutator, IHealable, IEnemyTarget
         float reduction = Mathf.Clamp(Armor / 100f, 0f, 0.9f);
         float finalDmg  = damage * (1f - reduction);
         _currentHealth  = Mathf.Clamp(_currentHealth - finalDmg, 0, MaxHealth);
-        if (_currentHealth <= 0) Die();
+        if (_currentHealth <= 0 && !_isDead) Die();
     }
 
     public void Heal(float value)
@@ -190,6 +191,9 @@ public class PlayerStats : Subject, IPlayerMutator, IHealable, IEnemyTarget
 
     private void Die()
     {
+        if (_isDead) return;
+        _isDead = true;
+
         GameManager.Instance.HandleGameOver();
         Debug.Log("You Lose!");
     }

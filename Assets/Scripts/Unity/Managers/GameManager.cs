@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int baseDiamondsReward;
 
     private float _timer;
+    private bool _gameOverHandled;
     private SpawnManager _spawnManager;
     private PlayerStats _playerStats;
     private void Awake()
@@ -20,6 +21,7 @@ public class GameManager : MonoBehaviour
         }
 
         Instance = this;
+        _gameOverHandled = false;
         _spawnManager = FindObjectOfType<SpawnManager>();
         _playerStats = FindObjectOfType<PlayerStats>();
     }
@@ -46,6 +48,11 @@ public class GameManager : MonoBehaviour
 
     public void HandleGameOver()
     {
+        // Guard against double-crediting diamonds when multiple damage sources
+        // (multiple enemies) call Die() in the same moment.
+        if (_gameOverHandled) return;
+        _gameOverHandled = true;
+
         Time.timeScale = 0f;
         int diamondsRewardAmount = 0;
         diamondsRewardAmount = ((int)_timer / 60) + GetDiamondsRewardFromWaves() + baseDiamondsReward;
