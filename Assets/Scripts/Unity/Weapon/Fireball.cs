@@ -23,9 +23,6 @@ public class Fireball : MonoBehaviour
     private float _orbitAngle;
     private float _orbitRadius;
 
-    // Optional: prevent multi-hit spam per active cycle
-    private readonly HashSet<EnemyStats> _hitEnemies = new();
-
     private void OnEnable()
     {
         CacheComponents();
@@ -97,9 +94,6 @@ public class Fireball : MonoBehaviour
     {
         while (true)
         {
-            // Reset hit tracking for new active phase
-            _hitEnemies.Clear();
-
             // Active phase
             isCountingDown = false;
             SetCollidersEnabled(true);
