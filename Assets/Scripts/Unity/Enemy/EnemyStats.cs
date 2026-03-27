@@ -295,7 +295,7 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
         if ((_scaledStats & WaveAffectedEnemyStats.CoinReward) != 0)
             _runtimeCoinReward = Mathf.RoundToInt(_runtimeCoinReward * _waveMultiplier);
         if((_scaledStats & WaveAffectedEnemyStats.DiamondReward) != 0)
-            _runtimeDiamondsReward *= Mathf.RoundToInt(_runtimeDiamondsReward * _waveMultiplier);
+            _runtimeDiamondsReward = Mathf.RoundToInt(_runtimeDiamondsReward * _waveMultiplier);
 
         float speedMultiplier = (_scaledStats & WaveAffectedEnemyStats.MoveSpeed) != 0 ? _waveMultiplier : 1f;
         _enemyMovement?.SetWaveSpeedMultiplier(speedMultiplier);

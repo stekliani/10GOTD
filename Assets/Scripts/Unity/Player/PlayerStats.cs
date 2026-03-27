@@ -63,19 +63,25 @@ public class PlayerStats : Subject, IPlayerMutator, IHealable, IEnemyTarget
         //_statusEffectSystem.Tick(this, dt); implement if need to debuff player
         //-------------------------------------------------------------------------
 
+        float multiplier = 1f;
+        if (_healingFountain == null)
+        {
+            _healingFountain = FindObjectOfType<HealingFountain>();
+        }
+        if (_healingFountain != null && _healingFountain.IsActive)
+        {
+            multiplier = _healingFountain.GetHealingAmountMultiplier();
+        }
         if (_currentHealth < MaxHealth)
         {
-            float multiplier = _healingFountain.IsActive && _healingFountain != null
-                ? _healingFountain.GetHealingAmountMultiplier()
-                : 1f;
             Heal(Recovery * dt * multiplier);
             Debug.Log($"recovery:{Recovery} multiplier: {multiplier}");
         }
 
-        if(_currentMana < MaxMana)
+        if (_currentMana < MaxMana)
+        {
             RecoverMana(ManaRegen * dt);
-
-        Debug.Log(Recovery);
+        }
     }
 
     // IPlayerStats (read)
