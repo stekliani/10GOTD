@@ -52,7 +52,7 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
     private int _runtimeDiamondsReward;
     private float _runtimeProjectileDamageMultiplier = 1f;
     private float _waveMultiplier = 1f;
-    private WaveAffectedEnemyStats _scaledStats = WaveAffectedEnemyStats.None;
+    private WaveAffectedEnemyStats _scaledStats;
     private System.Action _onDeathCallback;
 
     public MonoBehaviour PrefabKey { get; private set; }
@@ -202,7 +202,7 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
         _playerInventory?.AddCoins(_runtimeCoinReward);
         _enemyAnimationController.ChangeAnimation(EnemyAnimations.dying);
 
-        GameManager.Instance.IncreaseDiamondsRewardFromMonsters(diamondsReward);
+        GameManager.Instance.IncreaseDiamondsRewardFromMonsters(_runtimeDiamondsReward);
         ReturnToPool(GetDeathAnimationTime());
     }
 

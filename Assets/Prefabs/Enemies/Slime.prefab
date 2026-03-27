@@ -254,11 +254,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dbe7f7c364b30a4595e3ebd280a2239, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  armor: 1
+  maxHealth: 80
+  armor: 0
   damagePerSecond: 1
-  xpReward: 5
-  coinReward: 5
+  xpReward: 100
+  coinReward: 3
   diamondsReward: 1
   rangedEnemyProjectilePrefab: {fileID: 0}
   attackInterval: 0

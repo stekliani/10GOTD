@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WeaponLevel: 0
   UpgradeLevel: 1
-  Damage: 1.3
+  Damage: 10
   Speed: 0.2
   Interval: 0
   Area: 0

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
@@ -18,9 +19,12 @@ public class Fireball : MonoBehaviour
     private float _damage;
     private float _piercing;
 
-    // Orbit state - set by FireballWeapon each frame
+    // Orbit state
     private float _orbitAngle;
     private float _orbitRadius;
+
+    // Optional: prevent multi-hit spam per active cycle
+    private readonly HashSet<EnemyStats> _hitEnemies = new();
 
     private void OnEnable()
     {
@@ -37,7 +41,7 @@ public class Fireball : MonoBehaviour
         SetParticlesEnabled(false);
     }
 
-    // Orbit helpers - called by FireballWeapon
+    // ---------- Orbit ----------
     public void SetOrbitParams(float angle, float radius)
     {
         _orbitAngle = angle;
@@ -53,7 +57,7 @@ public class Fireball : MonoBehaviour
         transform.position = playerTransform.position + offset;
     }
 
-    // Setup - called by FireballWeapon on init and after count changes
+    // ---------- Setup ----------
     public void Initialize(float activeTime, float respawnTime)
     {
         _activeTime = activeTime;
@@ -66,7 +70,6 @@ public class Fireball : MonoBehaviour
         _piercing = piercing;
     }
 
-    // Begin the active->respawn->active loop
     public void StartLifetime()
     {
         if (_lifetimeCoroutine != null)
@@ -75,7 +78,6 @@ public class Fireball : MonoBehaviour
         _lifetimeCoroutine = StartCoroutine(LifetimeRoutine());
     }
 
-    // Stop any running coroutine and immediately make this fireball active/visible.
     public void CancelAndRestore()
     {
         if (_lifetimeCoroutine != null)
@@ -90,10 +92,14 @@ public class Fireball : MonoBehaviour
         SetParticlesEnabled(true);
     }
 
+    // ---------- Core Loop (Snowball-style) ----------
     private IEnumerator LifetimeRoutine()
     {
         while (true)
         {
+            // Reset hit tracking for new active phase
+            _hitEnemies.Clear();
+
             // Active phase
             isCountingDown = false;
             SetCollidersEnabled(true);
@@ -102,36 +108,7 @@ public class Fireball : MonoBehaviour
 
             yield return new WaitForSeconds(_activeTime);
 
-            // Respawn phase (despawn)
-            yield return RespawnRoutine();
-        }
-    }
-
-    private IEnumerator RespawnRoutine()
-    {
-        isCountingDown = true;
-        SetCollidersEnabled(false);
-        SetSpritesEnabled(false);
-        SetParticlesEnabled(false);
-
-        yield return new WaitForSeconds(_respawnTime);
-    }
-
-    private IEnumerator HitRespawnRoutine()
-    {
-        // Already despawned when this starts.
-        yield return new WaitForSeconds(_respawnTime);
-
-        // Back to active->respawn loop
-        while (true)
-        {
-            isCountingDown = false;
-            SetCollidersEnabled(true);
-            SetSpritesEnabled(true);
-            SetParticlesEnabled(true);
-
-            yield return new WaitForSeconds(_activeTime);
-
+            // Respawn phase
             isCountingDown = true;
             SetCollidersEnabled(false);
             SetSpritesEnabled(false);
@@ -141,69 +118,55 @@ public class Fireball : MonoBehaviour
         }
     }
 
+    // ---------- Damage ----------
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (isCountingDown) return; // ignore when despawned
+        if (isCountingDown) return;
 
         EnemyStats enemy = collision.GetComponentInParent<EnemyStats>();
         if (enemy == null) return;
 
-        // Deals damage (piercing behavior matches your EnemyStats implementation).
         enemy.TryTakeDamage(_damage, _piercing);
-
-        // "Destroy self" meaning: despawn immediately and come back after respawn.
-        if (_lifetimeCoroutine != null)
-        {
-            StopCoroutine(_lifetimeCoroutine);
-            _lifetimeCoroutine = null;
-        }
-
-        isCountingDown = true;
-        SetCollidersEnabled(false);
-        SetSpritesEnabled(false);
-        SetParticlesEnabled(false);
-
-        _lifetimeCoroutine = StartCoroutine(HitRespawnRoutine());
+        Debug.Log(_damage);
     }
 
-    // Component helpers
+    // ---------- Component Helpers ----------
     private void CacheComponents()
     {
         if (_colliders == null || _colliders.Length == 0)
-            _colliders = GetComponentsInChildren<Collider2D>(includeInactive: true);
+            _colliders = GetComponentsInChildren<Collider2D>(true);
 
         if (_spriteRenderers == null || _spriteRenderers.Length == 0)
-            _spriteRenderers = GetComponentsInChildren<SpriteRenderer>(includeInactive: true);
+            _spriteRenderers = GetComponentsInChildren<SpriteRenderer>(true);
 
         if (_particleSystems == null || _particleSystems.Length == 0)
-            _particleSystems = GetComponentsInChildren<ParticleSystem>(includeInactive: true);
+            _particleSystems = GetComponentsInChildren<ParticleSystem>(true);
     }
 
     private void SetCollidersEnabled(bool state)
     {
         CacheComponents();
-        if (_colliders == null) return;
-        foreach (Collider2D col in _colliders)
+        foreach (var col in _colliders)
             if (col != null) col.enabled = state;
     }
 
     private void SetSpritesEnabled(bool state)
     {
         CacheComponents();
-        if (_spriteRenderers == null) return;
-        foreach (SpriteRenderer r in _spriteRenderers)
+        foreach (var r in _spriteRenderers)
             if (r != null) r.enabled = state;
     }
 
     private void SetParticlesEnabled(bool state)
     {
         CacheComponents();
-        if (_particleSystems == null) return;
 
-        foreach (ParticleSystem ps in _particleSystems)
+        foreach (var ps in _particleSystems)
         {
             if (ps == null) continue;
+
             ps.gameObject.SetActive(state);
+
             if (state)
                 ps.Play();
             else
@@ -211,4 +174,3 @@ public class Fireball : MonoBehaviour
         }
     }
 }
-
