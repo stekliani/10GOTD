@@ -20,7 +20,10 @@ public class UIManager : MonoBehaviour, IInputObserver
     [Header("Game Over Screen")]
     [SerializeField] private GameObject gameOverScreen;
     [SerializeField] private TextMeshProUGUI diamondsText;
-    [SerializeField] private Button closeButton;
+
+    [Header("Game Win Screen")]
+    [SerializeField] private GameObject gameWinScreen;
+    [SerializeField] private TextMeshProUGUI gwDiamondsText;
 
     [Header("Bars")]
     [SerializeField] private Image healthBarImage;
@@ -400,6 +403,12 @@ public class UIManager : MonoBehaviour, IInputObserver
     {
         gameOverScreen.SetActive(true);
         diamondsText.text = L.Get("In Game UI", "UI.diamondsRewardText", GameManager.Instance.GetTotalDiamondsRewardAmount().ToString());
+    }
+
+    public void OpenGameWinScreen()
+    {
+        gameWinScreen.SetActive(true);
+        gwDiamondsText.text = L.Get("In Game UI", "UI.diamondsRewardText", GameManager.Instance.GetTotalDiamondsRewardAmount().ToString());
     }
     #endregion
     #region Create/Populate

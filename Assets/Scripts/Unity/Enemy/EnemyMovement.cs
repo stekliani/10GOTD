@@ -63,11 +63,6 @@ public class EnemyMovement : MonoBehaviour, ISlowable, IFreezable
     private void Update()
     {
         _freezeTime -= Time.deltaTime;
-
-        if(_freezeTime <= 0f)
-        {
-            _enemyStats.SetFrozenState(false);
-        }
     }
 
     private void FixedUpdate()
@@ -75,6 +70,7 @@ public class EnemyMovement : MonoBehaviour, ISlowable, IFreezable
         RefreshPathIfDue();
         Move();
         FlipSprite();
+        Debug.Log("currentSpeed:" + _currentSpeed);
     }
 
     // ISlowable
@@ -199,7 +195,6 @@ public class EnemyMovement : MonoBehaviour, ISlowable, IFreezable
     {
         _freezeTime = 0f;
         _freezeTime = freezeTime;
-        _enemyStats.SetFrozenState(true);
     }
 
     public void SetWaveSpeedMultiplier(float multiplier)

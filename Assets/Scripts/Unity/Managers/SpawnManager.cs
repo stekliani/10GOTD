@@ -15,7 +15,6 @@ public class SpawnManager : MonoBehaviour
 
     [Header("Wave Duration")]
     [SerializeField] private float baseWaveDuration = 30f;
-    [SerializeField] private float durationGrowthPerWave = 2f;
     [SerializeField] private float minSpawnInterval = 0.4f;
     [SerializeField] private float maxSpawnInterval = 3.0f;
 

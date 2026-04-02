@@ -31,7 +31,6 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
     private CancellationTokenSource _cts;
     private Collider2D[] _colliders;
     private bool _isAlive = false;
-    private bool _isFrozen = false;
 
     //base
     private float _baseMaxHealth;
@@ -112,7 +111,7 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
         if (rangedEnemyProjectilePrefab == null) return;
 
         _currentAttackInterval -= Time.deltaTime;
-        if (_enemyMovement.CheckIfRangedEnemyCanAttack() && _currentAttackInterval <= 0 && !_isFrozen)
+        if (_enemyMovement.CheckIfRangedEnemyCanAttack() && _currentAttackInterval <= 0 && !_enemyMovement.isFrozen)
         {
             FireProjectile();
             _currentAttackInterval = _runtimeAttackInterval;
@@ -186,6 +185,7 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
 
     private void OnTriggerStay2D(Collider2D collision)
     {
+        if(_enemyMovement.isFrozen) return;
         if (collision.TryGetComponent(out IEnemyTarget player))
         {
             player.TakeDamage(_runtimeDamagePerSecond * Time.deltaTime);
@@ -306,10 +306,5 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
     {
         public static Task WaitForSeconds(float seconds)
             => Task.Delay((int)(seconds * 1000));
-    }
-
-    public void SetFrozenState(bool isFrozen)
-    {
-        _isFrozen = isFrozen;
     }
 }

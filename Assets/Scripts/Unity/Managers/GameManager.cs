@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     private int _diamondsRewardFromMonsters;
     private float _timer;
     private bool _gameOverHandled;
+    private bool _gameWinHandled;
     private SpawnManager _spawnManager;
     private PlayerStats _playerStats;
     private UIManager _uiManager;
@@ -46,7 +47,7 @@ public class GameManager : MonoBehaviour
 
     private void HandleLastEnemyDeath(object sender, EventArgs e)
     {
-        HandleGameOver();
+        HandleGameWin();
     }
 
 
@@ -69,6 +70,25 @@ public class GameManager : MonoBehaviour
 
         _uiManager.OpenGameOverScreen();
         
+        Debug.Log("Added" + totalDiamondsRewardAmount + "Diamonds");
+    }
+
+    private void HandleGameWin()
+    {
+        // Guard against double-crediting diamonds when multiple damage sources
+        // (multiple enemies) call Die() in the same moment.
+        if (_gameWinHandled) return;
+        _gameWinHandled = true;
+
+        Time.timeScale = 0f;
+        totalDiamondsRewardAmount = GetDiamondsRewardFromWaves() + _diamondsRewardFromMonsters;
+        BaseStatsUpgradeManager.Instance.AddDiamonds(totalDiamondsRewardAmount);
+
+        SaveManager.SaveAll();
+        _playerStats.ResetRuntimeModifiers();
+
+        _uiManager.OpenGameWinScreen();
+
         Debug.Log("Added" + totalDiamondsRewardAmount + "Diamonds");
     }
 
