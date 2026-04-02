@@ -254,7 +254,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dbe7f7c364b30a4595e3ebd280a2239, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 220
+  maxHealth: 250
   armor: 3
   damagePerSecond: 2
   xpReward: 10
@@ -274,7 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6d4e70ef460db74089293cad83bc484, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
+  speed: 1.2
   rb: {fileID: 1674101589024243732}
   isRanged: 0
   attackRange: 0

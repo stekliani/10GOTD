@@ -257,7 +257,7 @@ MonoBehaviour:
   maxHealth: 80
   armor: 0
   damagePerSecond: 1
-  xpReward: 100
+  xpReward: 10
   coinReward: 3
   diamondsReward: 1
   rangedEnemyProjectilePrefab: {fileID: 0}

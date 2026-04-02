@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1b9e84d84edaaed42bf093dcb83efa8f, type: 3}
-  m_Name: Vawe 3
+  m_Name: Wave 13
   m_EditorClassIdentifier: 
   variants:
-  - prefab: {fileID: 7123390078605260798, guid: 35c904250bf566f499a12a118ca80099, type: 3}
-    affectedStats: 238
-    weight: 1
-  - prefab: {fileID: 5032803961342074220, guid: c454af9722ec5ba4b97cf037dd37beaa, type: 3}
-    affectedStats: 230
-    weight: 2
+  - prefab: {fileID: 514247832866159286, guid: a3abb52c1f1d7694abd25c1144e0c0f3, type: 3}
+    affectedStats: 110
+    weight: 1.1
+  - prefab: {fileID: 446015292510548199, guid: 27263ec15927d0d428a6435790b9d97c, type: 3}
+    affectedStats: 110
+    weight: 1.4
   bossPrefab: {fileID: 0}
-  diamondsReward: 10
+  diamondsReward: 13

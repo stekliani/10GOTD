@@ -31,6 +31,7 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
     private CancellationTokenSource _cts;
     private Collider2D[] _colliders;
     private bool _isAlive = false;
+    private bool _isFrozen = false;
 
     //base
     private float _baseMaxHealth;
@@ -111,7 +112,7 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
         if (rangedEnemyProjectilePrefab == null) return;
 
         _currentAttackInterval -= Time.deltaTime;
-        if (_enemyMovement.CheckIfRangedEnemyCanAttack() && _currentAttackInterval <= 0)
+        if (_enemyMovement.CheckIfRangedEnemyCanAttack() && _currentAttackInterval <= 0 && !_isFrozen)
         {
             FireProjectile();
             _currentAttackInterval = _runtimeAttackInterval;
@@ -305,5 +306,10 @@ public class EnemyStats : MonoBehaviour, IDamageable, IPoolable
     {
         public static Task WaitForSeconds(float seconds)
             => Task.Delay((int)(seconds * 1000));
+    }
+
+    public void SetFrozenState(bool isFrozen)
+    {
+        _isFrozen = isFrozen;
     }
 }

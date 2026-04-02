@@ -120,9 +120,9 @@ MonoBehaviour:
   recovery:
     statNameKey: Stat.recovery
     statSprite: {fileID: -737037294, guid: a59f0179a09be4347b780cabfb5d2cb2, type: 3}
-    statValue: 0
-    maxUpgradeLevel: 10
-    currentUpgradeLevel: 0
+    statValue: 0.4
+    maxUpgradeLevel: 50
+    currentUpgradeLevel: 2
     upgradeCostPerLevel: 25
     runtimeUpgradeModifier:
       maxHealth: 0
@@ -137,13 +137,13 @@ MonoBehaviour:
       amount: 0
       projectileSpeed: 0
       area: 0
-    baseStatUpgradeValue: 1
+    baseStatUpgradeValue: 0.1
   cooldownReduction:
     statNameKey: Stat.cooldownReduction
     statSprite: {fileID: -1848626697, guid: a59f0179a09be4347b780cabfb5d2cb2, type: 3}
-    statValue: 0
+    statValue: 1
     maxUpgradeLevel: 100
-    currentUpgradeLevel: 0
+    currentUpgradeLevel: 1
     upgradeCostPerLevel: 33
     runtimeUpgradeModifier:
       maxHealth: 0
@@ -158,13 +158,13 @@ MonoBehaviour:
       amount: 0
       projectileSpeed: 0
       area: 0
-    baseStatUpgradeValue: 1
+    baseStatUpgradeValue: 0.5
   armor:
     statNameKey: Stat.armor
     statSprite: {fileID: 336132199, guid: a59f0179a09be4347b780cabfb5d2cb2, type: 3}
-    statValue: 0
+    statValue: 1
     maxUpgradeLevel: 90
-    currentUpgradeLevel: 0
+    currentUpgradeLevel: 1
     upgradeCostPerLevel: 50
     runtimeUpgradeModifier:
       maxHealth: 0
@@ -183,9 +183,9 @@ MonoBehaviour:
   piercing:
     statNameKey: Stat.piercing
     statSprite: {fileID: 1924733139, guid: b4e96c98bc867274d9205681db22412d, type: 3}
-    statValue: 31
+    statValue: 0
     maxUpgradeLevel: 0
-    currentUpgradeLevel: 31
+    currentUpgradeLevel: 0
     upgradeCostPerLevel: 20
     runtimeUpgradeModifier:
       maxHealth: 0
@@ -204,10 +204,10 @@ MonoBehaviour:
   amount:
     statNameKey: Stat.amount
     statSprite: {fileID: 1945473557, guid: b4e96c98bc867274d9205681db22412d, type: 3}
-    statValue: 0
+    statValue: 1
     maxUpgradeLevel: 10
-    currentUpgradeLevel: 0
-    upgradeCostPerLevel: 222
+    currentUpgradeLevel: 1
+    upgradeCostPerLevel: 367
     runtimeUpgradeModifier:
       maxHealth: 0
       mana: 0

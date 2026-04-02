@@ -29,7 +29,6 @@ public class EnemyMovement : MonoBehaviour, ISlowable, IFreezable
     private float _nextPathTime;
     private Vector2 _lastMoveDir;
     private bool _isWithinAttackRange;
-    private bool _isAtackingPlayer;
     private float _freezeTime;
     private float _baseSpeed;
     private float _waveSpeedMultiplier = 1f;
@@ -64,6 +63,11 @@ public class EnemyMovement : MonoBehaviour, ISlowable, IFreezable
     private void Update()
     {
         _freezeTime -= Time.deltaTime;
+
+        if(_freezeTime <= 0f)
+        {
+            _enemyStats.SetFrozenState(false);
+        }
     }
 
     private void FixedUpdate()
@@ -71,7 +75,6 @@ public class EnemyMovement : MonoBehaviour, ISlowable, IFreezable
         RefreshPathIfDue();
         Move();
         FlipSprite();
-        Debug.Log("currentSpeed:" + _currentSpeed);
     }
 
     // ISlowable
@@ -192,15 +195,11 @@ public class EnemyMovement : MonoBehaviour, ISlowable, IFreezable
         }
     }
 
-    public void SetAtackBool(bool atacking)
-    {
-        _isAtackingPlayer = atacking;
-    }
-
     public void Freeze(float freezeTime)
     {
         _freezeTime = 0f;
         _freezeTime = freezeTime;
+        _enemyStats.SetFrozenState(true);
     }
 
     public void SetWaveSpeedMultiplier(float multiplier)

@@ -229,6 +229,9 @@ public class UIManager : MonoBehaviour, IInputObserver
             if (stat.statNameKey == "Stat.armor")
                 isMaxed = _playerStats.Armor >= 90;
 
+            if (stat.statNameKey == "Stat.cooldownReduction")
+                isMaxed = _playerStats.CooldownReduction >= 50;
+
             ui.button.interactable = !isMaxed && isInteractable;
 
             if (!isMaxed)

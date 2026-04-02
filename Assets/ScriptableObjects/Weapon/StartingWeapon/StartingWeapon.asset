@@ -18,7 +18,7 @@ MonoBehaviour:
   baseWeaponUpgradeCost: 20
   baseUpgradeCostPerLevel: 5
   baseUpgradeLevel: 0
-  baseDamage: 100
+  baseDamage: 81
   baseSpeed: 20
   baseInterval: 3
   baseSlowAmount: 0

@@ -33,7 +33,7 @@ public static class UpgradeSystem
         foreach (IWeapon w in allWeapons)
         {
             if (w == null) continue;
-            if (w.GetLevel() - 1 < w.GetMaxLevel())
+            if (w.GetLevel() < w.GetMaxLevel())
                 eligible.Add(w);
         }
 

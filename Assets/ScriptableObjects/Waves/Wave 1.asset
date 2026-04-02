@@ -9,18 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9968faf4271a344c9427e428dd63da7, type: 3}
-  m_Name: WallOnLevelUpUpgradeData
+  m_Script: {fileID: 11500000, guid: 1b9e84d84edaaed42bf093dcb83efa8f, type: 3}
+  m_Name: Wave 1
   m_EditorClassIdentifier: 
-  WeaponLevel: 1
-  Damage: 0
-  Speed: 0
-  Interval: 0.5
-  Area: 0
-  SlowAmount: 0
-  FreezeDuration: 0
-  Amount: 0
-  Lifetime: 0
-  Health: 50
-  Armor: 0
-  HealingMultiplier: 0
+  variants:
+  - prefab: {fileID: 7123390078605260798, guid: 35c904250bf566f499a12a118ca80099, type: 3}
+    affectedStats: 110
+    weight: 1
+  bossPrefab: {fileID: 0}
+  diamondsReward: 10

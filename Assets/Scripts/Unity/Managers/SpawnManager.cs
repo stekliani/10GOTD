@@ -121,7 +121,7 @@ public class SpawnManager : MonoBehaviour
                 continue;
             }
 
-            float waveDuration = baseWaveDuration + durationGrowthPerWave * (waveNumber - 1);
+            float waveDuration = baseWaveDuration;
             if (isBossWave) waveDuration *= 1.2f;
 
             var perVariantCounts = new List<int>();
